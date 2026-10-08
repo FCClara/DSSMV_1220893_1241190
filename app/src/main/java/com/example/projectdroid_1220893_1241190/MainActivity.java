@@ -14,13 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.service.*;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 ArrayList<String> tipos =
-                        tipoService.obterTipos();
+                        TipoService.obterTipos();
                 //aqui dá run do nosso ui
                 runOnUiThread(() -> {
 

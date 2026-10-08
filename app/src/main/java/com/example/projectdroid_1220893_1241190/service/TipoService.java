@@ -1,17 +1,19 @@
 package com.example.projectdroid_1220893_1241190.service;
 
 import com.example.projectdroid_1220893_1241190.*;
+import com.example.projectdroid_1220893_1241190.model.Tipo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class tipoService {
+public class TipoService {
 
     public static ArrayList<String> obterTipos()
             throws Exception {
@@ -85,5 +87,60 @@ public class tipoService {
         connection.disconnect();
 
         return tipos;
+    }
+
+    public static void adicionarTipo(Tipo tipo)
+            throws Exception {
+
+        URL url = new URL(
+                ApiConfig.BASE_URL + "tipo"
+        );
+
+        HttpURLConnection connection =
+                (HttpURLConnection) url.openConnection();
+
+        connection.setRequestMethod("POST");
+
+        connection.setRequestProperty(
+                "Content-Type",
+                "application/json"
+        );
+
+        connection.setRequestProperty(
+                "Accept",
+                "application/json"
+        );
+
+        connection.setRequestProperty(
+                "x-apikey",
+                ApiConfig.API_KEY
+        );
+
+        connection.setDoOutput(true);
+
+        JSONObject json = new JSONObject();
+
+        json.put("tipo", tipo.getTipo());
+
+        OutputStream outputStream =
+                connection.getOutputStream();
+
+        outputStream.write(
+                json.toString().getBytes("UTF-8")
+        );
+
+        outputStream.close();
+
+        int responseCode =
+                connection.getResponseCode();
+
+        connection.disconnect();
+
+        if (responseCode < 200 || responseCode >= 300) {
+            throw new Exception(
+                    "Erro ao adicionar tipo: "
+                            + responseCode
+            );
+        }
     }
 }
