@@ -16,29 +16,42 @@
         android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41" />
 
     <Spinner
         android:id="@+id/spinnerTipo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <Button
-        android:id="@+id/goFuncionario"
+        android:id="@+id/goTipos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Funcionario"
-        app:layout_constraintBottom_toBottomOf="@id/spinnerTipo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="452dp" />
+        app:layout_constraintVertical_bias="0.623" />
+
+    <Button
+        android:id="@+id/goProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Funcionario"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.784" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

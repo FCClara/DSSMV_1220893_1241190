@@ -47,10 +47,30 @@ public class MainActivity extends AppCompatActivity {
         spinnerTipo = findViewById(R.id.spinnerTipo);
 
         //butao para ir pra pagina do funcionario
-        Button buttonNext = findViewById(R.id.goFuncionario);
+        Button buttonTipos = findViewById(R.id.goTipos);
+        Button buttonProdutos = findViewById(R.id.goProduto);
 
-        buttonNext.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Funcionario.class);
+        buttonTipos.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    Funcionario.class
+            );
+
+            intent.putExtra("pagina", "tipo");
+
+            startActivity(intent);
+        });
+
+        buttonProdutos.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    Funcionario.class
+            );
+
+            intent.putExtra("pagina", "produto");
+
             startActivity(intent);
         });
 

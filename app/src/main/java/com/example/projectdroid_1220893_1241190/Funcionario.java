@@ -1,6 +1,7 @@
 package com.example.projectdroid_1220893_1241190;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -13,6 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
 import com.example.projectdroid_1220893_1241190.service.TipoService;
 
+//a divisao entre tipo e o produto so existe neste momento para o teste
+
 public class Funcionario extends AppCompatActivity {
 
     private EditText editTextTipo;
@@ -24,8 +27,44 @@ public class Funcionario extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_funcionario);
 
+        String pagina = getIntent().getStringExtra("pagina");
+
         editTextTipo = findViewById(R.id.editTextTipo);
         buttonAdicionarTipo = findViewById(R.id.buttonAdicionarTipo);
+
+        if ("tipo".equals(pagina)) {
+
+            mostrarPaginaTipo();
+
+        } else if ("produto".equals(pagina)) {
+
+            mostrarPaginaProduto();
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+                findViewById(R.id.main),
+                (v, insets) -> {
+
+                    Insets systemBars =
+                            insets.getInsets(
+                                    WindowInsetsCompat.Type.systemBars()
+                            );
+
+                    v.setPadding(
+                            systemBars.left,
+                            systemBars.top,
+                            systemBars.right,
+                            systemBars.bottom
+                    );
+
+                    return insets;
+                }
+        );
+    }
+    private void mostrarPaginaTipo() {
+
+        editTextTipo.setVisibility(View.VISIBLE);
+        buttonAdicionarTipo.setVisibility(View.VISIBLE);
 
         buttonAdicionarTipo.setOnClickListener(v -> {
 
@@ -55,26 +94,17 @@ public class Funcionario extends AppCompatActivity {
 
             }).start();
         });
+    }
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(
-                findViewById(R.id.main),
-                (v, insets) -> {
+    private void mostrarPaginaProduto() {
 
-                    Insets systemBars =
-                            insets.getInsets(
-                                    WindowInsetsCompat.Type.systemBars()
-                            );
+        // Por enquanto, esconder os elementos de Tipo
 
-                    v.setPadding(
-                            systemBars.left,
-                            systemBars.top,
-                            systemBars.right,
-                            systemBars.bottom
-                    );
+        editTextTipo.setVisibility(View.GONE);
+        buttonAdicionarTipo.setVisibility(View.GONE);
 
-                    return insets;
-                }
-        );
+        // Aqui vais colocar os elementos
+        // relacionados com Produto
     }
 }
