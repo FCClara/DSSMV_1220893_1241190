@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor "Trabalhador" as Trabalhador
+actor "Gerente" as Gerente
+actor "Dono" as Dono
+
+rectangle "Super Fresh" {
+
+usecase "Verificar produto" as UC1
+usecase "Retirar Stock do Armazem e colocar na montra" as UC2
+usecase "Pedir Troca de Horário" as UC3
+usecase "Aprovar ou recusar trocas de horários" as UC4
+usecase "Criar ou remover fichas de funcionários" as UC5
+usecase "Verificar fichas de funcionários" as UC6
+usecase "Criar e/ou remover produtos do sistema" as UC7
+usecase "Encomendar Stock dos Fornecedores" as UC8
+usecase "Verificar Preços Externos" as UC9
+usecase "Atribuir Preço a Produto" as UC10
+
+}
+
+Trabalhador --> UC1
+Trabalhador --> UC2
+Trabalhador --> UC3
+
+Gerente --> UC1
+Gerente --> UC2
+Gerente --> UC3
+Gerente --> UC4
+Gerente --> UC5
+Gerente --> UC6
+
+Dono --> UC1
+Dono --> UC2
+Dono --> UC3
+Dono --> UC4
+Dono --> UC5
+Dono --> UC6
+Dono --> UC7
+Dono --> UC8
+Dono --> UC9
+Dono --> UC10
+
+@enduml
