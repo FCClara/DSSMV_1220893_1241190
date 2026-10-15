@@ -89,6 +89,16 @@ public class TipoService {
         return tipos;
     }
 
+    public static boolean existeTipo(String nomeTipo) throws Exception {
+        ArrayList<String> tipos = obterTipos();
+        for (String t : tipos) {
+            if (t != null && t.equalsIgnoreCase(nomeTipo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void adicionarTipo(Tipo tipo)
             throws Exception {
 
