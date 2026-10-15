@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projectdroid_1220893_1241190.controller.TipoController;
 import com.example.projectdroid_1220893_1241190.model.Produto;
 import com.example.projectdroid_1220893_1241190.service.*;
 
@@ -100,35 +101,8 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void carregarTipos() {
-
-        new Thread(() -> {
-
-            try {
-                ArrayList<String> tipos =
-                        TipoService.obterTipos();
-                //aqui dá run do nosso ui
-                runOnUiThread(() -> {
-
-                    ArrayAdapter<String> adapter =
-                            new ArrayAdapter<>(
-                                    MainActivity.this,
-                                    android.R.layout.simple_spinner_item,
-                                    tipos
-                            );
-
-                    adapter.setDropDownViewResource(
-                            android.R.layout.simple_spinner_dropdown_item
-                    );
-
-                    spinnerTipo.setAdapter(adapter);
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }).start();
+    public void carregarTipos() {
+        TipoController.carregarSpinnerTipos(this, spinnerTipo);
     }
 
     private void carregarProdutos(){
