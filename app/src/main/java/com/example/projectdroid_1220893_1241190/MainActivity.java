@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projectdroid_1220893_1241190.model.Produto;
 import com.example.projectdroid_1220893_1241190.service.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Spinner spinnerTipo;
 
+    private Spinner spinnerProduto;
+
 
 
     @Override
@@ -39,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
         // carregar para aparecer como as opcoes no dropdown
         carregarTipos();
+
+        carregarProdutos();
     }
 
     private void configUI(){
 
         //vamos buscar o spinner do xml no layout
         spinnerTipo = findViewById(R.id.spinnerTipo);
+        spinnerProduto = findViewById(R.id.spinnerProduto);
 
         //butao para ir pra pagina do funcionario
         Button buttonTipos = findViewById(R.id.goTipos);
@@ -122,6 +128,41 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+        }).start();
+    }
+
+    private void carregarProdutos(){
+        new Thread(() -> {
+            try{
+                ArrayList<Produto> listaProdutos = ProdutoService.obterProdutos();
+
+                ArrayList<String> nomesProdutos = new ArrayList<>();
+                if (listaProdutos != null) {
+                    for (Produto p : listaProdutos) {
+                        if (p != null && p.getNome() != null) {
+                            nomesProdutos.add(p.getNome());
+                        }
+                    }
+                }
+
+                runOnUiThread(() ->{
+                    ArrayAdapter<String> adapter =
+                    new ArrayAdapter<>(
+                            MainActivity.this,
+                            android.R.layout.simple_spinner_item,
+                            nomesProdutos
+                    );
+
+                    adapter.setDropDownViewResource(
+                            android.R.layout.simple_spinner_dropdown_item
+                );
+
+                    spinnerProduto.setAdapter(adapter);
+
+        });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }).start();
     }
 }
