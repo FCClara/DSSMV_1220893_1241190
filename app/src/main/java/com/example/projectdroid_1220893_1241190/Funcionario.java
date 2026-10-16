@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class Funcionario extends AppCompatActivity {
 
         if ("tipo".equals(pagina)) {
 
-            mostrarPaginaTipo();
+            mostrarPaginaTipo(this);
 
         } else if ("produto".equals(pagina)) {
 
@@ -62,7 +63,7 @@ public class Funcionario extends AppCompatActivity {
                 }
         );
     }
-    private void mostrarPaginaTipo() {
+    private void mostrarPaginaTipo(Context ctx) {
 
         editTextTipo.setVisibility(View.VISIBLE);
         buttonAdicionarTipo.setVisibility(View.VISIBLE);
@@ -83,14 +84,14 @@ public class Funcionario extends AppCompatActivity {
 
                 try {
 
-                    if (TipoService.existeTipo(nomeTipo)) {
+                    if (TipoService.existeTipo(nomeTipo, ctx)) {
                         runOnUiThread(() -> {
                             editTextTipo.setError("Esse tipo de produto já existe!");
                         });
                         return;
                     }
 
-                    TipoService.adicionarTipo(tipo);
+                    TipoService.adicionarTipo(tipo, this);
 
                     runOnUiThread(() -> {
                         editTextTipo.setText("");
@@ -120,3 +121,6 @@ public class Funcionario extends AppCompatActivity {
         // relacionados com Produto
     }
 }
+
+
+

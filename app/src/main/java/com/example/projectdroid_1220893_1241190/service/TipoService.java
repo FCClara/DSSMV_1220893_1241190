@@ -1,5 +1,7 @@
 package com.example.projectdroid_1220893_1241190.service;
 
+import android.content.Context;
+
 import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
 
@@ -15,14 +17,14 @@ import java.util.ArrayList;
 
 public class TipoService {
 
-    public static ArrayList<String> obterTipos()
+    public static ArrayList<String> obterTipos(Context cxt)
             throws Exception {
 
         //esta a ir buscar o url da nossa database e a adicionar tipo no final
         //apiconfig tem o nosso url
 
         URL url = new URL(
-                ApiConfig.BASE_URL + "tipo"
+                ApiConfig.getBaseUrl(cxt) + "tipo"
         );
 
         //para fazer a conexcao
@@ -40,7 +42,7 @@ public class TipoService {
 
         connection.setRequestProperty(
                 "x-apikey",
-                ApiConfig.API_KEY
+                ApiConfig.getApiKey(cxt)
         );
 
         //ta a ler a resposta mandada pela database
@@ -89,8 +91,8 @@ public class TipoService {
         return tipos;
     }
 
-    public static boolean existeTipo(String nomeTipo) throws Exception {
-        ArrayList<String> tipos = obterTipos();
+    public static boolean existeTipo(String nomeTipo, Context ctx) throws Exception {
+        ArrayList<String> tipos = obterTipos(ctx);
         for (String t : tipos) {
             if (t != null && t.equalsIgnoreCase(nomeTipo)) {
                 return true;
@@ -99,11 +101,11 @@ public class TipoService {
         return false;
     }
 
-    public static void adicionarTipo(Tipo tipo)
+    public static void adicionarTipo(Tipo tipo, Context ctx)
             throws Exception {
 
         URL url = new URL(
-                ApiConfig.BASE_URL + "tipo"
+                ApiConfig.getBaseUrl(ctx) + "tipo"
         );
 
         HttpURLConnection connection =
@@ -123,7 +125,7 @@ public class TipoService {
 
         connection.setRequestProperty(
                 "x-apikey",
-                ApiConfig.API_KEY
+                ApiConfig.getApiKey(ctx)
         );
 
         connection.setDoOutput(true);
