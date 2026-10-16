@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,14 +83,25 @@ public class Funcionario extends AppCompatActivity {
 
                 try {
 
+                    if (TipoService.existeTipo(nomeTipo)) {
+                        runOnUiThread(() -> {
+                            editTextTipo.setError("Esse tipo de produto já existe!");
+                        });
+                        return;
+                    }
+
                     TipoService.adicionarTipo(tipo);
 
                     runOnUiThread(() -> {
                         editTextTipo.setText("");
+                        Toast.makeText(Funcionario.this, "Tipo adicionado com sucesso!", Toast.LENGTH_SHORT).show(); //Toast é a library que permite que usemos "pop-ups" de erro ou de sucesso
                     });
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    runOnUiThread(() -> {
+                        Toast.makeText(Funcionario.this, "Erro ao processar o pedido", Toast.LENGTH_SHORT).show(); //
+                    });
                 }
 
             }).start();
