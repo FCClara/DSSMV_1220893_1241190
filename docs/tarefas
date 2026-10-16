@@ -10,3 +10,38 @@ get adicionar funcao
 
 
 corrigir herança da tabela de UC nos atores
+
+
+fornecedor agora esta no produto
+produto so pode ser fornecido por apeanas um fornecedor,
+mas fornecedor pode varios produtos
+
+produto tem variavel quantidade,
+que é armazem + montra
+
+nao ha produto indivdual, apenas tornou-se num historico
+onde aponta-mos a quantidade total no armazem e na montra,
+saida e entrada, ou seja, saida de armazem pra montra,
+saida de montra para lixo
+
+entreda de fora para armazem apenas pode ser anotada pelo dono,
+mas os outros movimentos sao anotados
+
+continuamos com as moradas? pq talvez isso seja importante
+para a informacao ou nao, mas é capaz de nos pedir verificacao
+se existe ou nao
+
+nao ha posicao nem seccao
+
+fornecedor
+nome e produtos
+
+--//-- Divisao de tarefas
+
+Main Activity - meter butao de funcionario. gerente e dono
+
+Adicionar fornecedor - Clara
+
+Adicionar Produto - Gabi
+
+Adicionar Funcionario - Gabi
