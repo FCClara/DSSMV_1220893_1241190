@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ public class Funcionario extends AppCompatActivity {
     private EditText editTextTipo;
     private Button buttonAdicionarTipo;
 
+    private Button buttonGoListProdutos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +33,19 @@ public class Funcionario extends AppCompatActivity {
 
         editTextTipo = findViewById(R.id.editTextTipo);
         buttonAdicionarTipo = findViewById(R.id.buttonAdicionarTipo);
-
+        buttonGoListProdutos = findViewById(R.id.buttonGoListProdutos);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
-            // configurarOpcoesFuncionario();
+             configurarOpcoesFuncionario();
             // configurarOpcoesGerente();
             // configurarOpcoesDono();
+
         } else if ("GERENTE".equals(userRole)) {
-            // configurarOpcoesFuncionario();
+             configurarOpcoesFuncionario();
             // configurarOpcoesGerente();
         } else {
-            // configurarOpcoesFuncionario();
+             configurarOpcoesFuncionario();
         }
 
 
@@ -66,7 +70,7 @@ public class Funcionario extends AppCompatActivity {
         );
     }
 
-    private void mostrarPaginaTipo() {
+    /*private void mostrarPaginaTipo(Context ctx) {
 
         editTextTipo.setVisibility(View.VISIBLE);
         buttonAdicionarTipo.setVisibility(View.VISIBLE);
@@ -87,14 +91,14 @@ public class Funcionario extends AppCompatActivity {
 
                 try {
 
-                    if (TipoService.existeTipo(nomeTipo)) {
+                    if (TipoService.existeTipo(nomeTipo, ctx)) {
                         runOnUiThread(() -> {
                             editTextTipo.setError("Esse tipo de produto já existe!");
                         });
                         return;
                     }
 
-                    TipoService.adicionarTipo(tipo);
+                    TipoService.adicionarTipo(tipo, ctx);
 
                     runOnUiThread(() -> {
                         editTextTipo.setText("");
@@ -110,10 +114,10 @@ public class Funcionario extends AppCompatActivity {
 
             }).start();
         });
-    }
+    }*/
 
 
-    private void mostrarPaginaProduto() {
+    /*private void mostrarPaginaProduto() {
 
         // Por enquanto, esconder os elementos de Tipo
 
@@ -121,10 +125,10 @@ public class Funcionario extends AppCompatActivity {
         buttonAdicionarTipo.setVisibility(View.GONE);
         // Aqui vais colocar os elementos
         // relacionados com Produto
-    }
+    }*/
 
     private void configurarOpcoesFuncionario() {
-
+        buttonGoListProdutos.setVisibility(View.VISIBLE);
     }
 
     private void configurarOpcoesGerente() {

@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("USER_ROLE", "DONO");
 
             startActivity(intent);
-                }
+        });
 
         // deteta o espaço ocupado pelas barras do sistema, no nosso caso um sistema de android telemovel,
         // e ajusta o conteúdo da aplicação
