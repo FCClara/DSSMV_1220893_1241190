@@ -44,7 +44,7 @@
 
 
     <Button
-        android:id="@+id/goTipos"
+        android:id="@+id/goFuncionario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Funcionario"
@@ -55,15 +55,26 @@
         app:layout_constraintVertical_bias="0.714" />
 
     <Button
-        android:id="@+id/goProduto"
+        android:id="@+id/goGerente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Funcionario"
+        android:text="Gerente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.784" />
+
+    <Button
+        android:id="@+id/goDono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dono"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

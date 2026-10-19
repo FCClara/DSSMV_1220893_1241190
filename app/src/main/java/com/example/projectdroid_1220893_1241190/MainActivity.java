@@ -2,7 +2,6 @@ package com.example.projectdroid_1220893_1241190;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -14,12 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.controller.ProdutoController;
 import com.example.projectdroid_1220893_1241190.controller.TipoController;
-import com.example.projectdroid_1220893_1241190.model.Produto;
-import com.example.projectdroid_1220893_1241190.service.*;
-
-import java.util.ArrayList;
-
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,32 +48,43 @@ public class MainActivity extends AppCompatActivity {
         spinnerProduto = findViewById(R.id.spinnerProduto);
 
         //butao para ir pra pagina do funcionario
-        Button buttonTipos = findViewById(R.id.goTipos);
-        Button buttonProdutos = findViewById(R.id.goProduto);
+        Button buttonFuncionario = findViewById(R.id.goFuncionario);
+        Button buttonGerente = findViewById(R.id.goGerente);
+        Button buttonDono = findViewById(R.id.goDono);
 
-        buttonTipos.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    Funcionario.class
-            );
-
-            intent.putExtra("pagina", "tipo");
-
-            startActivity(intent);
-        });
-
-        buttonProdutos.setOnClickListener(v -> {
+        buttonFuncionario.setOnClickListener(v -> {
 
             Intent intent = new Intent(
                     MainActivity.this,
                     Funcionario.class
             );
 
-            intent.putExtra("pagina", "produto");
+            intent.putExtra("USER_ROLE", "FUNCIONARIO");
 
             startActivity(intent);
         });
+
+        buttonGerente.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    Funcionario.class
+            );
+
+            intent.putExtra("USER_ROLE", "GERENTE");
+
+            startActivity(intent);
+        });
+
+        buttonDono.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    Funcionario.class
+            );
+            intent.putExtra("USER_ROLE", "DONO");
+
+            startActivity(intent);
+                }
 
         // deteta o espaço ocupado pelas barras do sistema, no nosso caso um sistema de android telemovel,
         // e ajusta o conteúdo da aplicação
