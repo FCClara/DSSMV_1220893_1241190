@@ -25,14 +25,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Funcionario"
+            android:name=".ui.Funcionario"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.AcoesProduto"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.HistoricoProduto"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.MoverProduto"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

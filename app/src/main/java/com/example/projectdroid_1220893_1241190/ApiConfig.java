@@ -5,7 +5,7 @@ import android.content.Context;
 public class ApiConfig {
 
     public static String getBaseUrl(Context c){
-        String url = c.getResources().getText(R.string.BASE_URl).toString();
+        String url = c.getResources().getText(R.string.BASE_URL).toString();
         System.out.println(url);
         return url;
     }

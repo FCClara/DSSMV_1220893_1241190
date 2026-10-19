@@ -1,11 +1,9 @@
-package com.example.projectdroid_1220893_1241190;
+package com.example.projectdroid_1220893_1241190.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.projectdroid_1220893_1241190.model.Tipo;
-import com.example.projectdroid_1220893_1241190.service.TipoService;
+import com.example.projectdroid_1220893_1241190.R;
 
 public class Funcionario extends AppCompatActivity {
 
