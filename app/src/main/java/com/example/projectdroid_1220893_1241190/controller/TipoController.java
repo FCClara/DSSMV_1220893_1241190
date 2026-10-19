@@ -13,7 +13,7 @@ public class TipoController {
     public static void carregarSpinnerTipos(Activity activity, Spinner spinner) {
         new Thread(() -> {
             try {
-                ArrayList<String> tipos = TipoService.obterTipos();
+                ArrayList<String> tipos = TipoService.obterTipos(activity);
 
                 activity.runOnUiThread(() -> {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(

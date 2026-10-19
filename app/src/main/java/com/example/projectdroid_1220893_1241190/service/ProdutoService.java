@@ -1,5 +1,7 @@
 package com.example.projectdroid_1220893_1241190.service;
 
+import android.content.Context;
+
 import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.model.Produto;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
@@ -15,11 +17,11 @@ import java.net.URL;
 import java.util.ArrayList;
 public class ProdutoService {
 
-    public static ArrayList<Produto> obterProdutos()
+    public static ArrayList<Produto> obterProdutos(Context ctx)
         throws Exception {
 
         URL url = new URL(
-                ApiConfig.BASE_URL + "produto"
+                ApiConfig.getBaseUrl(ctx) + "produto"
         );
 
         HttpURLConnection connection =
@@ -33,7 +35,7 @@ public class ProdutoService {
 
         connection.setRequestProperty(
                 "x-apikey",
-                ApiConfig.API_KEY
+                ApiConfig.getApiKey(ctx)
         );
 
         BufferedReader reader =

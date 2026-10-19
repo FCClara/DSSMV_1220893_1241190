@@ -16,7 +16,7 @@ public class ProdutoController {
     public static void carregarSpinnerProdutos(Activity activity, Spinner spinner){
         new Thread(() -> {
             try{
-                ArrayList<Produto> listaProdutos = ProdutoService.obterProdutos();
+                ArrayList<Produto> listaProdutos = ProdutoService.obterProdutos(activity);
 
                 ArrayList<String> nomesProdutos = new ArrayList<>();
                 if (listaProdutos != null) {
