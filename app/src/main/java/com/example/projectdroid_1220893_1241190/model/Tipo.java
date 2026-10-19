@@ -4,15 +4,24 @@ public class Tipo {
 
     private String tipo;
 
-    public Tipo(String tipo) {
-        this.tipo = tipo;
+    private boolean isTipoValid(String tipo){
+        if(tipo.length() != 4 && tipo.contains("[a-zA-z]") == true){
+            return false;
+        }
+        return true;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Tipo(String tipo){
+        setTipo(tipo);
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public String getTipos(){ return this.tipo;}
+
+    public void setTipo(String tipo){
+        if(isTipoValid(tipo)){
+            this.tipo = tipo;
+        } else {
+            System.out.println("nao");
+        }
     }
 }

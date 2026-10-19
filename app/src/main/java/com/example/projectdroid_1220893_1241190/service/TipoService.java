@@ -132,7 +132,7 @@ public class TipoService {
 
         JSONObject json = new JSONObject();
 
-        json.put("tipo", tipo.getTipo());
+        json.put("tipo", tipo.getTipos());
 
         OutputStream outputStream =
                 connection.getOutputStream();
