@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
 import com.example.projectdroid_1220893_1241190.service.TipoService;
 
 import java.util.ArrayList;
@@ -13,13 +14,22 @@ public class TipoController {
     public static void carregarSpinnerTipos(Activity activity, Spinner spinner) {
         new Thread(() -> {
             try {
-                ArrayList<String> tipos = TipoService.obterTipos(activity);
+                ArrayList<TipoDTO> tipos = TipoService.obterTipos(activity);
 
+                ArrayList<String> nomesTipos = new ArrayList<>();
+
+                if(tipos!= null){
+                    for (TipoDTO t : tipos){
+                        if (t != null && t.getTipo() != null){
+                            nomesTipos.add(t.getTipo());
+                        }
+                    }
+                }
                 activity.runOnUiThread(() -> {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
                             activity,
                             android.R.layout.simple_spinner_item,
-                            tipos
+                            nomesTipos
                     );
 
                     adapter.setDropDownViewResource(

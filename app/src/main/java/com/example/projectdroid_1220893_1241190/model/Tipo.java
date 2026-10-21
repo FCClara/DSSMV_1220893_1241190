@@ -4,11 +4,12 @@ public class Tipo {
 
     private String tipo;
 
-    private boolean isTipoValid(String tipo){
-        if(tipo.length() != 4 && tipo.contains("[a-zA-z]") == true){
+    private boolean isTipoValid(String tipo) {
+        if (tipo == null) {
             return false;
         }
-        return true;
+        // é para todos os caracteres alfabeticos, includi Ç e acetos
+        return tipo.matches("^[\\p{L}]+$");
     }
 
     public Tipo(String tipo){
@@ -21,7 +22,6 @@ public class Tipo {
         if(isTipoValid(tipo)){
             this.tipo = tipo;
         } else {
-            System.out.println("nao");
-        }
+            throw new IllegalArgumentException("So pode conter caracteres alfabeticos.");        }
     }
 }

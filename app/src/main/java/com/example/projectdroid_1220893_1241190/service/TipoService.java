@@ -3,6 +3,7 @@ package com.example.projectdroid_1220893_1241190.service;
 import android.content.Context;
 
 import com.example.projectdroid_1220893_1241190.*;
+import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
 
 import org.json.JSONArray;
@@ -17,42 +18,30 @@ import java.util.ArrayList;
 
 public class TipoService {
 
-    public static ArrayList<String> obterTipos(Context cxt)
+    public static ArrayList<TipoDTO> obterTipos(Context cxt)
             throws Exception {
 
         //esta a ir buscar o url da nossa database e a adicionar tipo no final
         //apiconfig tem o nosso url
 
-        URL url = new URL(
-                ApiConfig.getBaseUrl(cxt) + "tipo"
-        );
+        URL url = new URL(ApiConfig.getBaseUrl(cxt) + "tipo");
 
         //para fazer a conexcao
-        HttpURLConnection connection =
-                (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         //queremos um get pq estamos a ir buscar informacao
         connection.setRequestMethod("GET");
-        connection.setRequestProperty(
-                "Accept",
-                "application/json"
-        );
+        connection.setRequestProperty("Accept", "application/json");
 
         //aqui mandamos a key para podermos acessar e verificar que temos permissao disso
 
-        connection.setRequestProperty(
-                "x-apikey",
-                ApiConfig.getApiKey(cxt)
-        );
+        connection.setRequestProperty("x-apikey", ApiConfig.getApiKey(cxt));
 
         //ta a ler a resposta mandada pela database
-        BufferedReader reader =
-                new BufferedReader(
-                        new InputStreamReader(connection.getInputStream())
-                );
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
         //aqui ele guarda a resposta
-        StringBuilder response =
-                new StringBuilder();
+        StringBuilder response = new StringBuilder();
 
         String line;
 
@@ -66,24 +55,21 @@ public class TipoService {
 
         //converte a resposta para um array json
         //json é o formato comum que se usa para mandar dados entre servidores
-        JSONArray jsonArray =
-                new JSONArray(response.toString());
+        JSONArray jsonArray = new JSONArray(response.toString());
 
         //cria array list e ta a adicionar  os que tem como valor tipo
         //assim se ele estivesse a receber mais informacao, mas nao fosse com o valor tipo, nao adiciona
 
-        ArrayList<String> tipos =
-                new ArrayList<>();
+        ArrayList<TipoDTO> tipos = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
 
-            JSONObject objeto =
-                    jsonArray.getJSONObject(i);
+            JSONObject objeto = jsonArray.getJSONObject(i);
 
-            String tipo =
-                    objeto.getString("tipo");
+            TipoDTO dto = new TipoDTO();
+            dto.setTipo(objeto.optString("tipo",""));
 
-            tipos.add(tipo);
+            tipos.add(dto);
         }
 
         connection.disconnect();
@@ -92,9 +78,17 @@ public class TipoService {
     }
 
     public static boolean existeTipo(String nomeTipo, Context ctx) throws Exception {
-        ArrayList<String> tipos = obterTipos(ctx);
-        for (String t : tipos) {
-            if (t != null && t.equalsIgnoreCase(nomeTipo)) {
+        ArrayList<TipoDTO> tipos = obterTipos(ctx);
+
+        if (tipos == null) {
+            return false;
+        }
+
+        //este equalsIgnoreCase(nomeTipo) é para quando adicionarmos,
+        //ele verifica se existe ja, independetemente as mudancas de maiuscula ou miniscula
+        //ou seja, temos bebida, e escrevemos Bebida, ele vai notar que é igual ent nao adiciona
+        for (TipoDTO t : tipos) {
+            if (t != null && t.getTipo() != null && t.getTipo().equalsIgnoreCase(nomeTipo)) {
                 return true;
             }
         }
@@ -104,29 +98,17 @@ public class TipoService {
     public static void adicionarTipo(Tipo tipo, Context ctx)
             throws Exception {
 
-        URL url = new URL(
-                ApiConfig.getBaseUrl(ctx) + "tipo"
-        );
+        URL url = new URL(ApiConfig.getBaseUrl(ctx) + "tipo");
 
-        HttpURLConnection connection =
-                (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("POST");
 
-        connection.setRequestProperty(
-                "Content-Type",
-                "application/json"
-        );
+        connection.setRequestProperty("Content-Type", "application/json");
 
-        connection.setRequestProperty(
-                "Accept",
-                "application/json"
-        );
+        connection.setRequestProperty("Accept", "application/json");
 
-        connection.setRequestProperty(
-                "x-apikey",
-                ApiConfig.getApiKey(ctx)
-        );
+        connection.setRequestProperty("x-apikey", ApiConfig.getApiKey(ctx));
 
         connection.setDoOutput(true);
 
@@ -134,17 +116,13 @@ public class TipoService {
 
         json.put("tipo", tipo.getTipos());
 
-        OutputStream outputStream =
-                connection.getOutputStream();
+        OutputStream outputStream = connection.getOutputStream();
 
-        outputStream.write(
-                json.toString().getBytes("UTF-8")
-        );
+        outputStream.write(json.toString().getBytes("UTF-8"));
 
         outputStream.close();
 
-        int responseCode =
-                connection.getResponseCode();
+        int responseCode = connection.getResponseCode();
 
         connection.disconnect();
 
