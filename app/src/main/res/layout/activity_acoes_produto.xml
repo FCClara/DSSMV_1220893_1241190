@@ -7,4 +7,93 @@
     android:layout_height="match_parent"
     tools:context=".ui.AcoesProduto">
 
+    <TextView
+        android:id="@+id/quantidadeMontra"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="14dp"
+        android:text="Quantidade montra:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quantiadeArmazem" />
+
+    <TextView
+        android:id="@+id/nomeProduto"
+        android:layout_width="204dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="88dp"
+        android:text="Nome produto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/quantidadeTotal"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="16dp"
+        android:text="Quantidade total:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipoDoProduto" />
+
+    <TextView
+        android:id="@+id/tipoDoProduto"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="33dp"
+        android:text="Tipo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProduto" />
+
+    <TextView
+        android:id="@+id/quantiadeArmazem"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="9dp"
+        android:text="Quantidade armazem:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quantidadeTotal" />
+
+    <TextView
+        android:id="@+id/fornecedorProduto"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="13dp"
+        android:text="Fornecedor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quantidadeMontra" />
+
+    <TextView
+        android:id="@+id/precoProduto"
+        android:layout_width="164dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="23dp"
+        android:text="Preco"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fornecedorProduto" />
+
+    <Button
+        android:id="@+id/goHistoricoProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="23dp"
+        android:text="Historico"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/precoProduto" />
+
+    <Button
+        android:id="@+id/goMoverProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="40dp"
+        android:text="Mover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goHistoricoProduto" />
 </androidx.constraintlayout.widget.ConstraintLayout>

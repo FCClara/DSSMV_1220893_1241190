@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -125,7 +126,17 @@ public class Funcionario extends AppCompatActivity {
     }*/
 
     private void configurarOpcoesFuncionario() {
+
         buttonGoListProdutos.setVisibility(View.VISIBLE);
+        buttonGoListProdutos.setOnClickListener( v -> {
+            android.util.Log.d("NAV_DEBUG", "Botao clicado. A iniciar intent para ListaProdutos");
+            Intent intent = new Intent(
+                    Funcionario.this, ListaProdutos.class
+            );
+            startActivity(intent);
+            android.util.Log.d("NAV_DEBUG", "startActivity chamado com sucesso.");
+        });
+
     }
 
     private void configurarOpcoesGerente() {

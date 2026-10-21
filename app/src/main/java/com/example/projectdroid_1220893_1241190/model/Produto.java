@@ -71,7 +71,7 @@ public class Produto {
         return quantidadeArmazem;
     }
 
-    public void setQuantidadeArmazem(){
+    public void setQuantidadeArmazem(int quantidadeArmazem){
         if(quantidadeArmazem < 0){
             throw new IllegalArgumentException("Quantidade nao pode ser inferior a zero;");
         }
