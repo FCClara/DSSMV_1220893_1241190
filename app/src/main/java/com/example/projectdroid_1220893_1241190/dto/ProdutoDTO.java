@@ -3,42 +3,33 @@ package com.example.projectdroid_1220893_1241190.dto;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
 
 public class ProdutoDTO {
-    public ProdutoDTO() {}
-
-    public ProdutoDTO(Tipo tipo, String nome, double preco) {
-        this.tipo = tipo;
-        this.nome = nome;
-        this.preco = preco;
-    }
-
-    private Tipo tipo;
     private String nome;
+    private Object tipo;
     private double preco;
+    private int quantidadeArmazem;
+    private int quantidadeMontra;
+    private Object fornecedor;
+    //private String foto;
 
-    // Getters e setters para os atributos
 
-    public Tipo getTipo() {
-        return tipo;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
+    public Object getTipo() { return tipo; }
+    public void setTipo(Object tipo) { this.tipo = tipo; }
 
-    public String getNome() {
-        return nome;
-    }
+    public double getPreco() { return preco; }
+    public void setPreco(double preco) { this.preco = preco; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public int getQuantidadeArmazem() { return quantidadeArmazem; }
+    public void setQuantidadeArmazem(int quantidadeArmazem) { this.quantidadeArmazem = quantidadeArmazem; }
 
-    public double getPreco() {
-        return preco;
-    }
+    public int getQuantidadeMontra() { return quantidadeMontra; }
+    public void setQuantidadeMontra(int quantidadeMontra) { this.quantidadeMontra = quantidadeMontra; }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
+    public Object getFornecedor() { return fornecedor; }
+    public void setFornecedor(Object fornecedor) { this.fornecedor = fornecedor; }
 
+    //public String getFoto() { return foto; }
+    //public void setFoto(String foto) { this.foto = foto; }
 }
