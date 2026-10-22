@@ -7,4 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.ListaProdutos">
 
+    <Spinner
+        android:id="@+id/spinnerTipo"
+        android:layout_width="243dp"
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="409dp"
+        android:layout_height="657dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="73dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
