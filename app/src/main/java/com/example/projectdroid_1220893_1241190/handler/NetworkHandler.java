@@ -52,7 +52,10 @@ public class NetworkHandler {
 
             int code = conn.getResponseCode();
             if (code < 200 || code >= 300) {
-                throw new IOException("HTTP " + code + " em " + method + " " + url);
+                String erro = "";
+                InputStream es = conn.getErrorStream();
+                if (es != null) erro = readString(es);
+                throw new IOException("HTTP " + code + " em " + method + " " + url + " -> " + erro);
             }
 
             return readString(conn.getInputStream());
@@ -71,5 +74,9 @@ public class NetworkHandler {
             }
         }
         return sb.toString();
+    }
+
+    public static String patch(Context ctx, String path, String body) throws IOException {
+        return request(ctx, "PATCH", path, body);
     }
 }

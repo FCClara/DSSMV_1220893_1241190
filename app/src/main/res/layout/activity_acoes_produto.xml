@@ -23,6 +23,9 @@
         android:layout_height="41dp"
         android:layout_marginStart="91dp"
         android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textStyle="bold"
         android:text="Nome produto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +46,7 @@
         android:layout_height="31dp"
         android:layout_marginStart="102dp"
         android:layout_marginTop="33dp"
-        android:text="Tipo"
+        android:text="Tipo:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeProduto" />
 
@@ -79,20 +82,20 @@
 
     <Button
         android:id="@+id/goHistoricoProduto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="93dp"
-        android:layout_marginTop="23dp"
+        android:layout_width="162dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="24dp"
         android:text="Historico"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/precoProduto" />
 
     <Button
         android:id="@+id/goMoverProduto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="162dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="24dp"
         android:text="Mover"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goHistoricoProduto" />

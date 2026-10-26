@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
+import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
+import com.example.projectdroid_1220893_1241190.handler.NetworkHandler;
 import com.example.projectdroid_1220893_1241190.model.Tipo;
 
 import org.json.JSONArray;
@@ -20,61 +22,8 @@ public class TipoService {
 
     public static ArrayList<TipoDTO> obterTipos(Context cxt)
             throws Exception {
-
-        //esta a ir buscar o url da nossa database e a adicionar tipo no final
-        //apiconfig tem o nosso url
-
-        URL url = new URL(ApiConfig.getBaseUrl(cxt) + "tipo");
-
-        //para fazer a conexcao
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        //queremos um get pq estamos a ir buscar informacao
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept", "application/json");
-
-        //aqui mandamos a key para podermos acessar e verificar que temos permissao disso
-
-        connection.setRequestProperty("x-apikey", ApiConfig.getApiKey(cxt));
-
-        //ta a ler a resposta mandada pela database
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        //aqui ele guarda a resposta
-        StringBuilder response = new StringBuilder();
-
-        String line;
-
-        //e lê linha a linha
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
-        }
-
-        //ja nao tem mais linhas ent acaba
-        reader.close();
-
-        //converte a resposta para um array json
-        //json é o formato comum que se usa para mandar dados entre servidores
-        JSONArray jsonArray = new JSONArray(response.toString());
-
-        //cria array list e ta a adicionar  os que tem como valor tipo
-        //assim se ele estivesse a receber mais informacao, mas nao fosse com o valor tipo, nao adiciona
-
-        ArrayList<TipoDTO> tipos = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-
-            JSONObject objeto = jsonArray.getJSONObject(i);
-
-            TipoDTO dto = new TipoDTO();
-            dto.setTipo(objeto.optString("tipo",""));
-
-            tipos.add(dto);
-        }
-
-        connection.disconnect();
-
-        return tipos;
+        String json = NetworkHandler.get(cxt, "tipo");
+        return new ArrayList<>(JsonHandler.deSerializeJson2ListTipoDto(json));
     }
 
     public static boolean existeTipo(String nomeTipo, Context ctx) throws Exception {
@@ -95,42 +44,8 @@ public class TipoService {
         return false;
     }
 
-    public static void adicionarTipo(Tipo tipo, Context ctx)
-            throws Exception {
-
-        URL url = new URL(ApiConfig.getBaseUrl(ctx) + "tipo");
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setRequestMethod("POST");
-
-        connection.setRequestProperty("Content-Type", "application/json");
-
-        connection.setRequestProperty("Accept", "application/json");
-
-        connection.setRequestProperty("x-apikey", ApiConfig.getApiKey(ctx));
-
-        connection.setDoOutput(true);
-
-        JSONObject json = new JSONObject();
-
-        json.put("tipo", tipo.getTipos());
-
-        OutputStream outputStream = connection.getOutputStream();
-
-        outputStream.write(json.toString().getBytes("UTF-8"));
-
-        outputStream.close();
-
-        int responseCode = connection.getResponseCode();
-
-        connection.disconnect();
-
-        if (responseCode < 200 || responseCode >= 300) {
-            throw new Exception(
-                    "Erro ao adicionar tipo: "
-                            + responseCode
-            );
-        }
+    public static void adicionarTipo(Context ctx, TipoDTO dto) throws Exception {
+        String body = JsonHandler.serializeTipoDTO2Json(dto);   // DTO -> JSON string
+        NetworkHandler.post(ctx, "tipo", body);                 // body goes here
     }
 }
