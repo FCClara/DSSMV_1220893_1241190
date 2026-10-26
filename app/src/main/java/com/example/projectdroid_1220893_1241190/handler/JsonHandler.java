@@ -104,8 +104,8 @@ public class JsonHandler {
 
     public static String serialize2JsonHistorico(HistoricoDTO dto) throws JSONException{
         JSONObject jsonObject = new JSONObject();
-        if (dto.getProduto() != null && dto.getProduto().getNome() != null) {
-            jsonObject.put("produto", dto.getProduto().getNome());
+        if (dto.getProduto() != null && dto.getProduto().getId() != null) {
+            jsonObject.put("produto", dto.getProduto().getId());
         }
         jsonObject.put("quantidade", dto.getQuantidade());
         jsonObject.put("descricao", dto.getDescricao());
