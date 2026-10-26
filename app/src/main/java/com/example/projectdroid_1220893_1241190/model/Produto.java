@@ -3,6 +3,7 @@ package com.example.projectdroid_1220893_1241190.model;
 public class Produto {
 
 
+    private String id;
     private String  nome;
     private Tipo tipo;
 
@@ -17,7 +18,8 @@ public class Produto {
     //private String foto;
 
 
-    public Produto(String nome, Tipo tipo, double preco, int quantidadeArmazem, int quantidadeMontra, Fornecedor fornecedor) {
+    public Produto(String id, String nome, Tipo tipo, double preco, int quantidadeArmazem, int quantidadeMontra, Fornecedor fornecedor) {
+        this.id = id;
         this.nome = nome;
         this.tipo = tipo;
         this.preco = preco;
@@ -33,6 +35,10 @@ public class Produto {
         }
         return nome.matches("^[\\p{L} ]+$");
     }
+
+    public String getId() {return id;}
+
+    public void setId(String id) {this.id = id;}
 
     public String getNome() {
         return nome;

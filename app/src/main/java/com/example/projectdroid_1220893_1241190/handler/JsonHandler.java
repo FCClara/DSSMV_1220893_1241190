@@ -14,6 +14,29 @@ import java.util.List;
 
 public class JsonHandler {
 
+    public static List<TipoDTO> deSerializeJson2ListTipoDto(String resp) throws JSONException{
+        JSONArray jsonArray = new JSONArray(resp);
+
+        ArrayList<TipoDTO> tipos = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            JSONObject objeto = jsonArray.getJSONObject(i);
+
+            TipoDTO dto = new TipoDTO();
+            dto.setTipo(objeto.optString("tipo",""));
+
+            tipos.add(dto);
+        }
+        return tipos;
+    }
+
+    //este é para adicionar, tranformas em json
+    public static String serializeTipoDTO2Json(TipoDTO dto) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("tipo", dto.getTipo());
+        return jsonObject.toString();
+    }
     public static List<ProdutoDTO> deSerializeJson2ListProdutoDto(String resp) throws JSONException{
         JSONArray jsonArray = new JSONArray(resp);
         List<ProdutoDTO> produtos = new ArrayList<>();
@@ -26,6 +49,7 @@ public class JsonHandler {
             android.util.Log.d("DEBUG_JSON", "Fornecedor raw info: " + objeto.opt("fornecedor"));*/
 
             ProdutoDTO dto = new ProdutoDTO();
+            dto.setId(objeto.optString("_id", ""));
             dto.setNome(objeto.optString("nome", ""));
             dto.setPreco(objeto.optDouble("preco", 0.0));
             dto.setQuantidadeArmazem(objeto.optInt("quantidadeArmazem", 0));
@@ -50,6 +74,14 @@ public class JsonHandler {
         }
         return produtos;
     }
+
+    //para a mudanca de quantidades
+    public static String serializeQuantidadesProduto(int armazem, int montra) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("quantidadeArmazem", armazem);
+        jsonObject.put("quantidadeMontra", montra);
+        return jsonObject.toString();
+    }
     public static List<HistoricoDTO> deSerializeJson2ListHistoricoDTO(String resp) throws JSONException {
         JSONArray jsonArray = new JSONArray(resp);
         List<HistoricoDTO> list = new ArrayList<>();
@@ -68,6 +100,16 @@ public class JsonHandler {
             list.add(dto);
         }
         return list;
+    }
+
+    public static String serialize2JsonHistorico(HistoricoDTO dto) throws JSONException{
+        JSONObject jsonObject = new JSONObject();
+        if (dto.getProduto() != null && dto.getProduto().getNome() != null) {
+            jsonObject.put("produto", dto.getProduto().getNome());
+        }
+        jsonObject.put("quantidade", dto.getQuantidade());
+        jsonObject.put("descricao", dto.getDescricao());
+        return jsonObject.toString();
     }
 
     // restdb can return a linked field as an object or as an array of objects

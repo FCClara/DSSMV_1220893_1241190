@@ -2,6 +2,7 @@ package com.example.projectdroid_1220893_1241190.dto;
 
 
 public class ProdutoDTO {
+    private String id;
     private String nome;
     private TipoDTO tipo;
     private double preco;
@@ -10,6 +11,10 @@ public class ProdutoDTO {
     private FornecedorDTO fornecedor;
     //private String foto;
 
+
+    public String getId() {return id;}
+
+    public void setId(String id) {this.id = id;}
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
