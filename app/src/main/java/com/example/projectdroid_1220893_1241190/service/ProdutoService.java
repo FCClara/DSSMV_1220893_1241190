@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.dto.*;
+import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
+import com.example.projectdroid_1220893_1241190.handler.NetworkHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +18,13 @@ import java.util.ArrayList;
 public class ProdutoService {
 
     public static ArrayList<ProdutoDTO> obterProdutos(Context ctx) throws Exception {
-        URL url = new URL(ApiConfig.getBaseUrl(ctx) + "produto");
+        String json = NetworkHandler.get(ctx, "produto");
+        return new ArrayList<>(JsonHandler.deSerializeJson2ListProdutoDto(json));
+
+    }
+
+    /*public static ArrayList<ProdutoDTO> obterProdutos(Context ctx) throws Exception {
+        /*URL url = new URL(ApiConfig.getBaseUrl(ctx) + "produto");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -70,6 +78,7 @@ public class ProdutoService {
 
         connection.disconnect();
         return produtos;
+
     }
 
     //como o tipo vem como id, tipo, data criada etc, este extractNameFromJson,
@@ -78,7 +87,7 @@ public class ProdutoService {
     //usar isto em outras etentidades que necessitam, poupa codigo :)
 
     //esta keyToFind, é o nome do atributo, nos estamos a mandar isto em cima no dto do produto
-    private static String extractNameFromJson(Object obj, String keyToFind) {
+    /*private static String extractNameFromJson(Object obj, String keyToFind) {
         if (obj == null) return "";
         try {
             if (obj instanceof JSONArray) {
@@ -94,5 +103,5 @@ public class ProdutoService {
             e.printStackTrace();
         }
         return obj.toString();
-    }
+    }*/
 }
