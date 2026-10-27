@@ -76,7 +76,6 @@ public class AcoesProduto extends AppCompatActivity {
 
         tvNome.setText(nome != null ? nome : "Nome indisponível");
         tvTipo.setText("Tipo: " + (tipo != null ? tipo : "-"));
-        tvQuantidadeTotal.setText("Quantidade total: " + total);
         tvFornecedor.setText("Fornecedor: " + (fornecedor != null ? fornecedor : "-"));
         tvPreco.setText("Preco: " + preco + "€");
 

@@ -1,8 +1,6 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,22 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.adapter.HistoricoAdapter;
+import com.example.projectdroid_1220893_1241190.controller.HistoricoController;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
-import com.example.projectdroid_1220893_1241190.service.HistoricoService;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.List;
 
 public class HistoricoProduto extends AppCompatActivity {
 
     public static final String EXTRA_PRODUTO_NOME = "produto_nome";
 
-    private final ArrayList<HistoricoDTO> listaFiltrada = new ArrayList<>();
+    private final ArrayList<HistoricoDTO> lista = new ArrayList<>();
     private HistoricoAdapter adapter;
-
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,47 +35,29 @@ public class HistoricoProduto extends AppCompatActivity {
 
         RecyclerView rv = findViewById(R.id.rvHistorico);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new HistoricoAdapter(listaFiltrada);
+        adapter = new HistoricoAdapter(lista);
         rv.setAdapter(adapter);
 
-        carregarHistorico(nomeProduto);
-    }
+        new HistoricoController(this).obterHistoricoDoProduto(nomeProduto,
+                new HistoricoController.HistoricoCallback() {
+                    @Override
+                    public void onSucesso(List<HistoricoDTO> historicos) {
+                        lista.clear();
+                        lista.addAll(historicos);
+                        adapter.notifyDataSetChanged();
 
-    private void carregarHistorico(String nomeProduto) {
-        executor.execute(() -> {
-            try {
-                ArrayList<HistoricoDTO> todos = HistoricoService.obterHistorico(this);
-
-                ArrayList<HistoricoDTO> filtrados = new ArrayList<>();
-                for (HistoricoDTO h : todos) {
-                    if (h.getProduto() != null
-                            && nomeProduto.equalsIgnoreCase(h.getProduto().getNome())) {
-                        filtrados.add(h);
+                        if (historicos.isEmpty()) {
+                            Toast.makeText(HistoricoProduto.this,
+                                    "Sem historico para este produto",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                mainHandler.post(() -> {
-                    listaFiltrada.clear();
-                    listaFiltrada.addAll(filtrados);
-                    adapter.notifyDataSetChanged();
-
-                    if (filtrados.isEmpty()) {
-                        Toast.makeText(this, "Sem historico para este produto",
-                                Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onErro(String mensagem) {
+                        Toast.makeText(HistoricoProduto.this, mensagem,
+                                Toast.LENGTH_LONG).show();
                     }
                 });
-            } catch (Exception e) {
-                e.printStackTrace();
-                mainHandler.post(() ->
-                        Toast.makeText(this, "Erro ao carregar historico",
-                                Toast.LENGTH_LONG).show());
-            }
-        });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        executor.shutdown();
     }
 }

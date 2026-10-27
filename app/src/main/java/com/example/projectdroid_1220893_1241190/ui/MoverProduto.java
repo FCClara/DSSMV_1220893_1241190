@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.R;
+import com.example.projectdroid_1220893_1241190.controller.ProdutoController;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.service.HistoricoService;
@@ -27,104 +28,59 @@ public class MoverProduto extends AppCompatActivity {
     private EditText etArmazemMontra, etMontraLixo;
     private String produtoId;
     private int armazem, montra;
-
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private ProdutoController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mover_produto);
 
+        controller = new ProdutoController(this);
         produtoId = getIntent().getStringExtra("PRODUTO_ID");
         armazem = getIntent().getIntExtra("PRODUTO_ARMAZEM", 0);
         montra = getIntent().getIntExtra("PRODUTO_MONTRA", 0);
 
-        etArmazemMontra = findViewById(R.id.editTextNumber);   // Armazém -> Montra
-        etMontraLixo = findViewById(R.id.editTextNumber2);     // Montra -> Lixo
+        etArmazemMontra = findViewById(R.id.editTextNumber);
+        etMontraLixo = findViewById(R.id.editTextNumber2);
 
         findViewById(R.id.button2).setOnClickListener(v -> {
             int qtd = lerQuantidade(etArmazemMontra);
-            if (qtd <= 0) return;
-            if (qtd > armazem) {
-                toast("So tem " + armazem + " no armazem");
-                return;
-            }
-            mover(qtd, armazem - qtd, montra + qtd, "Armazém -> Montra");
+            if (qtd > 0) controller.moverArmazemParaMontra(produtoId, armazem, montra, qtd, callback);
         });
 
         findViewById(R.id.button1).setOnClickListener(v -> {
             int qtd = lerQuantidade(etMontraLixo);
-            if (qtd <= 0) return;
-            if (qtd > montra) {
-                toast("So tem " + montra + " na montra");
-                return;
-            }
-            mover(qtd, armazem, montra - qtd, "Montra -> Lixo");
+            if (qtd > 0) controller.moverMontraParaLixo(produtoId, armazem, montra, qtd, callback);
         });
     }
+
+    private final ProdutoController.MoverCallback callback = new ProdutoController.MoverCallback() {
+        @Override
+        public void onSucesso(int novoArmazem, int novaMontra) {
+            armazem = novoArmazem;
+            montra = novaMontra;
+
+            Intent resultado = new Intent();
+            resultado.putExtra("PRODUTO_ARMAZEM", novoArmazem);
+            resultado.putExtra("PRODUTO_MONTRA", novaMontra);
+            setResult(RESULT_OK, resultado);
+
+            Toast.makeText(MoverProduto.this, "Movido com sucesso", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        @Override
+        public void onErro(String mensagem) {
+            Toast.makeText(MoverProduto.this, mensagem, Toast.LENGTH_LONG).show();
+        }
+    };
 
     private int lerQuantidade(EditText et) {
         String s = et.getText().toString().trim();
         if (s.isEmpty()) {
-            toast("Indique a quantidade");
+            Toast.makeText(this, "Indique a quantidade", Toast.LENGTH_SHORT).show();
             return -1;
         }
-        int qtd = Integer.parseInt(s);
-        if (qtd <= 0) {
-            toast("A quantidade tem de ser superior a 0");
-            return -1;
-        }
-        return qtd;
-    }
-
-    private void mover(int qtdMovida, int novoArmazem, int novaMontra, String descricao) {
-        if (produtoId == null || produtoId.isEmpty()) {
-            toast("Produto invalido");
-            return;
-        }
-
-        ProdutoDTO produto = new ProdutoDTO();
-        produto.setId(produtoId);
-
-        HistoricoDTO historico = new HistoricoDTO();
-        historico.setProduto(produto);
-        historico.setQuantidade(qtdMovida);
-        historico.setDescricao(descricao);
-
-        executor.execute(() -> {
-            try {
-                ProdutoService.atualizarQuantidades(this, produtoId, novoArmazem, novaMontra);
-                HistoricoService.adicionarHistorico(this, historico);
-
-                mainHandler.post(() -> {
-                    armazem = novoArmazem;
-                    montra = novaMontra;
-
-                    //se nao tivermos isto, quando voltamos para a pagina das acoes,
-                    //a quantidade nao muda
-                    Intent resultado = new Intent();
-                    resultado.putExtra("PRODUTO_ARMAZEM", novoArmazem);
-                    resultado.putExtra("PRODUTO_MONTRA", novaMontra);
-                    setResult(RESULT_OK, resultado);
-
-                    toast("Movido com sucesso");
-                    finish();
-                });
-            } catch (Exception e) {
-                android.util.Log.e("MOVER", "Falhou: " + e.getMessage(), e);
-                mainHandler.post(() -> toast("Erro ao mover produto"));
-            }
-        });
-    }
-
-    private void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        executor.shutdown();
+        return Integer.parseInt(s);
     }
 }
