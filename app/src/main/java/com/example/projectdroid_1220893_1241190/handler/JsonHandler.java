@@ -128,4 +128,13 @@ public class JsonHandler {
         }
         return "";
     }
+    // Função para "serialização" do barcode lido para a string que vamos procurar na database
+    public static String normalizarCodigo(String raw) {
+        if (raw == null) return "";
+        String digitos = raw.replaceAll("\\D", "");
+        if (digitos.length() == 12) {
+            return "0" + digitos;   // UPC-A -> EAN-13
+        }
+        return digitos;
+    }
 }

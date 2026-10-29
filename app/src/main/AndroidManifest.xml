@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- permissaoa para internet -->
+    <!-- permissão para internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- permissão para camara -->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -50,6 +54,9 @@
             android:name=".ui.ListaProdutos"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDECIES"
+            android:value="barcode_ui"/>
 
     </application>
 
