@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class JsonHandler {
             dto.setQuantidadeArmazem(objeto.optInt("quantidadeArmazem", 0));
             dto.setQuantidadeMontra(objeto.optInt("quantidadeMontra", 0));
             //dto.setFoto(objeto.optString("foto", "");
+            dto.setBarcode(objeto.optString("barcode", ""));
 
             TipoDTO tipoDTO = new TipoDTO();
             tipoDTO.setTipo(extractString(objeto.opt("tipo"), "tipo"));
@@ -68,18 +70,26 @@ public class JsonHandler {
                     ", Preco: " + dto.getPreco() +
                     ", Armazem: " + dto.getQuantidadeArmazem() +
                     ", Montra: " + dto.getQuantidadeMontra() +
-                    ", Tipo: " + (dto.getTipo() != null ? dto.getTipo().getTipo() : "null") +
-                    ", Fornecedor: " + (dto.getFornecedor() != null ? dto.getFornecedor().getNome() : "null"));
+                    ", Tipo: " + (dto.getTipo()     != null ? dto.getTipo().getTipo() : "null") +
+                    ", Fornecedor: " + (dto.getFornecedor() != null ? dto.getFornecedor().getNome() : "null") +
+                    ", Barcode" + (dto.getBarcode()));
             produtos.add(dto);
         }
         return produtos;
     }
+
 
     //para a mudanca de quantidades
     public static String serializeQuantidadesProduto(int armazem, int montra) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("quantidadeArmazem", armazem);
         jsonObject.put("quantidadeMontra", montra);
+        return jsonObject.toString();
+    }
+
+    public static String serializeAtualizarPreco(double preco) throws JSONException{
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("preco", preco);
         return jsonObject.toString();
     }
     public static List<HistoricoDTO> deSerializeJson2ListHistoricoDTO(String resp) throws JSONException {

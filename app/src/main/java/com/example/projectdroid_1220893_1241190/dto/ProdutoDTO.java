@@ -11,6 +11,8 @@ public class ProdutoDTO {
     private FornecedorDTO fornecedor;
     //private String foto;
 
+    private String barcode;
+
 
     public String getId() {return id;}
 
@@ -36,4 +38,7 @@ public class ProdutoDTO {
 
     //public String getFoto() { return foto; }
     //public void setFoto(String foto) { this.foto = foto; }
+
+    public String getBarcode() {return barcode;}
+    public void setBarcode(String barcode) {this.barcode = barcode;}
 }

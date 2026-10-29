@@ -2,18 +2,10 @@ package com.example.projectdroid_1220893_1241190.service;
 
 import android.content.Context;
 
-import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.dto.*;
 import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
 import com.example.projectdroid_1220893_1241190.handler.NetworkHandler;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 public class ProdutoService {
 
@@ -28,5 +20,12 @@ public class ProdutoService {
         String body = JsonHandler.serializeQuantidadesProduto(armazem, montra);
         NetworkHandler.patch(ctx, "produto/" + produtoId, body);
     }
+
+    public static void atualizarPreco(Context ctx, String produtoId, double preco)
+        throws Exception{
+            String body = JsonHandler.serializeAtualizarPreco(preco);
+            NetworkHandler.patch(ctx, "produto/" + produtoId, body);
+    }
 }
+
 
