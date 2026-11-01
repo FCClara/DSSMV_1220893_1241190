@@ -1,6 +1,7 @@
 package com.example.projectdroid_1220893_1241190.handler;
 
 import com.example.projectdroid_1220893_1241190.dto.FornecedorDTO;
+import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
@@ -136,5 +137,25 @@ public class JsonHandler {
             return "0" + digitos;   // UPC-A -> EAN-13
         }
         return digitos;
+    }
+
+    public static List<FuncionarioDTO> deSerializeJson2ListFuncionarioDTO(String resp) throws JSONException{
+        JSONArray  jsonArray = new JSONArray(resp);
+        List<FuncionarioDTO> lista = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+
+            FuncionarioDTO dto = new FuncionarioDTO();
+            dto.setNome(object.optString("Nome",""));
+            dto.setFuncao(object.optString("Funcao",""));
+            dto.setEmail(object.optString("email", ""));
+            dto.setMorada(object.optString("morada",""));
+            dto.setNif(object.optInt("NIF",0));
+            dto.setnCartao(object.optInt("nCartao",0));
+            dto.setSalario(object.optDouble("salario",0.0));
+            lista.add(dto);
+        }
+        return lista;
     }
 }
