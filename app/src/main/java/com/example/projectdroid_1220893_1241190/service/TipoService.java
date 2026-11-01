@@ -6,16 +6,6 @@ import com.example.projectdroid_1220893_1241190.*;
 import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
 import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
 import com.example.projectdroid_1220893_1241190.handler.NetworkHandler;
-import com.example.projectdroid_1220893_1241190.model.Tipo;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class TipoService {

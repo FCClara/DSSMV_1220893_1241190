@@ -17,8 +17,10 @@ public class Produto {
 
     //private String foto;
 
+    private String barcode;
 
-    public Produto(String id, String nome, Tipo tipo, double preco, int quantidadeArmazem, int quantidadeMontra, Fornecedor fornecedor) {
+
+    public Produto(String id, String nome, Tipo tipo, double preco, int quantidadeArmazem, int quantidadeMontra, Fornecedor fornecedor, String barcode) {
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
@@ -27,6 +29,7 @@ public class Produto {
         this.quantidadeMontra = quantidadeMontra;
         this.fornecedor = fornecedor;
         //this.foto = foto;
+        this.barcode = barcode;
     }
 
     private boolean isNomeValid(String nome) {
@@ -107,4 +110,12 @@ public class Produto {
     }
 
     //public String getFoto() {return foto;}
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 }

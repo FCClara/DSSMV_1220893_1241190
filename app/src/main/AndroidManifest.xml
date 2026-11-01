@@ -32,12 +32,6 @@
             android:name=".ui.Funcionario"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".ui.AcoesProduto"
             android:exported="false"
@@ -57,7 +51,20 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDECIES"
             android:value="barcode_ui"/>
+        <activity
+            android:name=".ui.Preco"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.MudarPreco"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

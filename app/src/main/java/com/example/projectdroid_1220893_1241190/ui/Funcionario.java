@@ -32,7 +32,7 @@ public class Funcionario extends AppCompatActivity {
     private Button buttonAdicionarTipo;
 
     private Button buttonGoListProdutos;
-    private Button buttonGoCodigoBarras;
+    private Button goPrecoProduto, buttonGoCodigoBarras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class Funcionario extends AppCompatActivity {
         editTextTipo = findViewById(R.id.editTextTipo);
         buttonAdicionarTipo = findViewById(R.id.buttonAdicionarTipo);
         buttonGoListProdutos = findViewById(R.id.buttonGoListProdutos);
+        goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
 
         // Regra de acúmulo de permissões/botões:
@@ -149,6 +150,11 @@ public class Funcionario extends AppCompatActivity {
             );
             startActivity(intent);
             android.util.Log.d("NAV_DEBUG", "startActivity chamado com sucesso.");
+        });
+
+        goPrecoProduto.setOnClickListener(v -> {
+            Intent intent = new Intent(Funcionario.this, Preco.class);
+            startActivity(intent);
         });
 
         //buttonGoCodigoBarras.setVisibility(View.VISIBLE);

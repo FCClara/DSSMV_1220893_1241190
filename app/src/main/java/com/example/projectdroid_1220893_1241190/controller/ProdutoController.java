@@ -26,6 +26,11 @@ public class ProdutoController {
         void onErro(String mensagem);
     }
 
+    public interface novoPrecoCallback {
+        void onSucesso (double novoPreco);
+        void onErro(String mensagem);
+    }
+
     public interface ProdutosCallback {
         void onSucesso(List<ProdutoDTO> produtos);
         void onErro(String mensagem);
@@ -109,6 +114,28 @@ public class ProdutoController {
                 mainHandler.post(() -> cb.onErro("Erro: " + e.getMessage()));
             }
         });
+    }
+
+    public void mudarPreco(String produtoId, double preco,double novoPreco, novoPrecoCallback cb){
+
+        if (preco < 0){
+            cb.onErro("Tem de ser superior a zero");
+            return;
+        }
+        android.util.Log.d("INFO_NO_PRECO", "PRECO" + produtoId +" " + preco);
+
+        executor.execute(() ->{
+            try {
+                ProdutoService.atualizarPreco(ctx, produtoId,preco);
+                android.util.Log.d("Preco", "Fallho mas mandou");
+                mainHandler.post(() -> cb.onSucesso(novoPreco));
+
+            } catch (Exception e){
+                android.util.Log.d("Preco", "Fallho" + e.getMessage(), e);
+                mainHandler.post(() -> cb.onErro("Erro " + e.getMessage()));
+            }
+        });
+
     }
 
     // ---------- Antigo (mantido para nao partir outros ecras) ----------
