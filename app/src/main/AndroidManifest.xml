@@ -55,6 +55,9 @@
             android:name=".ui.Preco"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.FichaFuncionario"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".MyService"
