@@ -1,6 +1,7 @@
 package com.example.projectdroid_1220893_1241190.dto;
 
 public class FuncionarioDTO {
+    private String id;
     private String nome;
     private String funcao;
     private String email;
@@ -8,6 +9,10 @@ public class FuncionarioDTO {
     private int nif;
     private int nCartao;
     private double salario;
+
+    public String getId() {return id;}
+
+    public void setId(String id) {this.id = id;}
 
     public String getNome() {
         return nome;

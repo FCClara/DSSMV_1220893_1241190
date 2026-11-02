@@ -31,7 +31,7 @@ public class Funcionario extends AppCompatActivity {
     private EditText editTextTipo;
     private Button buttonAdicionarTipo;
 
-    private Button buttonGoListProdutos;
+    private Button buttonGoListProdutos, buttonGoHorario;
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
     @Override
@@ -47,6 +47,7 @@ public class Funcionario extends AppCompatActivity {
         buttonGoListProdutos = findViewById(R.id.buttonGoListProdutos);
         goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
+        buttonGoHorario = findViewById(R.id.buttonGoHorario);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
@@ -154,6 +155,10 @@ public class Funcionario extends AppCompatActivity {
 
         goPrecoProduto.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, Preco.class);
+            startActivity(intent);
+        });
+        buttonGoHorario.setOnClickListener(v -> {
+            Intent intent = new Intent(Funcionario.this, Horario.class);
             startActivity(intent);
         });
 
