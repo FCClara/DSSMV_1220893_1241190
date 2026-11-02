@@ -1,17 +1,24 @@
 package com.example.projectdroid_1220893_1241190.handler;
 
+import android.util.Log;
+
+import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.FornecedorDTO;
 import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
+import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
+import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class JsonHandler {
@@ -121,6 +128,81 @@ public class JsonHandler {
         jsonObject.put("quantidade", dto.getQuantidade());
         jsonObject.put("descricao", dto.getDescricao());
         return jsonObject.toString();
+    }
+
+    public static List<DiaDTO> deSeralize2JsonDiaDTO(String resp) throws JSONException{
+        JSONArray jsonArray = new JSONArray(resp);
+        List<DiaDTO> lista = new ArrayList<>();
+
+        for(int i =0; i<jsonArray.length(); i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+            DiaDTO dto = new DiaDTO();
+            dto.setId(object.optString("_id", ""));
+            dto.setDia(object.optString("dia", ""));
+            lista.add(dto);
+        }
+        return lista;
+    }
+    public static List<TurnoDTO> deSeralize2JsonTurnoDTO(String resp) throws JSONException{
+        JSONArray jsonArray = new JSONArray(resp);
+        List<TurnoDTO> list = new ArrayList<>();
+
+        for (int i=0; i < jsonArray.length(); i++){
+
+            JSONObject object = jsonArray.getJSONObject(i);
+
+            TurnoDTO dto = new TurnoDTO();
+            dto.setId(object.optString("_id", ""));
+            dto.setHoraEntrada(object.optString("HoraEntrada").substring(11,16));
+            dto.setHoraSaida(object.optString("HoraSaida").substring(11,16));
+
+            DiaDTO diaDTO = new DiaDTO();
+            diaDTO.setId(extractString(object.optString("dia"), "_id"));
+            diaDTO.setDia(extractString(object.opt("dia"), "dia"));
+            dto.setDia(diaDTO);
+
+            list.add(dto);
+        }
+        return list;
+    }
+
+    public static List<HorarioDTO> deSeralize2JsonHorarioDTO(String resp) throws JSONException{
+        JSONArray jsonArray = new JSONArray(resp);
+        List<HorarioDTO> lista = new ArrayList<>();
+
+        for(int i=0; i < jsonArray.length(); i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+            Log.d("HORARIO_DEBUG", "RAW horario: " + object.toString());
+
+            Iterator<String> it = object.keys();
+            while (it.hasNext()) {
+                String k = it.next();
+                Log.d("HORARIO_DEBUG", "campo: '" + k + "' = " + object.opt(k));
+            }
+
+            HorarioDTO dto = new HorarioDTO();
+
+            dto.setId(object.optString("_id", ""));
+
+            FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
+            funcionarioDTO.setId(extractString(object.optString("Funcionario"), "_id"));
+            funcionarioDTO.setNome(extractString(object.opt("Funcionario"), "Nome"));
+            dto.setFuncionario(funcionarioDTO);
+
+            String[] campos = {"TurnoSegunda", "TurnoTerca", "TurnoQuarta", "TurnoQuinta",
+                    "TurnoSexta", "TurnoSabado", "TurnoDomingo"};
+            String[] nomesDia = {"Segunda", "Terça", "Quarta", "Quinta",
+                    "Sexta", "Sábado", "Domingo"};
+
+            for (int d = 0; d < campos.length; d++) {
+                String turnoId = extractString(object.opt(campos[d]), "_id");
+                if (!turnoId.isEmpty()) {
+                    dto.setTurno(nomesDia[d], turnoId);
+                }
+            }
+            lista.add(dto);
+        }
+        return lista;
     }
 
     // restdb can return a linked field as an object or as an array of objects
