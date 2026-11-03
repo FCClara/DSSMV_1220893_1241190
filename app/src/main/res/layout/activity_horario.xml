@@ -11,13 +11,15 @@
         android:id="@+id/tvHorario"
         android:layout_width="87dp"
         android:layout_height="44dp"
-        android:layout_marginStart="162dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginBottom="18dp"
         android:gravity="center"
         android:text="Horario"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spinnerDia"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
