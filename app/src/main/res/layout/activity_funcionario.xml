@@ -110,4 +110,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGoCodigoBarras" />
 
+    <Button
+        android:id="@+id/buttonGoListaTurnos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="44dp"
+        android:text="Lista Turnos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoHorario" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

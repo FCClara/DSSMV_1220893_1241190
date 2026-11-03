@@ -157,8 +157,8 @@ public class JsonHandler {
             dto.setHoraSaida(object.optString("HoraSaida").substring(11,16));
 
             DiaDTO diaDTO = new DiaDTO();
-            diaDTO.setId(extractString(object.optString("dia"), "_id"));
-            diaDTO.setDia(extractString(object.opt("dia"), "dia"));
+            diaDTO.setId(extractString(object.optString("Dia"), "_id"));
+            diaDTO.setDia(extractString(object.opt("Dia"), "dia"));
             dto.setDia(diaDTO);
 
             list.add(dto);

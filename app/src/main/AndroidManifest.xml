@@ -58,7 +58,8 @@
             android:name=".ui.Preco"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.FichaFuncionario"
+        <activity
+            android:name=".ui.FichaFuncionario"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
@@ -73,6 +74,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.Horario"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ListaTurnos"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
