@@ -11,6 +11,7 @@ import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.service.HistoricoService;
 import com.example.projectdroid_1220893_1241190.service.ProdutoService;
+import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,11 @@ public class ProdutoController {
 
     public interface ProdutosCallback {
         void onSucesso(List<ProdutoDTO> produtos);
+        void onErro(String mensagem);
+    }
+
+    public interface ProdutoCallback { // Callback para a pesquisa de um produto por barcode, não confundir pelo metodo acima
+        void onSucesso(ProdutoDTO produto);
         void onErro(String mensagem);
     }
 
@@ -61,6 +67,42 @@ public class ProdutoController {
             } catch (Exception e) {
                 android.util.Log.e("PRODUTOS", "Falhou: " + e.getMessage(), e);
                 mainHandler.post(() -> cb.onErro("Erro ao carregar produtos"));
+            }
+        });
+    }
+
+    // ---------- Procurar por código de barras ----------
+
+    public void procurarPorBarcode(String codigoLido, ProdutoCallback cb) {
+        String procurado = JsonHandler.normalizarCodigo(codigoLido);
+        if (procurado.isEmpty()) {
+            cb.onErro("Código inválido");
+            return;
+        }
+
+        executor.execute(() -> {
+            try {
+                List<ProdutoDTO> todos = ProdutoService.obterProdutos(ctx);
+
+                ProdutoDTO encontrado = null;
+                for (ProdutoDTO p : todos) {
+                    // normaliza também o da BD, para UPC-A e EAN-13 coincidirem
+                    if (procurado.equals(JsonHandler.normalizarCodigo(p.getBarcode()))) {
+                        encontrado = p;
+                        break;
+                    }
+                }
+
+                final ProdutoDTO resultado = encontrado;
+                mainHandler.post(() -> {
+                    if (resultado != null) {
+                        cb.onSucesso(resultado);
+                    } else {
+                        cb.onErro("Nenhum produto com o código " + procurado);
+                    }
+                });
+            } catch (Exception e) {
+                mainHandler.post(() -> cb.onErro("Erro ao procurar produto"));
             }
         });
     }

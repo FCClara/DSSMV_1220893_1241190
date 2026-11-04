@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.projectdroid_1220893_1241190.controller.ProdutoController;
+import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
 import com.example.projectdroid_1220893_1241190.handler.JsonHandler.*;
 
@@ -98,6 +100,21 @@ public class Funcionario extends AppCompatActivity {
         // relacionados com Produto
     }*/
 
+    private void procurarProduto(String codigo) {
+        new ProdutoController(this).procurarPorBarcode(codigo,
+                new ProdutoController.ProdutoCallback() {
+                    @Override
+                    public void onSucesso(ProdutoDTO produto) {
+                        startActivity(AcoesProduto.criarIntent(Funcionario.this, produto));
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        Toast.makeText(Funcionario.this, mensagem, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
     private void configurarOpcoesFuncionario() {
 
         buttonGoListProdutos.setVisibility(View.VISIBLE);
@@ -123,7 +140,7 @@ public class Funcionario extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //buttonGoCodigoBarras.setVisibility(View.VISIBLE);
+
         buttonGoCodigoBarras.setOnClickListener(b -> {
             android.util.Log.d("NAV_DEBUG", "Botao clicado a abrir camara");
 
@@ -142,8 +159,7 @@ public class Funcionario extends AppCompatActivity {
                     .addOnSuccessListener(barcode ->{
                         String codigo = JsonHandler.normalizarCodigo(barcode.getRawValue());
                         android.util.Log.d("NAV_DEBUG", "Formato: " + barcode.getFormat() + " | Codigo: " + codigo);
-                        Toast.makeText(this, "Código: "+ codigo, Toast.LENGTH_LONG).show();
-                        //placeholder para procurar produto com o codigo lido
+                        procurarProduto(codigo);
                     })
                     .addOnCanceledListener(() ->
                             android.util.Log.d("NAV_DEBUG", "Scan cancelado"))

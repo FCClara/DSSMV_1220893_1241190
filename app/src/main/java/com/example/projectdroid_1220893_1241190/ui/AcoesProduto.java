@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.R;
+import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
@@ -102,4 +105,18 @@ public class AcoesProduto extends AppCompatActivity {
         tvQuantidadeArmazem.setText("Quantidade armazem: " + armazem);
         tvQuantidadeMontra.setText("Quantidade montra: " + montra);
     }
+
+    public static Intent criarIntent(Context ctx, ProdutoDTO p) {
+        Intent intent = new Intent(ctx, AcoesProduto.class);
+        intent.putExtra("PRODUTO_ID", p.getId());
+        intent.putExtra("PRODUTO_NOME", p.getNome());
+        intent.putExtra("PRODUTO_TIPO", p.getTipo() != null ? p.getTipo().getTipo() : "");
+        intent.putExtra("PRODUTO_PRECO", p.getPreco());
+        intent.putExtra("PRODUTO_ARMAZEM", p.getQuantidadeArmazem());
+        intent.putExtra("PRODUTO_MONTRA", p.getQuantidadeMontra());
+        intent.putExtra("PRODUTO_FORNECEDOR", p.getFornecedor() != null ? p.getFornecedor().getNome() : "");
+        return intent;
+    }
+
+
 }
