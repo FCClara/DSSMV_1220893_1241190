@@ -2,6 +2,7 @@ package com.example.projectdroid_1220893_1241190.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class MudarPreco extends AppCompatActivity {
         @Override
         public void onErro(String mensagem) {
             Toast.makeText(MudarPreco.this, mensagem, Toast.LENGTH_LONG).show();
+
         }
     };
 

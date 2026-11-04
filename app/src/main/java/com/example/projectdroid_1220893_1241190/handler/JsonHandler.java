@@ -128,6 +128,16 @@ public class JsonHandler {
         return jsonObject.toString();
     }
 
+    public static String serialize2JsonTurno(TurnoDTO dto) throws JSONException{
+        JSONObject jsonObject = new JSONObject();
+        if(dto.getDia() != null && dto.getDia().getId() !=null){
+            jsonObject.put("Dia", dto.getDia().getId());
+        }
+        jsonObject.put("HoraEntrada", dto.getHoraEntrada());
+        jsonObject.put("HoraSaida", dto.getHoraSaida());
+        return jsonObject.toString();
+    }
+
     public static List<DiaDTO> deSeralize2JsonDiaDTO(String resp) throws JSONException{
         JSONArray jsonArray = new JSONArray(resp);
         List<DiaDTO> lista = new ArrayList<>();

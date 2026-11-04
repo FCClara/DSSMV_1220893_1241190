@@ -86,51 +86,6 @@ public class Funcionario extends AppCompatActivity {
         );
     }
 
-    /*private void mostrarPaginaTipo(Context ctx) {
-
-        editTextTipo.setVisibility(View.VISIBLE);
-        buttonAdicionarTipo.setVisibility(View.VISIBLE);
-
-        buttonAdicionarTipo.setOnClickListener(v -> {
-
-            String nomeTipo =
-                    editTextTipo.getText().toString().trim();
-
-            if (nomeTipo.isEmpty()) {
-                editTextTipo.setError("Escreva um tipo");
-                return;
-            }
-
-            Tipo tipo = new Tipo(nomeTipo);
-
-            new Thread(() -> {
-
-                try {
-
-                    if (TipoService.existeTipo(nomeTipo, ctx)) {
-                        runOnUiThread(() -> {
-                            editTextTipo.setError("Esse tipo de produto já existe!");
-                        });
-                        return;
-                    }
-
-                    TipoService.adicionarTipo(tipo, ctx);
-
-                    runOnUiThread(() -> {
-                        editTextTipo.setText("");
-                        Toast.makeText(Funcionario.this, "Tipo adicionado com sucesso!", Toast.LENGTH_SHORT).show(); //Toast é a library que permite que usemos "pop-ups" de erro ou de sucesso
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(() -> {
-                        Toast.makeText(Funcionario.this, "Erro ao processar o pedido", Toast.LENGTH_SHORT).show(); //
-                    });
-                }
-
-            }).start();
-        });
-    }*/
 
 
     /*private void mostrarPaginaProduto() {

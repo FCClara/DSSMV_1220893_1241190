@@ -1,10 +1,12 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,18 +38,21 @@ public class ListaTurnos extends AppCompatActivity {
     private ArrayList<DiaDTO> listaDias = new ArrayList<>();
     private List<TurnoDTO> listaTurnos= new ArrayList<>();
 
+    private Button buttonCriarTurnos;
+
     private TurnosAdapter turnosAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_lista_turrnos);
+        setContentView(R.layout.activity_lista_turnos);
 
 
         tvTurnos = findViewById(R.id.tvTurnos);
         spinnerDiaTurnos = findViewById(R.id.spinnerDiaTurnos);
 
+        buttonCriarTurnos= findViewById(R.id.buttonCriarTurnos);
         rv = findViewById(R.id.rvTurnosLista);
         rv.setLayoutManager(new LinearLayoutManager(this));
         turnosAdapter = new TurnosAdapter(listaTurnos);
@@ -65,6 +70,11 @@ public class ListaTurnos extends AppCompatActivity {
             public void onErro(String mensagem) {
                 Toast.makeText(ListaTurnos.this, mensagem, Toast.LENGTH_LONG).show();
             }
+        });
+
+        buttonCriarTurnos.setOnClickListener(v -> {
+            Intent intent = new Intent(ListaTurnos.this, CriarTurnos.class);
+            startActivity(intent);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

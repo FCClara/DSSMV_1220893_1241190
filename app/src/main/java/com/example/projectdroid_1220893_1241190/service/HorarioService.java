@@ -27,4 +27,9 @@ public class HorarioService {
         String json = NetworkHandler.get(ctx, "horario");
         return new ArrayList<>(JsonHandler.deSeralize2JsonHorarioDTO(json));
     }
+
+    public static void adicionarTurno(Context ctx, TurnoDTO dto) throws Exception{
+        String body = JsonHandler.serialize2JsonTurno(dto);
+        NetworkHandler.post(ctx,"turnos", body);
+    }
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
+import com.example.projectdroid_1220893_1241190.model.Dia;
 import com.example.projectdroid_1220893_1241190.service.HorarioService;
 
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class TurnosController {
     }
     public interface DiasCallback {
         void onSucesso(List<DiaDTO> dias);
+        void onErro(String mensagem);
+    }
+
+    public interface CriarCallback{
+        void onSucesso();
         void onErro(String mensagem);
     }
 
@@ -72,6 +78,46 @@ public class TurnosController {
             } catch (Exception e) {
                 mainHandler.post(() -> cb.onErro("Erro a carregar turnos"));
                 Log.e("TurnosController", "erro" + e.getMessage(), e);
+            }
+        });
+    }
+
+    public void createTurnos(String id, String horaEntrada, String horaSaida, CriarCallback cb ){
+
+        if (id == null || id.trim().isEmpty()) {
+            cb.onErro("Dia invalido");
+            return;
+        }
+
+        if (horaEntrada == null || horaEntrada.trim().isEmpty()) {
+            cb.onErro("Hora Entrada invalida");
+            return;
+        }
+        if (horaSaida == null || horaSaida.trim().isEmpty()) {
+            cb.onErro("Hora Saida invalido");
+            return;
+        }
+
+        // o restdb guarda as horas desta forma, ent temos de mandar com o formato correto
+        String horaEntradaApi = "1970-01-01T" + horaEntrada + ":00.000Z";
+        String horaSaidaApi = "1970-01-01T" + horaSaida + ":00.000Z";
+
+        DiaDTO dia = new DiaDTO();
+        dia.setId(id);
+
+        TurnoDTO turno = new TurnoDTO();
+        turno.setDia(dia);
+        turno.setHoraEntrada(horaEntradaApi);
+        turno.setHoraSaida(horaSaidaApi);
+
+
+        executor.execute(()->  {
+            try{
+                HorarioService.adicionarTurno(ctx,turno);
+                Log.d("LOGONERRO", "LO" + dia);
+                mainHandler.post(() -> cb.onSucesso());
+            } catch (Exception e) {
+                mainHandler.post(()-> cb.onErro("Erro:" + e.getMessage()));
             }
         });
     }

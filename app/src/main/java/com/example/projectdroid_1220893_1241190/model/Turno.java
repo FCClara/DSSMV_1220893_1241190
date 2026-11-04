@@ -1,15 +1,13 @@
 package com.example.projectdroid_1220893_1241190.model;
 
-import java.time.LocalTime;
-
 public class Turno {
 
     private String id;
     private Dia dia;
-    private LocalTime HoraEntrada;
-    private LocalTime HoraSaida;
+    private String HoraEntrada;
+    private String HoraSaida;
 
-    public Turno(String id, Dia dia, LocalTime horaEntrada, LocalTime horaSaida) {
+    public Turno(String id, Dia dia, String horaEntrada, String horaSaida) {
         this.id = id;
         this.dia = dia;
         this.HoraEntrada = horaEntrada;
@@ -32,19 +30,19 @@ public class Turno {
         this.dia = dia;
     }
 
-    public LocalTime getHoraEntrada() {
+    public String getHoraEntrada() {
         return HoraEntrada;
     }
 
-    public void setHoraEntrada(LocalTime horaEntrada) {
+    public void setHoraEntrada(String horaEntrada) {
         this.HoraEntrada = horaEntrada;
     }
 
-    public LocalTime getHoraSaida() {
+    public String getHoraSaida() {
         return HoraSaida;
     }
 
-    public void setHoraSaida(LocalTime horaSaida) {
+    public void setHoraSaida(String horaSaida) {
         this.HoraSaida = horaSaida;
     }
 }

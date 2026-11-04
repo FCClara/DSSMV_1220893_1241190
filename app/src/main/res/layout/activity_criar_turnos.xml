@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CriarTurnos">
+
+    <TextView
+        android:id="@+id/tvNovoTurno"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="73dp"
+        android:gravity="center"
+        android:text="Novo Turno"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHoraEntradaCriar"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginBottom="61dp"
+        android:gravity="center"
+        android:text="Hora de entrada:"
+        app:layout_constraintBottom_toTopOf="@+id/tvHoraSaidaCriar"
+        app:layout_constraintEnd_toStartOf="@+id/edtHoraEntrada"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNovoTurno" />
+
+    <TextView
+        android:id="@+id/tvHoraSaidaCriar"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="61dp"
+        android:gravity="center"
+        android:text="Hora de saida:"
+        app:layout_constraintEnd_toStartOf="@+id/edtHoraSaida"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHoraEntradaCriar" />
+
+
+    <EditText
+        android:id="@+id/edtHoraEntrada"
+        android:layout_width="90dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="65dp"
+        android:inputType="number"
+        android:maxLength="5"
+        android:hint="HH:MM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvHoraEntradaCriar"
+        app:layout_constraintTop_toBottomOf="@+id/tvNovoTurno" />
+
+    <EditText
+        android:id="@+id/edtHoraSaida"
+        android:layout_width="90dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="61dp"
+        android:inputType="number"
+        android:maxLength="5"
+        android:hint="HH:MM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvHoraSaidaCriar"
+        app:layout_constraintTop_toBottomOf="@+id/edtHoraEntrada" />
+
+    <Button
+        android:id="@+id/buttonCriarTurnos"
+        android:layout_width="208dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Criar Turno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDiasCriarTurno" />
+
+    <Spinner
+        android:id="@+id/spinnerDiasCriarTurno"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHoraSaidaCriar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
