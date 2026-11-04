@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class FuncionarioService {
 
-    public static ArrayList<FuncionarioDTO> obterFuncionarios(Context ctx) throws Exception{
+    public static ArrayList<FuncionarioDTO> obterFuncionarios(Context ctx) throws Exception {
         String json = NetworkHandler.get(ctx, "pessoas");
         return new ArrayList<>(JsonHandler.deSerializeJson2ListFuncionarioDTO(json));
     }

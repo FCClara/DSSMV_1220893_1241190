@@ -14,11 +14,10 @@ import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
 import java.util.List;
 
 public class FuncionarioAdapter extends RecyclerView.Adapter<FuncionarioAdapter.ViewHolder>{
-
     private final List<FuncionarioDTO> lista;
     private final OnFuncionarioClickListener listener;
 
-    public interface OnFuncionarioClickListener {
+    public interface OnFuncionarioClickListener{
         void onFuncionarioClick(FuncionarioDTO funcionario);
     }
 

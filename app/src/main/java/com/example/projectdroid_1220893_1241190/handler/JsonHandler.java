@@ -15,8 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -240,7 +238,7 @@ public class JsonHandler {
 
             FuncionarioDTO dto = new FuncionarioDTO();
             dto.setNome(object.optString("Nome",""));
-            dto.setFuncao(object.optString("Funcao",""));
+            dto.setFuncao(extractString(object.opt("Funcao"), "funcao"));
             dto.setEmail(object.optString("email", ""));
             dto.setMorada(object.optString("morada",""));
             dto.setNif(object.optInt("NIF",0));

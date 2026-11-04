@@ -49,6 +49,14 @@
             android:name=".ui.ListaProdutos"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ListaFuncionarios"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.DetalhesFuncionario"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDECIES"
@@ -56,10 +64,6 @@
 
         <activity
             android:name=".ui.Preco"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.FichaFuncionario"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 

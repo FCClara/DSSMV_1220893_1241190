@@ -1,6 +1,6 @@
 package com.example.projectdroid_1220893_1241190.dto;
 
-public class FuncionarioDTO {
+public class FuncionarioDTO implements java.io.Serializable {
     private String id;
     private String nome;
     private String funcao;
