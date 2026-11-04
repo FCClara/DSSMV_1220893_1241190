@@ -31,7 +31,7 @@ public class Funcionario extends AppCompatActivity {
     private EditText editTextTipo;
     private Button buttonAdicionarTipo;
 
-    private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaTurnos;
+    private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaTurnos,buttonGoListaFuncionarios;
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
     @Override
@@ -49,16 +49,17 @@ public class Funcionario extends AppCompatActivity {
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
         buttonGoHorario = findViewById(R.id.buttonGoHorario);
         buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
+        buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
-             configurarOpcoesFuncionario();
-            // configurarOpcoesGerente();
-            // configurarOpcoesDono();
+            configurarOpcoesFuncionario();
+            configurarOpcoesGerente();
+            //configurarOpcoesDono();
 
         } else if ("GERENTE".equals(userRole)) {
-             configurarOpcoesFuncionario();
-            // configurarOpcoesGerente();
+            configurarOpcoesFuncionario();
+            configurarOpcoesGerente();
         } else {
              configurarOpcoesFuncionario();
         }
@@ -200,7 +201,10 @@ public class Funcionario extends AppCompatActivity {
     }
 
     private void configurarOpcoesGerente() {
-
+        buttonGoListaFuncionarios.setVisibility(View.VISIBLE);
+        buttonGoListaFuncionarios.setOnClickListener(v -> {
+            startActivity(new Intent(Funcionario.this, ListaFuncionarios.class));
+        });
     }
 
     private void configurarOpcoesDono(){
