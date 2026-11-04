@@ -36,22 +36,20 @@ nao ha posicao nem seccao
 fornecedor
 nome e produtos
 
---//-- Divisao de tarefas
 
-Main Activity - meter butao de funcionario. gerente e dono
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-Adicionar fornecedor - Clara
+ficha funcionario -> tabela de horario da pessoa
+ficha funcionario(funcionario) -> button pra trocar horario -> selecionar o turno que quer mudar -> turnos do mesmo dia
+(trocas de horario imediatas, pedidos por verificar se houver tempo)
 
-Adicionar Produto - Gabi
+ficha funcionario(gerente/dono) -> button para adicionar turno ao horario -> cria um turno para o dia selecionado
 
-Adicionar Funcionario - Gabi
+lista de horario mantem-se
 
-GABI FAZ O PRODUTO DTO JA!!!!!!!! - FEITO
+CRIAR FUNCIONARIO
+CRIAR TIPO
+CRIAR PRODUTO
+ADICIONAR STOCK A PRODUTO
 
-PAGINA LISTA PRODUTOS - GABRIEL
-
-HISTORICO MUDANCAS PRODUTO - GABRIEL / CLARA
-
-ACOES PRODUTO - CLARA
-
-MUDANCA DE LOCALIZACAO PRODUTO - GABRIEL / CLARA
+criar fornecedor, em conjunto com produto ou separado?
