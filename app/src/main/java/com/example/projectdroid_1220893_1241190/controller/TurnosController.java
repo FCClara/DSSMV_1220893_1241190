@@ -51,6 +51,10 @@ public class TurnosController {
         void onErro(String mensagem);
     }
 
+    public interface DadosHorarioCallback {
+        void onSucesso(List<DiaDTO> dias, List<TurnoDTO> turnos, List<HorarioDTO> horarios);
+        void onErro(String mensagem);
+    }
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -59,6 +63,41 @@ public class TurnosController {
 
     public TurnosController(Context context ){this.ctx = context.getApplicationContext();}
 
+    // ------------------HORARIO------------
+
+    public void obterDadosHorario(DadosHorarioCallback cb) {
+        executor.execute(() -> {
+            try {
+                List<DiaDTO> dias = HorarioService.obterDias(ctx);
+                List<TurnoDTO> turnos = HorarioService.obterTurnos(ctx);
+                List<HorarioDTO> horarios = HorarioService.obterHorario(ctx);
+                mainHandler.post(() -> cb.onSucesso(dias, turnos, horarios));
+            } catch (Exception e) {
+                mainHandler.post(() -> cb.onErro("Erro ao carregar horário: " + e.getMessage()));
+            }
+        });
+    }
+
+    public List<LinhaHorario> montarLinhasDoDia(String nomeDia,
+                                                List<HorarioDTO> horarios,
+                                                Map<String, TurnoDTO> turnoPorId) {
+        List<LinhaHorario> resultado = new ArrayList<>();
+        if (nomeDia == null || horarios == null) return resultado;
+
+        for (HorarioDTO h : horarios) {
+            if (h == null || h.getFuncionario() == null) continue;
+
+            String turnoId = h.getTurnoDoDia(nomeDia);
+            if (turnoId == null || turnoId.isEmpty()) continue;
+
+            TurnoDTO t = turnoPorId.get(turnoId);
+            if (t == null) continue;
+
+            resultado.add(new LinhaHorario(
+                    h.getFuncionario().getNome(), t.getHoraEntrada(), t.getHoraSaida()));
+        }
+        return resultado;
+    }
     // ---------- OBTER DIAS ---------------
 
     public void obterDias(DiasCallback cb) {

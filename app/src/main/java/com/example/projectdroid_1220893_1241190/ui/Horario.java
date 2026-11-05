@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.adapter.HorarioAdapter;
+import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.LinhaHorario;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
-import com.example.projectdroid_1220893_1241190.service.HorarioService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +43,8 @@ public class Horario extends AppCompatActivity {
     private final List<LinhaHorario> linhas = new ArrayList<>();
     private HorarioAdapter horarioAdapter;
 
+    private TurnosController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,8 @@ public class Horario extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(horarioAdapter);
 
+        controller = new TurnosController(this);
+
         carregarDados();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -68,35 +72,24 @@ public class Horario extends AppCompatActivity {
 
     // Carrega tudo uma vez; depois o spinner só filtra em memória
     private void carregarDados() {
-        new Thread(() -> {
-            try {
+        controller.obterDadosHorario(new TurnosController.DadosHorarioCallback() {
+            @Override
+            public void onSucesso(List<DiaDTO> dias, List<TurnoDTO> turnos, List<HorarioDTO> horarios) {
+                listaDias = new ArrayList<>(dias);
+                listaHorarios = new ArrayList<>(horarios);
 
-                ArrayList<DiaDTO> dias = HorarioService.obterDias(Horario.this);
-                Log.d("HORARIO_DEBUG", "yes" + dias);
-                List<TurnoDTO> turnos = HorarioService.obterTurnos(Horario.this);
-                Log.d("HORARIO_DEBUG", "2. Turnos recebidos: " + turnos);
-                List<HorarioDTO> horarios = HorarioService.obterHorario(Horario.this);
-                Log.d("HORARIO_DEBUG", "3. Horarios recebidos: " + horarios);
-
-                runOnUiThread(() -> {
-                    listaDias = dias != null ? dias : new ArrayList<>();
-                    listaHorarios = horarios != null ? horarios : new ArrayList<>();
-
-                    turnoPorId.clear();
-                    if (turnos != null) {
-                        for (TurnoDTO t : turnos) {
-                            if (t != null) turnoPorId.put(t.getId(), t);
-                        }
-                    }
-                    configSpinner();
-                    Log.d("passou", "passou");
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() ->
-                        Toast.makeText(Horario.this, "Erro ao carregar horário", Toast.LENGTH_SHORT).show());
+                turnoPorId.clear();
+                for (TurnoDTO t : turnos) {
+                    if (t != null) turnoPorId.put(t.getId(), t);
+                }
+                configSpinner();
             }
-        }).start();
+
+            @Override
+            public void onErro(String mensagem) {
+                Toast.makeText(Horario.this, mensagem, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void configSpinner() {
@@ -129,37 +122,7 @@ public class Horario extends AppCompatActivity {
 
     private void mostrarDia(String nomeDia) {
         linhas.clear();
-        Log.d("HORARIO_DEBUG", "mostrarDia '" + nomeDia + "' | horarios=" + listaHorarios.size()
-                + " | turnos no mapa=" + turnoPorId.size());
-
-        for (HorarioDTO h : listaHorarios) {
-            String func = h.getFuncionario() != null ? h.getFuncionario().getNome() : "null";
-            String turnoId = h.getTurnoDoDia(nomeDia);
-
-            Log.d("HORARIO_DEBUG", "func=" + func + " | chaves=" + h.getId()
-                    + " | turnoId='" + turnoId + "'");
-
-            if (turnoId == null || turnoId.isEmpty()) {
-                Log.w("HORARIO_DEBUG", "  -> SALTOU: sem turnoId para este dia");
-                continue;
-            }
-
-            TurnoDTO t = turnoPorId.get(turnoId);
-            if (t == null) {
-                Log.w("HORARIO_DEBUG", "  -> SALTOU: turno '" + turnoId + "' nao existe no mapa. Ids no mapa: "
-                        + turnoPorId.keySet());
-                continue;
-            }
-
-            if (h.getFuncionario() == null) {
-                Log.w("HORARIO_DEBUG", "  -> SALTOU: funcionario null");
-                continue;
-            }
-
-            linhas.add(new LinhaHorario(func, t.getHoraEntrada(), t.getHoraSaida()));
-        }
-
-        Log.d("HORARIO_DEBUG", "Linhas finais: " + linhas.size());
+        linhas.addAll(controller.montarLinhasDoDia(nomeDia, listaHorarios, turnoPorId));
         horarioAdapter.notifyDataSetChanged();
     }
 }

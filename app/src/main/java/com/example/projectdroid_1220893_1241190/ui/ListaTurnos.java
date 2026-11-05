@@ -72,10 +72,10 @@ public class ListaTurnos extends AppCompatActivity {
             }
         });
 
-        buttonCriarTurnos.setOnClickListener(v -> {
+        /*buttonCriarTurnos.setOnClickListener(v -> {
             Intent intent = new Intent(ListaTurnos.this, CriarTurnos.class);
             startActivity(intent);
-        });
+        });*/
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
