@@ -1,6 +1,8 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectdroid_1220893_1241190.R;
-import com.example.projectdroid_1220893_1241190.adapter.HorarioAdapter;
 import com.example.projectdroid_1220893_1241190.adapter.HorarioFuncAdapter;
 import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
-import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.LinhaHorario;
-import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
 
 public class DetalhesFuncionario extends AppCompatActivity {
 
@@ -33,6 +32,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
     private HorarioFuncAdapter horarioFuncAdapter;
     private TurnosController controller;
 
+    private Button buttonGoGo;
 
 
     @Override
@@ -41,6 +41,8 @@ public class DetalhesFuncionario extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detalhes_funcionario);
 
+        String userRole = getIntent().getStringExtra("USER_ROLE");
+
         tvNome = findViewById(R.id.nomeFuncionario);
         tvFuncao = findViewById(R.id.funcaoFuncionario);
         tvEmail = findViewById(R.id.emailFuncionario);
@@ -48,6 +50,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
         tvNIF = findViewById(R.id.nifFuncionario);
         tvnCartao = findViewById(R.id.nCartaoFuncionario);
         tvSalario = findViewById(R.id.salarioFuncionario);
+        buttonGoGo = findViewById(R.id.buttonGoGo);
 
         rv = findViewById(R.id.rvDetalhesHorarioFunc);
 
@@ -72,6 +75,24 @@ public class DetalhesFuncionario extends AppCompatActivity {
 
         preencherDetalhes(f);
         preencherHorario(f);
+        if("GERENTE".equals(userRole) || "DONO".equals(userRole)){
+            buttonGoGo.setText("Criar Turno");
+            buttonGoGo.setOnClickListener( v -> {
+                Intent intent = new Intent(
+                        DetalhesFuncionario.this, CriarTurnos.class
+                );
+                intent.putExtra("FUNC_ID", f.getId());
+                startActivity(intent);
+
+        });} else if ("FUNCIONARIO".equals(userRole)){
+            buttonGoGo.setText("Pedir mudanca de Turno");
+            buttonGoGo.setOnClickListener( v -> {
+                Intent intent = new Intent(
+                        DetalhesFuncionario.this, Preco.class
+                );
+                startActivity(intent);
+            });
+        }
 }
     private void preencherDetalhes(FuncionarioDTO f) {
         tvNome.setText(f.getNome());
@@ -85,7 +106,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
 
 
     private void preencherHorario(FuncionarioDTO f) {
-        controller.obterHorarioFuncionario(f.getId(), new TurnosController.HorarioFuncCallback() {
+        controller.obterHorarioIndividualFuncionario(f.getId(), new TurnosController.HorarioFuncIndividualCallback() {
             @Override
             public void onSucesso(List<LinhaHorario> resultado) {
                 linhas.clear();

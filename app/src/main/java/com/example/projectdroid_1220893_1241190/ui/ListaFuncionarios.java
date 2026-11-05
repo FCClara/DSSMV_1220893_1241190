@@ -31,12 +31,15 @@ public class ListaFuncionarios extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lista_funcionarios);
 
+        String userRole = getIntent().getStringExtra("USER_ROLE");
+
         RecyclerView rv = findViewById(R.id.recyclerFuncionarios);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new FuncionarioAdapter(lista, f -> {
                 Intent intent = new Intent(this, DetalhesFuncionario.class);
                 intent.putExtra("FUNCIONARIO", f);
+                intent.putExtra("USER_ROLE", userRole);
                 startActivity(intent);
     });
         rv.setAdapter(adapter);

@@ -2,8 +2,6 @@ package com.example.projectdroid_1220893_1241190.ui;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
+import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,9 @@ public class CriarTurnos extends AppCompatActivity {
     private Spinner spinnerDiaCriar;
 
     private ArrayList<DiaDTO> listaDias = new ArrayList<>();
+    private final ArrayList<DiaDTO> diasDisponiveis = new ArrayList<>(); // os que o spinner mostra
+
+    private HorarioDTO horarioFuncionario; // pode ficar null
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,15 @@ public class CriarTurnos extends AppCompatActivity {
         aplicarMascaraHora(edtHoraEntrada);
         aplicarMascaraHora(edtHoraSaida);
 
+        String funcId = getIntent().getStringExtra("FUNC_ID");
+        Log.d("FUNC_ID", "SHDJ" + funcId);
+
         new TurnosController(this).obterDias(new TurnosController.DiasCallback() {
             @Override
             public void onSucesso(List<DiaDTO> dias) {
                 listaDias.clear();
                 listaDias.addAll(dias);
-                configUI();   // now there is data
+                configUI(funcId);
             }
 
             @Override
@@ -62,6 +67,19 @@ public class CriarTurnos extends AppCompatActivity {
                 Toast.makeText(CriarTurnos.this, mensagem, Toast.LENGTH_LONG).show();
             }
         });
+
+        new TurnosController(this).obterHorarioDTODoFuncionario(funcId,
+                new TurnosController.HorarioDoFuncCallback() {
+                    @Override
+                    public void onSucesso(HorarioDTO horario) {
+                        horarioFuncionario = horario;
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        Toast.makeText(CriarTurnos.this, mensagem, Toast.LENGTH_LONG).show();
+                    }
+                });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -96,12 +114,27 @@ public class CriarTurnos extends AppCompatActivity {
             }
         });
     }
-    private void configUI() {
+    private void configUI(String funcId) {
+        diasDisponiveis.clear();
         ArrayList<String> nomesDias = new ArrayList<>();
+
         for (DiaDTO d : listaDias) {
-            if (d != null && d.getDia() != null) {
+            if (d == null || d.getDia() == null) continue;
+
+            // mesma chave que se usa no obterHorarioFuncionario (nome do dia)
+            boolean jaTemTurno = horarioFuncionario != null
+                    && horarioFuncionario.getTurnoDoDia(d.getDia()) != null;
+
+            if (!jaTemTurno) {
+                diasDisponiveis.add(d);
                 nomesDias.add(d.getDia());
             }
+        }
+
+        if (diasDisponiveis.isEmpty()) {
+            Toast.makeText(this, "Este funcionário já tem turno em todos os dias",
+                    Toast.LENGTH_LONG).show();
+            criarTurno.setEnabled(false);
         }
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
@@ -109,10 +142,10 @@ public class CriarTurnos extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDiaCriar.setAdapter(spinnerAdapter);
 
-        criarTurno.setOnClickListener(v -> validarECriar());
+        criarTurno.setOnClickListener(v -> validarECriar(funcId));
     }
 
-    private void validarECriar() {
+    private void validarECriar(String funcId) {
         String horaEntrada = edtHoraEntrada.getText().toString().trim();
         String horaSaida = edtHoraSaida.getText().toString().trim();
 
@@ -132,21 +165,51 @@ public class CriarTurnos extends AppCompatActivity {
             Toast.makeText(this, "Escolha um dia", Toast.LENGTH_SHORT).show();
             return;
         }
+        int pos = spinnerDiaCriar.getSelectedItemPosition();
+        if (pos < 0 || pos >= diasDisponiveis.size()) {
+            Toast.makeText(this, "Escolha um dia", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //pra ver o dia, mas manda o id
-        String dia = spinnerDiaCriar.getSelectedItem().toString();
-        String id = listaDias.get(spinnerDiaCriar.getSelectedItemPosition()).getId();
-        Log.d("TURNODIAYES", dia + " " + horaEntrada + " -> " + horaSaida + ""+id);
-        // aqui chamas o controller para criar o turno
-        new TurnosController(CriarTurnos.this).createTurnos(id, horaEntrada, horaSaida,
+        DiaDTO diaEscolhido = diasDisponiveis.get(pos);
+        String diaId = diaEscolhido.getId();
+        String diaNome = diaEscolhido.getDia();
+
+        criarTurno.setEnabled(false); // evita duplo clique
+        //Log.d("TURNODIAYES", dia + " " + horaEntrada + " -> " + horaSaida + ""+id);
+
+        // controller pra criar o turno
+        new TurnosController(CriarTurnos.this).createTurnos(diaId, horaEntrada, horaSaida,
                 new TurnosController.CriarCallback() {
                     @Override
-                    public void onSucesso() {
-                        Toast.makeText(CriarTurnos.this, "Turno criado", Toast.LENGTH_SHORT).show();
-                        finish();   // volta ao ecrã anterior
+                    public void onSucesso(String turnoId) {
+                        //criou com sucesso entra agora associa
+                        new TurnosController(CriarTurnos.this).associarTurnoAoHorario(funcId, horarioFuncionario, diaNome, turnoId,
+                                new TurnosController.AssociarCallback() {
+                                    @Override
+                                    public void onSucesso() {
+                                        Toast.makeText(CriarTurnos.this,
+                                                "Turnos criado e associado", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onErro(String mensagem) {
+                                        criarTurno.setEnabled(true);
+                                        Toast.makeText(CriarTurnos.this,
+                                                "Turno criado mas nao associado", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
+                        //Toast.makeText(CriarTurnos.this, "Turno criado", Toast.LENGTH_SHORT).show();
+                        //finish();   // volta ao ecrã anterior
                     }
 
                     @Override
                     public void onErro(String mensagem) {
+                        criarTurno.setEnabled(true);
                         Toast.makeText(CriarTurnos.this, mensagem, Toast.LENGTH_LONG).show();
                         Log.d("LOGDOERRO","WOA" + mensagem);
                     }

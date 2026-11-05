@@ -55,15 +55,15 @@ public class Funcionario extends AppCompatActivity {
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
-            configurarOpcoesFuncionario();
-            configurarOpcoesGerente();
+            configurarOpcoesFuncionario(userRole);
+            configurarOpcoesGerente(userRole);
             //configurarOpcoesDono();
 
         } else if ("GERENTE".equals(userRole)) {
-            configurarOpcoesFuncionario();
-            configurarOpcoesGerente();
+            configurarOpcoesFuncionario(userRole);
+            configurarOpcoesGerente(userRole);
         } else {
-             configurarOpcoesFuncionario();
+             configurarOpcoesFuncionario(userRole);
         }
 
 
@@ -115,7 +115,7 @@ public class Funcionario extends AppCompatActivity {
                 });
     }
 
-    private void configurarOpcoesFuncionario() {
+    private void configurarOpcoesFuncionario(String userRole) {
 
         buttonGoListProdutos.setVisibility(View.VISIBLE);
         buttonGoListProdutos.setOnClickListener( v -> {
@@ -168,13 +168,27 @@ public class Funcionario extends AppCompatActivity {
                         Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     });
         });
+        buttonGoListaFuncionarios.setVisibility(View.VISIBLE);
+
+        buttonGoListaFuncionarios.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Funcionario.this, ListaFuncionarios.class
+            );
+            intent.putExtra("USER_ROLE", userRole);
+            startActivity(intent);
+        });
 
     }
 
-    private void configurarOpcoesGerente() {
+    private void configurarOpcoesGerente(String userRole) {
         buttonGoListaFuncionarios.setVisibility(View.VISIBLE);
+
         buttonGoListaFuncionarios.setOnClickListener(v -> {
-            startActivity(new Intent(Funcionario.this, ListaFuncionarios.class));
+            Intent intent = new Intent(
+                    Funcionario.this, ListaFuncionarios.class
+            );
+            intent.putExtra("USER_ROLE", userRole);
+            startActivity(intent);
         });
     }
 

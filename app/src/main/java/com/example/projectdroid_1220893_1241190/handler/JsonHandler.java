@@ -174,6 +174,19 @@ public class JsonHandler {
         return list;
     }
 
+    //isto esta agora fora do deseralize pq usa-se no campoDia que por sua fez usamos no service
+    private static final String[] CAMPOS_TURNO = {"TurnoSegunda", "TurnoTerca", "TurnoQuarta",
+            "TurnoQuinta", "TurnoSexta", "TurnoSabado", "TurnoDomingo"};
+    private static final String[] NOMES_DIA = {"Segunda", "Terça", "Quarta", "Quinta",
+            "Sexta", "Sábado", "Domingo"};
+
+    public static String campoDoDia(String nomeDia) {
+        for (int i = 0; i < NOMES_DIA.length; i++) {
+            if (NOMES_DIA[i].equalsIgnoreCase(nomeDia)) return CAMPOS_TURNO[i];
+        }
+        return null;
+    }
+
     public static List<HorarioDTO> deSeralize2JsonHorarioDTO(String resp) throws JSONException{
         JSONArray jsonArray = new JSONArray(resp);
         List<HorarioDTO> lista = new ArrayList<>();
@@ -197,10 +210,8 @@ public class JsonHandler {
             funcionarioDTO.setNome(extractString(object.opt("Funcionario"), "Nome"));
             dto.setFuncionario(funcionarioDTO);
 
-            String[] campos = {"TurnoSegunda", "TurnoTerca", "TurnoQuarta", "TurnoQuinta",
-                    "TurnoSexta", "TurnoSabado", "TurnoDomingo"};
-            String[] nomesDia = {"Segunda", "Terça", "Quarta", "Quinta",
-                    "Sexta", "Sábado", "Domingo"};
+            String[] campos = CAMPOS_TURNO;
+            String[] nomesDia = NOMES_DIA;
 
             for (int d = 0; d < campos.length; d++) {
                 String turnoId = extractString(object.opt(campos[d]), "_id");

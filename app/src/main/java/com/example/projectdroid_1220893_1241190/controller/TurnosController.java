@@ -9,7 +9,6 @@ import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.LinhaHorario;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
-import com.example.projectdroid_1220893_1241190.model.Dia;
 import com.example.projectdroid_1220893_1241190.service.HorarioService;
 
 import java.util.ArrayList;
@@ -33,15 +32,24 @@ public class TurnosController {
     }
 
     public interface CriarCallback{
-        void onSucesso();
+        void onSucesso(String turnoId);
         void onErro(String mensagem);
     }
 
-    public interface HorarioFuncCallback{
+    public interface HorarioFuncIndividualCallback {
         void onSucesso(List<LinhaHorario> resultado);
         void onErro(String mensagem);
     }
 
+    public interface HorarioDoFuncCallback {
+        void onSucesso(HorarioDTO horario); // pode ser null se ainda não tem horário, mas tem ou nao, é essa a questao tum tum tum
+        void onErro(String mensagem);
+    }
+
+    public interface AssociarCallback {
+        void onSucesso();
+        void onErro(String mensagem);
+    }
 
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -51,6 +59,7 @@ public class TurnosController {
 
     public TurnosController(Context context ){this.ctx = context.getApplicationContext();}
 
+    // ---------- OBTER DIAS ---------------
 
     public void obterDias(DiasCallback cb) {
         executor.execute(() -> {
@@ -62,6 +71,8 @@ public class TurnosController {
             }
         });
     }
+
+   // ------------------- OBTER TURNOS ---------------------
     public void obterTurnos(String nomeDia, TurnoCallback cb){
 
         if (nomeDia == null || nomeDia.trim().isEmpty()) {
@@ -91,6 +102,7 @@ public class TurnosController {
         });
     }
 
+    // ------------------ CRIAR TURNOS -----------------
     public void createTurnos(String id, String horaEntrada, String horaSaida, CriarCallback cb ){
 
         if (id == null || id.trim().isEmpty()) {
@@ -122,20 +134,32 @@ public class TurnosController {
 
         executor.execute(()->  {
             try{
-                HorarioService.adicionarTurno(ctx,turno);
+                String turnoId = HorarioService.adicionarTurno(ctx,turno);
                 Log.d("LOGONERRO", "LO" + dia);
-                mainHandler.post(() -> cb.onSucesso());
+                mainHandler.post(() -> cb.onSucesso(turnoId));
             } catch (Exception e) {
                 mainHandler.post(()-> cb.onErro("Erro:" + e.getMessage()));
             }
         });
     }
 
+    //usamos porque os turnos naao estao por ordem de dias na collection turnos
     private static final String[] ORDEM_DIAS = {
             "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"
     };
 
-    public void obterHorarioFuncionario(String funcId, HorarioFuncCallback cb) {
+    //chama-se nos dois metodos diferentes, eficente -> menos codigo :)
+    private HorarioDTO encontrarHorarioDoFuncionario(List<HorarioDTO> horarios, String funcId) {
+        for (HorarioDTO h : horarios) {
+            if (h == null || h.getFuncionario() == null || h.getFuncionario().getId() == null) continue;
+            if (funcId.equalsIgnoreCase(h.getFuncionario().getId().trim())) {
+                return h;
+            }
+        }
+        return null;
+    }
+    //usamos este para ver o horario individual de cada funcionario no DETALHESFUNCIONARIO
+    public void obterHorarioIndividualFuncionario(String funcId, HorarioFuncIndividualCallback cb) {
 
         if (funcId == null || funcId.trim().isEmpty()) {
             cb.onErro("Funcionario id invalido");
@@ -158,16 +182,10 @@ public class TurnosController {
                 Log.d("wowowow", "wo" + funcId);
 
                 List<LinhaHorario> linhas = new ArrayList<>();
+                HorarioDTO h = encontrarHorarioDoFuncionario(horarios, id);
 
-                for (HorarioDTO h : horarios) {
-                    String hid = h.getFuncionario() != null ? h.getFuncionario().getId() : "null";
-                    Log.d("wowowow", "horario func id = '" + hid + "' | nome = "
-                            + (h.getFuncionario() != null ? h.getFuncionario().getNome() : "null"));
-
-                    if (h.getFuncionario() == null || h.getFuncionario().getId() == null) continue;
-                    if (!id.equalsIgnoreCase(h.getFuncionario().getId().trim())) continue;
-
-                    // Dias pela ordem da semana
+                if(h != null) {
+                    // dias pela ordem da semana
                     for (String dia : ORDEM_DIAS) {
                         String turnoId = h.getTurnoDoDia(dia);
                         if (turnoId == null || turnoId.isEmpty()) continue;
@@ -179,14 +197,51 @@ public class TurnosController {
 
                     }
                     Log.d("wowowow", "wo" + linhas);
-
-
                 }
 
                 new Handler(Looper.getMainLooper()).post(() -> cb.onSucesso(linhas));
 
             } catch (Exception e) {
                 new Handler(Looper.getMainLooper()).post(() -> cb.onErro(e.getMessage()));
+            }
+        });
+    }
+
+    //este usamos para depois podermos adicionar turnos ao horario
+    public void obterHorarioDTODoFuncionario(String funcId, HorarioDoFuncCallback cb) {
+        if (funcId == null || funcId.trim().isEmpty()) {
+            cb.onErro("Funcionario id invalido");
+            return;
+        }
+        String id = funcId.trim();
+
+        executor.execute(() -> {
+            try {
+                List<HorarioDTO> horarios = HorarioService.obterHorario(ctx);
+                HorarioDTO resultado = encontrarHorarioDoFuncionario(horarios, id);
+                new Handler(Looper.getMainLooper()).post(() -> cb.onSucesso(resultado));
+            } catch (Exception e) {
+                new Handler(Looper.getMainLooper()).post(() -> cb.onErro(e.getMessage()));
+            }
+        });
+    }
+
+    //quando criamos o func, ele ja tem um horario automaticamente?
+    //ou adicionamos depois com o criarHorario? !!temos de decidir!!
+    public void associarTurnoAoHorario(String funcId, HorarioDTO horarioExistente,
+                                       String diaChave, String turnoId, AssociarCallback cb) {
+        executor.execute(() -> {
+            try {
+                if (horarioExistente != null) {
+                    // funcionario nao tem horario, estamos a atualizar
+                    HorarioService.atualizarTurnoDoDia(ctx, horarioExistente.getId(), diaChave, turnoId);
+                } else {
+                    // funcionario nao tem horario, cria um novo ja com este turno
+                    //HorarioService.criarHorario(ctx, funcId, diaChave, turnoId);
+                }
+                mainHandler.post(cb::onSucesso);
+            } catch (Exception e) {
+                mainHandler.post(() -> cb.onErro("Erro:" + e.getMessage()));
             }
         });
     }
