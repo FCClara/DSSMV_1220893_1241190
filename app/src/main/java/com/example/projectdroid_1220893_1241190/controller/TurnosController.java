@@ -7,13 +7,16 @@ import android.util.Log;
 
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
+import com.example.projectdroid_1220893_1241190.dto.LinhaHorario;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
 import com.example.projectdroid_1220893_1241190.model.Dia;
 import com.example.projectdroid_1220893_1241190.service.HorarioService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,6 +37,11 @@ public class TurnosController {
         void onErro(String mensagem);
     }
 
+    public interface HorarioFuncCallback{
+        void onSucesso(List<LinhaHorario> resultado);
+        void onErro(String mensagem);
+    }
+
 
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -42,6 +50,7 @@ public class TurnosController {
     private final Context ctx;
 
     public TurnosController(Context context ){this.ctx = context.getApplicationContext();}
+
 
     public void obterDias(DiasCallback cb) {
         executor.execute(() -> {
@@ -118,6 +127,66 @@ public class TurnosController {
                 mainHandler.post(() -> cb.onSucesso());
             } catch (Exception e) {
                 mainHandler.post(()-> cb.onErro("Erro:" + e.getMessage()));
+            }
+        });
+    }
+
+    private static final String[] ORDEM_DIAS = {
+            "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"
+    };
+
+    public void obterHorarioFuncionario(String funcId, HorarioFuncCallback cb) {
+
+        if (funcId == null || funcId.trim().isEmpty()) {
+            cb.onErro("Funcionario id invalido");
+            return;
+        }
+        String id = funcId.trim();
+
+        executor.execute(() -> {
+            try {
+                List<TurnoDTO> turnos = HorarioService.obterTurnos(ctx);
+                List<HorarioDTO> horarios = HorarioService.obterHorario(ctx);
+
+                Log.d("wowowow", "wo" + horarios);
+
+                // turnoId -> TurnoDTO
+                Map<String, TurnoDTO> turnoPorId = new HashMap<>();
+                for (TurnoDTO t : turnos) {
+                    if (t != null) turnoPorId.put(t.getId(), t);
+                }
+                Log.d("wowowow", "wo" + funcId);
+
+                List<LinhaHorario> linhas = new ArrayList<>();
+
+                for (HorarioDTO h : horarios) {
+                    String hid = h.getFuncionario() != null ? h.getFuncionario().getId() : "null";
+                    Log.d("wowowow", "horario func id = '" + hid + "' | nome = "
+                            + (h.getFuncionario() != null ? h.getFuncionario().getNome() : "null"));
+
+                    if (h.getFuncionario() == null || h.getFuncionario().getId() == null) continue;
+                    if (!id.equalsIgnoreCase(h.getFuncionario().getId().trim())) continue;
+
+                    // Dias pela ordem da semana
+                    for (String dia : ORDEM_DIAS) {
+                        String turnoId = h.getTurnoDoDia(dia);
+                        if (turnoId == null || turnoId.isEmpty()) continue;
+
+                        TurnoDTO t = turnoPorId.get(turnoId);
+                        if (t == null) continue;
+
+                        linhas.add(new LinhaHorario(dia, t.getHoraEntrada(), t.getHoraSaida()));
+
+                    }
+                    Log.d("wowowow", "wo" + linhas);
+
+
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> cb.onSucesso(linhas));
+
+            } catch (Exception e) {
+                new Handler(Looper.getMainLooper()).post(() -> cb.onErro(e.getMessage()));
             }
         });
     }

@@ -32,7 +32,7 @@ public class HorarioAdapter extends RecyclerView.Adapter<HorarioAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LinhaHorario l = lista.get(position);
-        holder.tvFuncionario.setText(l.getFuncionario());
+        holder.tvFuncionario.setText(l.getPrimeiraColuna());
         holder.tvHoraEntrada.setText(l.getHoraEntrada());
         holder.tvHoraSaida.setText(l.getHoraSaida());
     }

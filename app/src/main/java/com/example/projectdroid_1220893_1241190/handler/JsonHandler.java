@@ -193,7 +193,7 @@ public class JsonHandler {
             dto.setId(object.optString("_id", ""));
 
             FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
-            funcionarioDTO.setId(extractString(object.optString("Funcionario"), "_id"));
+            funcionarioDTO.setId(extractString(object.opt("Funcionario"), "_id"));
             funcionarioDTO.setNome(extractString(object.opt("Funcionario"), "Nome"));
             dto.setFuncionario(funcionarioDTO);
 
@@ -247,6 +247,7 @@ public class JsonHandler {
             JSONObject object = jsonArray.getJSONObject(i);
 
             FuncionarioDTO dto = new FuncionarioDTO();
+            dto.setId(object.optString("_id",""));
             dto.setNome(object.optString("Nome",""));
             dto.setFuncao(extractString(object.opt("Funcao"), "funcao"));
             dto.setEmail(object.optString("email", ""));
