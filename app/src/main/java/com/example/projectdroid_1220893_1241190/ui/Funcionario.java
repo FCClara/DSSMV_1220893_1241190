@@ -36,6 +36,8 @@ public class Funcionario extends AppCompatActivity {
     private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaTurnos,buttonGoListaFuncionarios;
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
+    private Button buttonGoCriarTipo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,20 +46,19 @@ public class Funcionario extends AppCompatActivity {
 
         String userRole = getIntent().getStringExtra("USER_ROLE");
 
-        editTextTipo = findViewById(R.id.editTextTipo);
-        buttonAdicionarTipo = findViewById(R.id.buttonAdicionarTipo);
         buttonGoListProdutos = findViewById(R.id.buttonGoListProdutos);
         goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
         buttonGoHorario = findViewById(R.id.buttonGoHorario);
         buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
         buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
+        buttonGoCriarTipo = findViewById(R.id.buttonGoCriarTipo);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
             configurarOpcoesFuncionario(userRole);
             configurarOpcoesGerente(userRole);
-            //configurarOpcoesDono();
+            configurarOpcoesDono();
 
         } else if ("GERENTE".equals(userRole)) {
             configurarOpcoesFuncionario(userRole);
@@ -87,18 +88,6 @@ public class Funcionario extends AppCompatActivity {
                 }
         );
     }
-
-
-
-    /*private void mostrarPaginaProduto() {
-
-        // Por enquanto, esconder os elementos de Tipo
-
-        editTextTipo.setVisibility(View.GONE);
-        buttonAdicionarTipo.setVisibility(View.GONE);
-        // Aqui vais colocar os elementos
-        // relacionados com Produto
-    }*/
 
     private void procurarProduto(String codigo) {
         new ProdutoController(this).procurarPorBarcode(codigo,
@@ -193,8 +182,10 @@ public class Funcionario extends AppCompatActivity {
     }
 
     private void configurarOpcoesDono(){
-
-
+        buttonGoCriarTipo.setVisibility(View.VISIBLE);
+        buttonGoCriarTipo.setOnClickListener(v -> {
+            startActivity(new Intent(Funcionario.this, CriarTipo.class));
+        });
     }
 
 }

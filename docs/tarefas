@@ -48,10 +48,11 @@ ficha funcionario(gerente/dono) -> button para adicionar turno ao horario -> cri
 lista de horario mantem-se
 
 CRIAR FUNCIONARIO
+criar fornecedor
+
 CRIAR TIPO
 CRIAR PRODUTO
 ADICIONAR STOCK A PRODUTO
 
-criar fornecedor, em conjunto com produto ou separado?
 
 controller do ui horario e precos
