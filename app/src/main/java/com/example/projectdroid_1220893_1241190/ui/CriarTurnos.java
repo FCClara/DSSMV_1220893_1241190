@@ -19,6 +19,7 @@ import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
+import com.example.projectdroid_1220893_1241190.service.HorarioService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -47,4 +47,8 @@ public class HorarioService {
         body.put(campo, new JSONArray().put(turnoId));
         NetworkHandler.put(ctx, "horario/" + horarioId, body.toString());
     }
+
+    public static void apagarTurno(Context ctx, String turnoId) throws Exception {
+        NetworkHandler.delete(ctx, "turnos/" + turnoId);
+    }
 }

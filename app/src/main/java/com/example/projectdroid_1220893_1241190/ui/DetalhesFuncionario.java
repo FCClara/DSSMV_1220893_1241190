@@ -34,6 +34,9 @@ public class DetalhesFuncionario extends AppCompatActivity {
 
     private Button buttonGoGo;
 
+    private String funcId;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -59,6 +62,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
         rv.setAdapter(horarioFuncAdapter);
 
         controller = new TurnosController(this);
+        funcId = getIntent().getStringExtra("FUNC_ID");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets sb = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -72,9 +76,10 @@ public class DetalhesFuncionario extends AppCompatActivity {
             finish();
             return;
         }
+        funcId = f.getId();
 
         preencherDetalhes(f);
-        preencherHorario(f);
+
         if("GERENTE".equals(userRole) || "DONO".equals(userRole)){
             buttonGoGo.setText("Criar Turno");
             buttonGoGo.setOnClickListener( v -> {
@@ -93,7 +98,12 @@ public class DetalhesFuncionario extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-}
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (funcId != null) preencherHorario();
+    }
     private void preencherDetalhes(FuncionarioDTO f) {
         tvNome.setText(f.getNome());
         tvFuncao.setText("Função: " + f.getFuncao());
@@ -105,8 +115,8 @@ public class DetalhesFuncionario extends AppCompatActivity {
     }
 
 
-    private void preencherHorario(FuncionarioDTO f) {
-        controller.obterHorarioIndividualFuncionario(f.getId(), new TurnosController.HorarioFuncIndividualCallback() {
+    private void preencherHorario() {
+        controller.obterHorarioIndividualFuncionario(funcId, new TurnosController.HorarioFuncIndividualCallback() {
             @Override
             public void onSucesso(List<LinhaHorario> resultado) {
                 linhas.clear();

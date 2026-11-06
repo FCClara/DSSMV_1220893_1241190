@@ -267,13 +267,28 @@ public class TurnosController {
 
     //quando criamos o func, ele ja tem um horario automaticamente?
     //ou adicionamos depois com o criarHorario? !!temos de decidir!!
+    //este horarioExstentem, é o horario do funcionario que veio da acitivty
+    //meti xistente no caso dofuncionario nao ter um hoaraio ja
     public void associarTurnoAoHorario(String funcId, HorarioDTO horarioExistente,
                                        String diaChave, String turnoId, AssociarCallback cb) {
         executor.execute(() -> {
             try {
                 if (horarioExistente != null) {
-                    // funcionario nao tem horario, estamos a atualizar
+                    //ir buscar o id do turno antigo pra poder apagar
+                    String turnoAntigoId = horarioExistente.getTurnoDoDia(diaChave);
+
+                    // funcionario tem horario, estamos a atualizar
                     HorarioService.atualizarTurnoDoDia(ctx, horarioExistente.getId(), diaChave, turnoId);
+
+                    //agr vamos apagar o turno antigo
+                    if (turnoAntigoId != null && !turnoAntigoId.isEmpty()
+                            && !turnoAntigoId.equals(turnoId)) {
+                        try {
+                            HorarioService.apagarTurno(ctx, turnoAntigoId);
+                        } catch (Exception e) {
+                            Log.w("TurnosController", "Nao foi possivel apagar turno antigo " + turnoAntigoId, e);
+                        }
+                    }
                 } else {
                     // funcionario nao tem horario, cria um novo ja com este turno
                     //HorarioService.criarHorario(ctx, funcId, diaChave, turnoId);
@@ -281,6 +296,19 @@ public class TurnosController {
                 mainHandler.post(cb::onSucesso);
             } catch (Exception e) {
                 mainHandler.post(() -> cb.onErro("Erro:" + e.getMessage()));
+            }
+        });
+    }
+
+    public void deleteTurnoHorario(String funcId, HorarioDTO horarioFuncionario,
+                                   String diaChave){
+        executor.execute(() -> {
+            try{
+                if(horarioFuncionario !=null){
+
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         });
     }
