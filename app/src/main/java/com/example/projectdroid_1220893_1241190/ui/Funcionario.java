@@ -37,6 +37,7 @@ public class Funcionario extends AppCompatActivity {
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
     private Button buttonGoCriarTipo;
+    private String userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,27 +45,27 @@ public class Funcionario extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_funcionario);
 
-        String userRole = getIntent().getStringExtra("USER_ROLE");
+        userRole = getIntent().getStringExtra("USER_ROLE");
 
         buttonGoListProdutos = findViewById(R.id.buttonGoListProdutos);
         goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
         buttonGoHorario = findViewById(R.id.buttonGoHorario);
-        buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
+        //buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
         buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
         buttonGoCriarTipo = findViewById(R.id.buttonGoCriarTipo);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
-            configurarOpcoesFuncionario(userRole);
-            configurarOpcoesGerente(userRole);
+            configurarOpcoesFuncionario();
+            configurarOpcoesGerente();
             configurarOpcoesDono();
 
         } else if ("GERENTE".equals(userRole)) {
-            configurarOpcoesFuncionario(userRole);
-            configurarOpcoesGerente(userRole);
+            configurarOpcoesFuncionario();
+            configurarOpcoesGerente();
         } else {
-             configurarOpcoesFuncionario(userRole);
+             configurarOpcoesFuncionario();
         }
 
 
@@ -104,7 +105,7 @@ public class Funcionario extends AppCompatActivity {
                 });
     }
 
-    private void configurarOpcoesFuncionario(String userRole) {
+    private void configurarOpcoesFuncionario() {
 
         buttonGoListProdutos.setVisibility(View.VISIBLE);
         buttonGoListProdutos.setOnClickListener( v -> {
@@ -118,16 +119,17 @@ public class Funcionario extends AppCompatActivity {
 
         goPrecoProduto.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, Preco.class);
+            intent.putExtra("USER_ROLE", userRole);
             startActivity(intent);
         });
         buttonGoHorario.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, Horario.class);
             startActivity(intent);
         });
-        buttonGoListaTurnos.setOnClickListener(v -> {
+       /* buttonGoListaTurnos.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, ListaTurnos.class);
             startActivity(intent);
-        });
+        });*/
 
 
         buttonGoCodigoBarras.setOnClickListener(b -> {
@@ -169,7 +171,7 @@ public class Funcionario extends AppCompatActivity {
 
     }
 
-    private void configurarOpcoesGerente(String userRole) {
+    private void configurarOpcoesGerente() {
         buttonGoListaFuncionarios.setVisibility(View.VISIBLE);
 
         buttonGoListaFuncionarios.setOnClickListener(v -> {

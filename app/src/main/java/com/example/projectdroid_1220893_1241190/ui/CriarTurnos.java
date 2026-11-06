@@ -36,6 +36,8 @@ public class CriarTurnos extends AppCompatActivity {
 
     private HorarioDTO horarioFuncionario; // pode ficar null
 
+    private TurnosController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,9 @@ public class CriarTurnos extends AppCompatActivity {
         String funcId = getIntent().getStringExtra("FUNC_ID");
         Log.d("FUNC_ID", "SHDJ" + funcId);
 
-        new TurnosController(this).obterDias(new TurnosController.DiasCallback() {
+        controller = new TurnosController(this);
+
+        controller.obterDias(new TurnosController.DiasCallback() {
             @Override
             public void onSucesso(List<DiaDTO> dias) {
                 listaDias.clear();
@@ -69,7 +73,7 @@ public class CriarTurnos extends AppCompatActivity {
             }
         });
 
-        new TurnosController(this).obterHorarioDTODoFuncionario(funcId,
+        controller.obterHorarioDTODoFuncionario(funcId,
                 new TurnosController.HorarioDoFuncCallback() {
                     @Override
                     public void onSucesso(HorarioDTO horario) {
@@ -131,7 +135,8 @@ public class CriarTurnos extends AppCompatActivity {
                 nomesDias.add(d.getDia());
             }
         }
-
+        //isto nao ta a funcionar, quero apagar isto mas ta me a quebrar o flow
+        //tenho de resolver
         if (diasDisponiveis.isEmpty()) {
             Toast.makeText(this, "Este funcionário já tem turno em todos os dias",
                     Toast.LENGTH_LONG).show();
@@ -181,12 +186,12 @@ public class CriarTurnos extends AppCompatActivity {
         //Log.d("TURNODIAYES", dia + " " + horaEntrada + " -> " + horaSaida + ""+id);
 
         // controller pra criar o turno
-        new TurnosController(CriarTurnos.this).createTurnos(diaId, horaEntrada, horaSaida,
+        controller.createTurnos(diaId, horaEntrada, horaSaida,
                 new TurnosController.CriarCallback() {
                     @Override
                     public void onSucesso(String turnoId) {
                         //criou com sucesso entra agora associa
-                        new TurnosController(CriarTurnos.this).associarTurnoAoHorario(funcId, horarioFuncionario, diaNome, turnoId,
+                        controller.associarTurnoAoHorario(funcId, horarioFuncionario, diaNome, turnoId,
                                 new TurnosController.AssociarCallback() {
                                     @Override
                                     public void onSucesso() {

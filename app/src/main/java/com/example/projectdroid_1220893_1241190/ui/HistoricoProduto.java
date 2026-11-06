@@ -23,6 +23,8 @@ public class HistoricoProduto extends AppCompatActivity {
     private final ArrayList<HistoricoDTO> lista = new ArrayList<>();
     private HistoricoAdapter adapter;
 
+    private HistoricoController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,9 @@ public class HistoricoProduto extends AppCompatActivity {
         adapter = new HistoricoAdapter(lista);
         rv.setAdapter(adapter);
 
-        new HistoricoController(this).obterHistoricoDoProduto(nomeProduto,
+        controller = new HistoricoController(this);
+
+        controller.obterHistoricoDoProduto(nomeProduto,
                 new HistoricoController.HistoricoCallback() {
                     @Override
                     public void onSucesso(List<HistoricoDTO> historicos) {

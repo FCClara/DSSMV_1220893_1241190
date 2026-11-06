@@ -53,7 +53,6 @@ public class MoverProduto extends AppCompatActivity {
             if (qtd > 0) controller.moverMontraParaLixo(produtoId, armazem, montra, qtd, callback);
         });
     }
-
     private final ProdutoController.MoverCallback callback = new ProdutoController.MoverCallback() {
         @Override
         public void onSucesso(int novoArmazem, int novaMontra) {

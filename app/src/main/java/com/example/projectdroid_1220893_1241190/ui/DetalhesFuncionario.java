@@ -31,11 +31,9 @@ public class DetalhesFuncionario extends AppCompatActivity {
     private final List<LinhaHorario> linhas = new ArrayList<>();
     private HorarioFuncAdapter horarioFuncAdapter;
     private TurnosController controller;
-
     private Button buttonGoGo;
-
     private String funcId;
-
+    private String userRole;
 
 
     @Override
@@ -44,7 +42,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detalhes_funcionario);
 
-        String userRole = getIntent().getStringExtra("USER_ROLE");
+        userRole = getIntent().getStringExtra("USER_ROLE");
 
         tvNome = findViewById(R.id.nomeFuncionario);
         tvFuncao = findViewById(R.id.funcaoFuncionario);
@@ -86,19 +84,21 @@ public class DetalhesFuncionario extends AppCompatActivity {
                 Intent intent = new Intent(
                         DetalhesFuncionario.this, CriarTurnos.class
                 );
-                intent.putExtra("FUNC_ID", f.getId());
+                intent.putExtra("FUNC_ID", funcId);
                 startActivity(intent);
 
         });} else if ("FUNCIONARIO".equals(userRole)){
             buttonGoGo.setText("Pedir mudanca de Turno");
             buttonGoGo.setOnClickListener( v -> {
                 Intent intent = new Intent(
-                        DetalhesFuncionario.this, Preco.class
+                        DetalhesFuncionario.this, ListaTurnos.class
                 );
+                intent.putExtra("FUNC_ID", funcId);
                 startActivity(intent);
             });
         }
     }
+    //da reload quando volta a esta pagina depois de associar o novo turno
     @Override
     protected void onResume(){
         super.onResume();
@@ -118,6 +118,10 @@ public class DetalhesFuncionario extends AppCompatActivity {
     private void preencherHorario() {
         controller.obterHorarioIndividualFuncionario(funcId, new TurnosController.HorarioFuncIndividualCallback() {
             @Override
+            //ele foi busacr o horario do funcionario
+            //estas linhas sao as "linhas" do recycler, que tem a info do horario
+            //dia, horaEntrada, horaSaida
+            //este clear é pra limpar, depois adiiconar o novo resultado, e dizer ao adapter pra dar reload
             public void onSucesso(List<LinhaHorario> resultado) {
                 linhas.clear();
                 linhas.addAll(resultado);

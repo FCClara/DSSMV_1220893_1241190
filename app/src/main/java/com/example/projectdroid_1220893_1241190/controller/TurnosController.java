@@ -290,7 +290,7 @@ public class TurnosController {
                         }
                     }
                 } else {
-                    // funcionario nao tem horario, cria um novo ja com este turno
+                    // funcionario nao tem horario, cria um novo ja com este turno,
                     //HorarioService.criarHorario(ctx, funcId, diaChave, turnoId);
                 }
                 mainHandler.post(cb::onSucesso);
@@ -300,15 +300,60 @@ public class TurnosController {
         });
     }
 
-    public void deleteTurnoHorario(String funcId, HorarioDTO horarioFuncionario,
-                                   String diaChave){
-        executor.execute(() -> {
-            try{
-                if(horarioFuncionario !=null){
+    public void trocarTurno(String meuFuncId, String nomeDia, String turnoClicadoId, AssociarCallback cb) {
+        if (meuFuncId == null || nomeDia == null || turnoClicadoId == null) {
+            cb.onErro("Dados invalidos");
+            return;
+        }
 
+        executor.execute(() -> {
+            try {
+                List<HorarioDTO> horarios = HorarioService.obterHorario(ctx);
+
+                //o funcionario ainda nao esta a ser criado, isto é pra quando ele for criado
+                //e ainda nao tinha horario
+                HorarioDTO func1 = encontrarHorarioDoFuncionario(horarios, meuFuncId.trim());
+                if (func1 == null) {
+                    mainHandler.post(() -> cb.onErro("Não tens horário associado"));
+                    return;
                 }
+
+                // horario que é dono do turno clicado
+                HorarioDTO func2 = null;
+                for (HorarioDTO h : horarios) {
+                    if (h != null && turnoClicadoId.equals(h.getTurnoDoDia(nomeDia))) {
+                        func2 = h;
+                        break;
+                    }
+                }
+                if (func2.getId().equals(func1.getId())) {
+                    mainHandler.post(() -> cb.onErro("Esse turno já é teu"));
+                    return;
+                }
+
+                String func1TurnoId = func1.getTurnoDoDia(nomeDia); // pode ser null
+
+                // eu fico com o turno do outro
+                HorarioService.atualizarTurnoDoDia(ctx, func1.getId(), nomeDia, turnoClicadoId);
+
+                // o outro fica com o meu
+                try {
+                    if (func1TurnoId != null && !func1TurnoId.isEmpty()) {
+                        HorarioService.atualizarTurnoDoDia(ctx, func2.getId(), nomeDia, func1TurnoId);
+                    }
+                } catch (Exception e) {
+                    // desfaz o passo 1 para nao ficarem dois horarios com o mesmo turno
+                    try {
+                        if (func1TurnoId != null && !func1TurnoId.isEmpty()) {
+                            HorarioService.atualizarTurnoDoDia(ctx, func1.getId(), nomeDia, func1TurnoId);
+                        }
+                    } catch (Exception ignored) { }
+                    throw e;
+                }
+
+                mainHandler.post(cb::onSucesso);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                mainHandler.post(() -> cb.onErro("Erro: " + e.getMessage()));
             }
         });
     }

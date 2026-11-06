@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
+import com.example.projectdroid_1220893_1241190.model.Turno;
+import com.example.projectdroid_1220893_1241190.ui.ListaProdutos;
 
 import java.util.List;
 
 public class TurnosAdapter extends RecyclerView.Adapter<TurnosAdapter.ViewHolder> {
 
     private final List<TurnoDTO> lista;
+    private final OnTurnoClickListener listener;
 
-    public TurnosAdapter(List<TurnoDTO> lista) {
+    public interface OnTurnoClickListener{
+        void onTurnoClick(TurnoDTO turno);
+    }
+    public TurnosAdapter(List<TurnoDTO> lista, OnTurnoClickListener listener) {
         this.lista = lista;
+        this.listener = listener;
     }
 
     @NonNull
@@ -35,6 +43,10 @@ public class TurnosAdapter extends RecyclerView.Adapter<TurnosAdapter.ViewHolder
         TurnoDTO d = lista.get(position);
         holder.tvHoraEntrada.setText(String.valueOf(d.getHoraEntrada()));
         holder.tvHoraSaida.setText(d.getHoraSaida());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onTurnoClick(d);
+        });
     }
 
     @Override
@@ -51,4 +63,5 @@ public class TurnosAdapter extends RecyclerView.Adapter<TurnosAdapter.ViewHolder
             tvHoraSaida= itemView.findViewById(R.id.tvHoraSaidaTurno);
         }
     }
+
 }

@@ -29,10 +29,12 @@ public class PrecoAdapter extends RecyclerView.Adapter<PrecoAdapter.ViewHolder> 
         void onPrecoClick(ProdutoDTO produto);
     }
 
+    private String userRole;
 
-    public PrecoAdapter(List<ProdutoDTO> produtos, OnPrecoClickListener listener) {
+    public PrecoAdapter(List<ProdutoDTO> produtos, OnPrecoClickListener listener, String userRole) {
         this.produtos = produtos;
         this.listener = listener;
+        this.userRole = userRole;
     }
 
     public void setPrecoMedio(int position, double media) {
@@ -69,17 +71,18 @@ public class PrecoAdapter extends RecyclerView.Adapter<PrecoAdapter.ViewHolder> 
             } else {
                 holder.tvPrecoMedio.setText("--");
             }
-            holder.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(
-                        v.getContext(),
-                        MudarPreco.class
-                );
+            if("DONO".equals(userRole)){
+                holder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(
+                            v.getContext(),
+                            MudarPreco.class
+                    );
 
-                intent.putExtra("produtoId", p.getId());
-                intent.putExtra("preco", p.getPreco());
+                    intent.putExtra("produtoId", p.getId());
+                    intent.putExtra("preco", p.getPreco());
 
-                v.getContext().startActivity(intent);
-            });
+                    v.getContext().startActivity(intent);
+            });}
 
     }
 

@@ -51,4 +51,6 @@ public class HorarioService {
     public static void apagarTurno(Context ctx, String turnoId) throws Exception {
         NetworkHandler.delete(ctx, "turnos/" + turnoId);
     }
+
+    //falta o tal criar horario e associar ao funcionario
 }

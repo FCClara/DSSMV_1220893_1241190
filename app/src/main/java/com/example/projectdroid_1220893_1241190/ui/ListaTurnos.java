@@ -23,6 +23,7 @@ import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.adapter.TurnosAdapter;
 import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
+import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
 
 import java.util.ArrayList;
@@ -40,13 +41,21 @@ public class ListaTurnos extends AppCompatActivity {
 
     private Button buttonCriarTurnos;
 
+    private String funcId;
+
     private TurnosAdapter turnosAdapter;
+    private String diaSelecionado;
+
+    private TurnosController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lista_turnos);
+
+        funcId = getIntent().getStringExtra("FUNC_ID");
+        controller = new TurnosController(this);
 
 
         tvTurnos = findViewById(R.id.tvTurnos);
@@ -55,10 +64,10 @@ public class ListaTurnos extends AppCompatActivity {
         buttonCriarTurnos= findViewById(R.id.buttonCriarTurnos);
         rv = findViewById(R.id.rvTurnosLista);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        turnosAdapter = new TurnosAdapter(listaTurnos);
+        turnosAdapter = new TurnosAdapter(listaTurnos, this::confirmarTroca);
         rv.setAdapter(turnosAdapter);
 
-        new TurnosController(this).obterDias(new TurnosController.DiasCallback() {
+        controller.obterDias(new TurnosController.DiasCallback() {
             @Override
             public void onSucesso(List<DiaDTO> dias) {
                 listaDias.clear();
@@ -72,10 +81,6 @@ public class ListaTurnos extends AppCompatActivity {
             }
         });
 
-        /*buttonCriarTurnos.setOnClickListener(v -> {
-            Intent intent = new Intent(ListaTurnos.this, CriarTurnos.class);
-            startActivity(intent);
-        });*/
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -103,8 +108,8 @@ public class ListaTurnos extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // a posição do spinner coincide com a da listaDias (só se filtrou nulls)
                 String nomeDia = (String) parent.getItemAtPosition(position);
-                new TurnosController(ListaTurnos.this).obterTurnos(nomeDia,
-                        new TurnosController.TurnoCallback() {
+                diaSelecionado = nomeDia;
+                controller.obterTurnos(nomeDia, new TurnosController.TurnoCallback() {
                     @Override
                     public void onSucesso(List<TurnoDTO> turnos) {
                         listaTurnos.clear();
@@ -130,6 +135,32 @@ public class ListaTurnos extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
+    }
+
+    private void confirmarTroca(TurnoDTO turno) {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Trocar turno")
+                .setMessage("Queres trocar o teu turno de " + diaSelecionado
+                        + " por este (" + turno.getHoraEntrada() + " - " + turno.getHoraSaida() + ")?")
+                .setPositiveButton("Trocar", (d, w) -> trocar(turno))
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+
+    private void trocar(TurnoDTO turno) {
+        controller.trocarTurno(funcId, diaSelecionado, turno.getId(),
+                new TurnosController.AssociarCallback() {
+                    @Override
+                    public void onSucesso() {
+                        Toast.makeText(ListaTurnos.this, "Turno trocado", Toast.LENGTH_SHORT).show();
+                        finish(); // a detalhesFuncionario recarrega no onResume
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        Toast.makeText(ListaTurnos.this, mensagem, Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
 }

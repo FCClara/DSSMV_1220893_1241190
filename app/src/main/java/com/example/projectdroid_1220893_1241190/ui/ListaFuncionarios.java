@@ -25,13 +25,19 @@ public class ListaFuncionarios extends AppCompatActivity {
     private FuncionarioAdapter adapter;
     private final List<FuncionarioDTO> lista = new ArrayList<>();
 
+    private String userRole;
+
+    private FuncionarioController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lista_funcionarios);
 
-        String userRole = getIntent().getStringExtra("USER_ROLE");
+        userRole = getIntent().getStringExtra("USER_ROLE");
+
+        controller = new FuncionarioController(this);
 
         RecyclerView rv = findViewById(R.id.recyclerFuncionarios);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -54,7 +60,7 @@ public class ListaFuncionarios extends AppCompatActivity {
     }
 
     private void carregarFuncionarios(){
-        new FuncionarioController(this).obterFuncionarios(
+        controller.obterFuncionarios(
                 new FuncionarioController.FuncionariosCallback() {
                     @Override
                     public void onSucesso(List<FuncionarioDTO> funcionarios) {

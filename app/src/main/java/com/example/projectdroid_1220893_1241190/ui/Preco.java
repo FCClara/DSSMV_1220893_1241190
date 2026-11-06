@@ -43,6 +43,8 @@ public class Preco extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button btnAtualizarTodos;
 
+    private String userRole;
+
     private final ActivityResultLauncher<Intent> mudarLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
@@ -55,12 +57,14 @@ public class Preco extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preco);
 
+        userRole = getIntent().getStringExtra("USER_ROLE");
+
         progressBar = findViewById(R.id.progressBar);
         btnAtualizarTodos = findViewById(R.id.btnAtualizarTodos);
 
         RecyclerView recycler = findViewById(R.id.recyclerProdutos);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PrecoAdapter(produtos, this::abrirAcoesProduto);
+        adapter = new PrecoAdapter(produtos, this::abrirAcoesProduto, userRole);
         recycler.setAdapter(adapter);
 
         btnAtualizarTodos.setOnClickListener(v -> atualizarTodos());
