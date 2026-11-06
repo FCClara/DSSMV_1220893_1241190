@@ -45,9 +45,6 @@ public class CriarTipo extends AppCompatActivity{
             return;
         }
 
-        // Evita cliques repetidos enquanto o pedido está a decorrer
-        buttonConfirmarTipo.setEnabled(false);
-
         TipoController.adicionarTipo(this, nomeTipo, new TipoController.TipoCallback(){
             @Override
             public void onSucesso(){
