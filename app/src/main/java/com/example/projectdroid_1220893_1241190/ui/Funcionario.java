@@ -97,7 +97,9 @@ public class Funcionario extends AppCompatActivity {
                 new ProdutoController.ProdutoCallback() {
                     @Override
                     public void onSucesso(ProdutoDTO produto) {
-                        startActivity(AcoesProduto.criarIntent(Funcionario.this, produto));
+                        Intent intent = AcoesProduto.criarIntent(Funcionario.this, produto);
+                        intent.putExtra("USER_ROLE", userRole);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -153,6 +155,7 @@ public class Funcionario extends AppCompatActivity {
                         String codigo = JsonHandler.normalizarCodigo(barcode.getRawValue());
                         android.util.Log.d("NAV_DEBUG", "Formato: " + barcode.getFormat() + " | Codigo: " + codigo);
                         procurarProduto(codigo);
+
                     })
                     .addOnCanceledListener(() ->
                             android.util.Log.d("NAV_DEBUG", "Scan cancelado"))
