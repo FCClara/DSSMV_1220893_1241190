@@ -36,7 +36,7 @@ public class Funcionario extends AppCompatActivity {
     private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaTurnos,buttonGoListaFuncionarios;
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
-    private Button buttonGoCriarTipo;
+    private Button buttonGoCriarTipo, buttonGoCriarFornecedor;
     private String userRole;
 
     @Override
@@ -54,6 +54,7 @@ public class Funcionario extends AppCompatActivity {
         //buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
         buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
         buttonGoCriarTipo = findViewById(R.id.buttonGoCriarTipo);
+        buttonGoCriarFornecedor = findViewById(R.id.buttonGoCriarFornecedor);
 
         // Regra de acúmulo de permissões/botões:
         if ("DONO".equals(userRole)) {
@@ -184,10 +185,16 @@ public class Funcionario extends AppCompatActivity {
     }
 
     private void configurarOpcoesDono(){
+
         buttonGoCriarTipo.setVisibility(View.VISIBLE);
         buttonGoCriarTipo.setOnClickListener(v -> {
             startActivity(new Intent(Funcionario.this, CriarTipo.class));
         });
+
+        buttonGoCriarFornecedor.setVisibility(View.VISIBLE);
+        buttonGoCriarFornecedor.setOnClickListener(v ->
+                startActivity(new Intent(Funcionario.this, CriarFornecedor.class)));
+
     }
 
 }

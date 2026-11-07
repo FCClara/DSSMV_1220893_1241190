@@ -44,6 +44,30 @@ public class JsonHandler {
         jsonObject.put("tipo", dto.getTipo());
         return jsonObject.toString();
     }
+
+    // le a lista de fornecedores que vem do restdb (GET)
+    public static List<FornecedorDTO> deSerializeJson2ListFornecedorDto(String resp) throws JSONException {
+        JSONArray jsonArray = new JSONArray(resp);
+
+        ArrayList<FornecedorDTO> fornecedores = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject objeto = jsonArray.getJSONObject(i);
+
+            FornecedorDTO dto = new FornecedorDTO();
+            dto.setNome(objeto.optString("nome", ""));
+
+            fornecedores.add(dto);
+        }
+        return fornecedores;
+    }
+
+    // transforma um fornecedor em JSON para adicionar ao restdb (POST)
+    public static String serializeFornecedorDTO2Json(FornecedorDTO dto) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("nome", dto.getNome());
+        return jsonObject.toString();
+    }
     public static List<ProdutoDTO> deSerializeJson2ListProdutoDto(String resp) throws JSONException{
         JSONArray jsonArray = new JSONArray(resp);
         List<ProdutoDTO> produtos = new ArrayList<>();

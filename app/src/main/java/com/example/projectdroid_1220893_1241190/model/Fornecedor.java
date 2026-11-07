@@ -4,8 +4,8 @@ public class Fornecedor {
 
     private String nome;
 
-    public Fornecedor(String nome) {
-        this.nome = nome;
+    public Fornecedor(String nome){
+        setNome(nome);
     }
 
     private boolean isNomeValid(String nome) {
@@ -14,7 +14,7 @@ public class Fornecedor {
         }
         return nome.matches("^[\\p{L} ]+$");
     }
-    public String getNome() {
+    public String getNome(){
         return nome;
     }
 
@@ -22,7 +22,7 @@ public class Fornecedor {
         if (isNomeValid(nome)){
             this.nome = nome;}
         else{
-            throw new IllegalArgumentException("Nome nao pode estar vazio");}
-        //pra ja ta assim, no controller metemos a mensagem correta de que so pode ter caracters afabeticos e assim
+            throw new IllegalArgumentException("Nome nao pode estar vazio");
+        }
     }
 }
