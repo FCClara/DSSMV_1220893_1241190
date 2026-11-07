@@ -312,4 +312,8 @@ public class JsonHandler {
         }
         return lista;
     }
+
+    public static List<FuncionarioDTO> serializeFuncionarioDTO2Json(FuncionarioDTO dto) throws JSONException{
+        JSONObject object = new JSONObject();
+    }
 }

@@ -2,6 +2,8 @@ package com.example.projectdroid_1220893_1241190.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +30,7 @@ public class ListaFuncionarios extends AppCompatActivity {
     private String userRole;
 
     private FuncionarioController controller;
+    private Button buttonGoAdicionarFuncionario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,6 +41,7 @@ public class ListaFuncionarios extends AppCompatActivity {
         userRole = getIntent().getStringExtra("USER_ROLE");
 
         controller = new FuncionarioController(this);
+        buttonGoAdicionarFuncionario = findViewById(R.id.buttonGoAdicionarFuncionario);
 
         RecyclerView rv = findViewById(R.id.recyclerFuncionarios);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -49,6 +53,7 @@ public class ListaFuncionarios extends AppCompatActivity {
                 startActivity(intent);
     });
         rv.setAdapter(adapter);
+        aplicarRole();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,5 +79,12 @@ public class ListaFuncionarios extends AppCompatActivity {
                         Toast.makeText(ListaFuncionarios.this, mensagem, Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void aplicarRole(){
+        boolean isFuncionario = "FUNCIONARIO".equals(userRole);
+
+        findViewById(R.id.buttonGoAdicionarFuncionario)
+                .setVisibility(isFuncionario ? View.GONE : View.VISIBLE);
     }
 }

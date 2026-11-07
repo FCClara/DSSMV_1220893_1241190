@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.AdicionarFuncionario">
+
+    <EditText
+        android:id="@+id/editTextSalarioFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Escreva o salário do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConfirmarFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNCartaoFuncionario" />
+
+    <EditText
+        android:id="@+id/editTextNCartaoFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Escreva o nº do cartão do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextSalarioFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNifFuncionario" />
+
+    <EditText
+        android:id="@+id/editTextMoradaFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Escreva a morada do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNifFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailFuncionario" />
+
+    <EditText
+        android:id="@+id/editTextNifFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Escreva o NIF do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNCartaoFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMoradaFuncionario" />
+
+    <EditText
+        android:id="@+id/editTextNomeFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Escreva o nome do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmailFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextEmailFuncionario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Escreva o email do Funcionário"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextMoradaFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeFuncionario" />
+
+    <Button
+        android:id="@+id/buttonConfirmarFuncionario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginEnd="161dp"
+        android:layout_marginBottom="16dp"
+        android:text="Confirmar Funcionário"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSalarioFuncionario" />
+</androidx.constraintlayout.widget.ConstraintLayout>

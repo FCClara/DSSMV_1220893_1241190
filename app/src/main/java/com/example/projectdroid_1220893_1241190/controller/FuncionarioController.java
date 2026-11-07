@@ -18,6 +18,11 @@ public class FuncionarioController {
         void onErro(String mensagem);
     }
 
+    public interface FuncionarioCriarCallback{
+        void onSucesso(List<FuncionarioDTO> funcionario);
+        void onErro(String mensagem);
+    }
+
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -36,5 +41,9 @@ public class FuncionarioController {
                 mainHandler.post(() -> cb.onErro("Erro a carregar funcionários"));
             }
         });
+    }
+
+    public void criarFuncionarios(String nome, String email, String morada, int nif, int nCartao, double salario){
+
     }
 }
