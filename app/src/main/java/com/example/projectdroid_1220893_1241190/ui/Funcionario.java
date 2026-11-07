@@ -114,6 +114,7 @@ public class Funcionario extends AppCompatActivity {
             Intent intent = new Intent(
                     Funcionario.this, ListaProdutos.class
             );
+            intent.putExtra("USER_ROLE", userRole);
             startActivity(intent);
             android.util.Log.d("NAV_DEBUG", "startActivity chamado com sucesso.");
         });

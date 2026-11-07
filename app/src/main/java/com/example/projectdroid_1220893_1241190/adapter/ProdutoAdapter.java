@@ -1,5 +1,6 @@
 package com.example.projectdroid_1220893_1241190.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
+import com.example.projectdroid_1220893_1241190.service.FuncionarioService;
+import com.example.projectdroid_1220893_1241190.ui.AcoesProduto;
+import com.example.projectdroid_1220893_1241190.ui.MudarPreco;
 
 import java.util.List;
 
@@ -18,13 +22,16 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
     private final List<ProdutoDTO> lista;
     private final OnProdutoClickListener listener;
 
+    private String userRole;
+
     public interface OnProdutoClickListener {
         void onProdutoClick(ProdutoDTO produto);
     }
 
-    public ProdutoAdapter(List<ProdutoDTO> lista, OnProdutoClickListener listener){
+    public ProdutoAdapter(List<ProdutoDTO> lista, OnProdutoClickListener listener, String userRole){
         this.lista = lista;
         this.listener = listener;
+        this.userRole = userRole;
     }
 
 
@@ -40,7 +47,9 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ViewHold
     public void  onBindViewHolder(@NonNull ViewHolder holder, int position){
         ProdutoDTO p = lista.get(position);
         holder.buttonProduto.setText(p.getNome());
-        holder.buttonProduto.setOnClickListener(v -> listener.onProdutoClick(p));
+        holder.buttonProduto.setOnClickListener(v ->
+                listener.onProdutoClick(p));
+
     }
 
     @Override

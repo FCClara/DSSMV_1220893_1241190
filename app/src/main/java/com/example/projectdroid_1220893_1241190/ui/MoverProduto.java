@@ -2,56 +2,65 @@ package com.example.projectdroid_1220893_1241190.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.controller.ProdutoController;
-import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
-import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
-import com.example.projectdroid_1220893_1241190.service.HistoricoService;
-import com.example.projectdroid_1220893_1241190.service.ProdutoService;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.view.View;
 
 public class MoverProduto extends AppCompatActivity {
 
-    private EditText etArmazemMontra, etMontraLixo;
+    private EditText etArmazemMontra, etMontraLixo, etFornecedorArmazem;
     private String produtoId;
     private int armazem, montra;
     private ProdutoController controller;
+    private String userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mover_produto);
 
+        userRole = getIntent().getStringExtra("USER_ROLE");
+        Log.d("USERMOVERP", "user" + userRole);
+
         controller = new ProdutoController(this);
         produtoId = getIntent().getStringExtra("PRODUTO_ID");
         armazem = getIntent().getIntExtra("PRODUTO_ARMAZEM", 0);
         montra = getIntent().getIntExtra("PRODUTO_MONTRA", 0);
 
-        etArmazemMontra = findViewById(R.id.editTextNumber);
-        etMontraLixo = findViewById(R.id.editTextNumber2);
+        etArmazemMontra = findViewById(R.id.edtArmazemMontra);
+        etMontraLixo = findViewById(R.id.edtMontraLixo);
+        etFornecedorArmazem = findViewById(R.id.edtFornecedorArmazem);
 
-        findViewById(R.id.button2).setOnClickListener(v -> {
+        aplicarRole();
+
+        findViewById(R.id.buttonArmazemMontra).setOnClickListener(v -> {
             int qtd = lerQuantidade(etArmazemMontra);
             if (qtd > 0) controller.moverArmazemParaMontra(produtoId, armazem, montra, qtd, callback);
         });
 
-        findViewById(R.id.button1).setOnClickListener(v -> {
+        findViewById(R.id.buttonMontraLixo).setOnClickListener(v -> {
             int qtd = lerQuantidade(etMontraLixo);
             if (qtd > 0) controller.moverMontraParaLixo(produtoId, armazem, montra, qtd, callback);
         });
+
+        findViewById(R.id.buttonFornecedorArmazem).setOnClickListener(v-> {
+            int qtd = lerQuantidade(etFornecedorArmazem);
+            if (qtd>0) controller.moverAdicionarStock(produtoId, armazem, montra, qtd, callback);
+        });
+    }
+
+    private void aplicarRole(){
+        boolean isDono = "DONO".equals(userRole);
+
+        findViewById(R.id.secFornecedorArmazem)
+                .setVisibility(isDono ? View.VISIBLE : View.GONE);
     }
     private final ProdutoController.MoverCallback callback = new ProdutoController.MoverCallback() {
         @Override
@@ -82,4 +91,6 @@ public class MoverProduto extends AppCompatActivity {
         }
         return Integer.parseInt(s);
     }
+
+
 }

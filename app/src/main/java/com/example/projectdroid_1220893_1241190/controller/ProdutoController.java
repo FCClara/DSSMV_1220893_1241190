@@ -30,6 +30,11 @@ public class ProdutoController {
         void onErro(String mensagem);
     }
 
+    public interface AdicionarStock{
+        void onSucesso(int novoArmazem);
+        void onErro(String mensagem);
+    }
+
     public interface novoPrecoCallback {
         void onSucesso (double novoPreco);
         void onErro(String mensagem);
@@ -177,6 +182,14 @@ public class ProdutoController {
             return;
         }
         executarMovimento(produtoId, armazem, montra - qtd, qtd, "Montra -> Lixo", cb);
+    }
+
+    public void moverAdicionarStock(String produtoId, int armazem, int montra, int qtd, MoverCallback cb){
+        if(qtd < 0){
+            cb.onErro("Tem de ser um numero positivo");
+            return;
+        }
+        executarMovimento(produtoId,armazem + qtd, montra, qtd, "Fornecedor -> Armazem" , cb);
     }
 
     private void executarMovimento(String produtoId, int novoArmazem, int novaMontra, int qtd, String descricao, MoverCallback cb) {

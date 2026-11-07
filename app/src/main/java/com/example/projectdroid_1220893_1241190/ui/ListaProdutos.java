@@ -2,6 +2,7 @@ package com.example.projectdroid_1220893_1241190.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,17 +36,22 @@ public class ListaProdutos extends AppCompatActivity {
     private ArrayList<TipoDTO> listaTiposGlobal;
     private final ArrayList<ProdutoDTO> produtosFiltrados = new ArrayList<>();
 
+    private String userRole;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lista_produtos);
 
+        userRole = getIntent().getStringExtra("USER_ROLE");
+        Log.d("simvery", "sh" + userRole);
+
         spinnerPTipos = findViewById(R.id.spinnerPTipos);
         recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ProdutoAdapter(produtosFiltrados, this::abrirAcoesProduto);
+        adapter = new ProdutoAdapter(produtosFiltrados, this::abrirAcoesProduto, userRole);
         recyclerView.setAdapter(adapter);
 
         carregarSpinnerComTipos();
@@ -178,6 +184,7 @@ public class ListaProdutos extends AppCompatActivity {
         intent.putExtra("PRODUTO_ARMAZEM", p.getQuantidadeArmazem());
         intent.putExtra("PRODUTO_MONTRA", p.getQuantidadeMontra());
         intent.putExtra("PRODUTO_FORNECEDOR", p.getFornecedor() != null ? p.getFornecedor().getNome() : "");
+        intent.putExtra("USER_ROLE", userRole);
         startActivity(intent);
     }
 }

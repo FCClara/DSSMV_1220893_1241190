@@ -3,6 +3,7 @@ package com.example.projectdroid_1220893_1241190.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class AcoesProduto extends AppCompatActivity {
     private Button goMoverProduto;
     private int armazem, montra;
 
+    private String userRole;
+
     private final ActivityResultLauncher<Intent> moverLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
@@ -40,6 +43,10 @@ public class AcoesProduto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_acoes_produto);
+
+        userRole = getIntent().getStringExtra("USER_ROLE");
+
+        Log.d("verymuch", "vert" + userRole);
 
         tvNome = findViewById(R.id.nomeProduto);
         tvTipo = findViewById(R.id.tipoDoProduto);
@@ -88,6 +95,7 @@ public class AcoesProduto extends AppCompatActivity {
             intent.putExtra("PRODUTO_NOME", nome);
             intent.putExtra("PRODUTO_ARMAZEM", armazem);
             intent.putExtra("PRODUTO_MONTRA", montra);
+            intent.putExtra("USER_ROLE", userRole);
             moverLauncher.launch(intent);
         });
 
