@@ -1,9 +1,11 @@
 package com.example.projectdroid_1220893_1241190.dto;
 
+import com.example.projectdroid_1220893_1241190.model.Funcao;
+
 public class FuncionarioDTO implements java.io.Serializable {
     private String id;
     private String nome;
-    private String funcao;
+    private FuncaoDTO funcao;
     private String email;
     private String morada;
     private int nif;
@@ -22,11 +24,11 @@ public class FuncionarioDTO implements java.io.Serializable {
         this.nome = nome;
     }
 
-    public String getFuncao() {
+    public FuncaoDTO getFuncao() {
         return funcao;
     }
 
-    public void setFuncao(String funcao) {
+    public void setFuncao(FuncaoDTO funcao) {
         this.funcao = funcao;
     }
 

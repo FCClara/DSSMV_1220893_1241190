@@ -106,7 +106,7 @@ public class DetalhesFuncionario extends AppCompatActivity {
     }
     private void preencherDetalhes(FuncionarioDTO f) {
         tvNome.setText(f.getNome());
-        tvFuncao.setText("Função: " + f.getFuncao());
+        tvFuncao.setText("Função: " + f.getFuncao().getFuncao());
         tvEmail.setText("Email: " + f.getEmail());
         tvMorada.setText("Morada: " + f.getMorada());
         tvNIF.setText("NIF: " + f.getNif());

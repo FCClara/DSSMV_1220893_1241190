@@ -4,12 +4,14 @@ import android.util.Log;
 
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
 import com.example.projectdroid_1220893_1241190.dto.FornecedorDTO;
+import com.example.projectdroid_1220893_1241190.dto.FuncaoDTO;
 import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
+import com.example.projectdroid_1220893_1241190.model.Funcao;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -292,6 +294,21 @@ public class JsonHandler {
         return digitos;
     }
 
+    public static List<FuncaoDTO> deSeralizeJson2ListFuncaoDTO(String resp) throws JSONException{
+        JSONArray jsonArray = new JSONArray(resp);
+        List<FuncaoDTO> lista = new ArrayList<>();
+
+        for (int i=0; i< jsonArray.length(); i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+
+            FuncaoDTO dto = new FuncaoDTO();
+            dto.setId(object.optString("_id", ""));
+            dto.setFuncao(object.optString("funcao", ""));
+
+            lista.add(dto);
+        }
+        return lista;
+    }
     public static List<FuncionarioDTO> deSerializeJson2ListFuncionarioDTO(String resp) throws JSONException{
         JSONArray  jsonArray = new JSONArray(resp);
         List<FuncionarioDTO> lista = new ArrayList<>();
@@ -302,18 +319,22 @@ public class JsonHandler {
             FuncionarioDTO dto = new FuncionarioDTO();
             dto.setId(object.optString("_id",""));
             dto.setNome(object.optString("Nome",""));
-            dto.setFuncao(extractString(object.opt("Funcao"), "funcao"));
             dto.setEmail(object.optString("email", ""));
             dto.setMorada(object.optString("morada",""));
             dto.setNif(object.optInt("NIF",0));
             dto.setnCartao(object.optInt("nCartao",0));
             dto.setSalario(object.optDouble("salario",0.0));
+
+            FuncaoDTO funcaoDto = new FuncaoDTO();
+            funcaoDto.setFuncao(extractString(object.opt("Funcao"), "funcao"));
+            dto.setFuncao(funcaoDto);
+
             lista.add(dto);
         }
         return lista;
     }
 
-    public static List<FuncionarioDTO> serializeFuncionarioDTO2Json(FuncionarioDTO dto) throws JSONException{
+    /*public static List<FuncionarioDTO> serializeFuncionarioDTO2Json(FuncionarioDTO dto) throws JSONException{
         JSONObject object = new JSONObject();
-    }
+    }*/
 }

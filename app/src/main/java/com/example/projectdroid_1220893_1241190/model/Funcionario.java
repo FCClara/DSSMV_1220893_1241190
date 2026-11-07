@@ -4,14 +4,14 @@ public class Funcionario {
 
     private String id;
     private String nome;
-    private String funcao;
+    private Funcao funcao;
     private String email;
     private String morada;
     private int nif;
     private int nCartao;
     private double salario;
 
-    public Funcionario(String id, String nome, double salario, int nCartao, int nif, String morada, String email, String funcao) {
+    public Funcionario(String id, String nome, double salario, int nCartao, int nif, String morada, String email, Funcao funcao) {
         this.id = id;
         this.nome = nome;
         this.salario = salario;
