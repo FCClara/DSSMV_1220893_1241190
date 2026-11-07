@@ -51,7 +51,7 @@ public class Funcionario extends AppCompatActivity {
         goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
         buttonGoHorario = findViewById(R.id.buttonGoHorario);
-        //buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
+        buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
         buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
         buttonGoCriarTipo = findViewById(R.id.buttonGoCriarTipo);
         buttonGoCriarFornecedor = findViewById(R.id.buttonGoCriarFornecedor);
@@ -108,7 +108,6 @@ public class Funcionario extends AppCompatActivity {
 
     private void configurarOpcoesFuncionario() {
 
-        buttonGoListProdutos.setVisibility(View.VISIBLE);
         buttonGoListProdutos.setOnClickListener( v -> {
             android.util.Log.d("NAV_DEBUG", "Botao clicado. A iniciar intent para ListaProdutos");
             Intent intent = new Intent(
@@ -127,10 +126,10 @@ public class Funcionario extends AppCompatActivity {
             Intent intent = new Intent(Funcionario.this, Horario.class);
             startActivity(intent);
         });
-       /* buttonGoListaTurnos.setOnClickListener(v -> {
+        buttonGoListaTurnos.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, ListaTurnos.class);
             startActivity(intent);
-        });*/
+        });
 
 
         buttonGoCodigoBarras.setOnClickListener(b -> {
