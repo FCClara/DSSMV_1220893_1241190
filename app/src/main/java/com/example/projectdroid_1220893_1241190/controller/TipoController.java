@@ -9,11 +9,17 @@ import com.example.projectdroid_1220893_1241190.model.Tipo;
 import com.example.projectdroid_1220893_1241190.service.TipoService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TipoController {
 
     public interface TipoCallback {
         void onSucesso();
+        void onErro(String mensagem);
+    }
+
+    public interface TiposCallback {
+        void onSucesso(List<TipoDTO> tipos);
         void onErro(String mensagem);
     }
 
@@ -40,6 +46,18 @@ public class TipoController {
                 e.printStackTrace();
                 activity.runOnUiThread(() ->
                         callback.onErro("Erro ao adicionar tipo: " + e.getMessage()));
+            }
+        }).start();
+    }
+
+    public static void obterTipos(Activity activity, TiposCallback callback){
+        new Thread(() ->{
+            try{
+                ArrayList<TipoDTO> tipos = TipoService.obterTipos(activity);
+                activity.runOnUiThread(() -> callback.onSucesso(tipos));
+            } catch (Exception e) {
+                activity.runOnUiThread(() ->
+                        callback.onErro("Erro ao carregar tipos: " + e.getMessage()));
             }
         }).start();
     }

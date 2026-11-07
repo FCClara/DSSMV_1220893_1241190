@@ -3,6 +3,7 @@ package com.example.projectdroid_1220893_1241190.dto;
 public class FornecedorDTO {
 
     private String nome;
+    private String id;
     public FornecedorDTO(){}
 
     public FornecedorDTO(String nome) {
@@ -15,5 +16,13 @@ public class FornecedorDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 }

@@ -7,6 +7,9 @@ import android.os.Looper;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.projectdroid_1220893_1241190.dto.FornecedorDTO;
+import com.example.projectdroid_1220893_1241190.dto.TipoDTO;
+import com.example.projectdroid_1220893_1241190.model.Produto;
 import com.example.projectdroid_1220893_1241190.dto.HistoricoDTO;
 import com.example.projectdroid_1220893_1241190.dto.ProdutoDTO;
 import com.example.projectdroid_1220893_1241190.service.HistoricoService;
@@ -42,6 +45,11 @@ public class ProdutoController {
         void onErro(String mensagem);
     }
 
+    public interface CriarProdutoCallback{
+        void onSucesso();
+        void onErro(String mensagem);
+    }
+
     // ---------- Shared threading ----------
 
     private static final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -67,6 +75,50 @@ public class ProdutoController {
             } catch (Exception e) {
                 android.util.Log.e("PRODUTOS", "Falhou: " + e.getMessage(), e);
                 mainHandler.post(() -> cb.onErro("Erro ao carregar produtos"));
+            }
+        });
+    }
+
+    // ---------- Criar Produto ---------
+
+    public void adicionarProduto(String nome, double preco, TipoDTO tipo, FornecedorDTO fornecedor, CriarProdutoCallback callback){
+        try{
+            Produto validacao = new Produto(null, null, null, 0, 0, 0, null, null);
+            validacao.setNome(nome);
+            validacao.setPreco(preco);
+        } catch (IllegalArgumentException e){
+            callback.onErro(e.getMessage());
+            return;
+        }
+        if (tipo == null || tipo.getId() == null || tipo.getId().isEmpty()) {
+            callback.onErro("Tem de selecionar um tipo");
+            return;
+        }
+        if (fornecedor == null || fornecedor.getId() == null || fornecedor.getId().isEmpty()) {
+            callback.onErro("Tem de selecionar um fornecedor");
+            return;
+        }
+
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setNome(nome);
+        dto.setPreco(preco);
+        dto.setTipo(tipo);
+        dto.setFornecedor(fornecedor);
+        dto.setQuantidadeArmazem(0);
+        dto.setQuantidadeMontra(0);
+
+        executor.execute(() -> {
+            try {
+                if (ProdutoService.existeProduto(ctx, nome)) {
+                    mainHandler.post(() -> callback.onErro("Produto já existe!"));
+                    return;
+                }
+
+                ProdutoService.adicionarProduto(ctx, dto);
+                mainHandler.post(callback::onSucesso);
+
+            } catch (Exception e) {
+                mainHandler.post(() -> callback.onErro("Erro ao adicionar produto: " + e.getMessage()));
             }
         });
     }

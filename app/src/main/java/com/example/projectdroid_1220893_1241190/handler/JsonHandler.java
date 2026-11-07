@@ -31,6 +31,7 @@ public class JsonHandler {
             JSONObject objeto = jsonArray.getJSONObject(i);
 
             TipoDTO dto = new TipoDTO();
+            dto.setId(objeto.optString("_id",""));
             dto.setTipo(objeto.optString("tipo",""));
 
             tipos.add(dto);
@@ -55,6 +56,7 @@ public class JsonHandler {
             JSONObject objeto = jsonArray.getJSONObject(i);
 
             FornecedorDTO dto = new FornecedorDTO();
+            dto.setId(objeto.optString("_id", ""));
             dto.setNome(objeto.optString("nome", ""));
 
             fornecedores.add(dto);
@@ -122,6 +124,22 @@ public class JsonHandler {
         jsonObject.put("preco", preco);
         return jsonObject.toString();
     }
+
+    public static String serializeProdutoDTO2Json(ProdutoDTO dto) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("nome", dto.getNome());
+        jsonObject.put("preco", dto.getPreco());
+        jsonObject.put("quantidadeArmazem", dto.getQuantidadeArmazem());
+        jsonObject.put("quantidadeMontra", dto.getQuantidadeMontra());
+        if (dto.getTipo() != null && dto.getTipo().getId() != null) {
+            jsonObject.put("tipo", dto.getTipo().getId());
+        }
+        if (dto.getFornecedor() != null && dto.getFornecedor().getId() != null) {
+            jsonObject.put("fornecedor", dto.getFornecedor().getId());
+        }
+        return jsonObject.toString();
+    }
+
     public static List<HistoricoDTO> deSerializeJson2ListHistoricoDTO(String resp) throws JSONException {
         JSONArray jsonArray = new JSONArray(resp);
         List<HistoricoDTO> list = new ArrayList<>();

@@ -70,7 +70,7 @@ public class Produto {
     }
 
     public void setPreco(double preco){
-        if(preco < 0){
+        if(preco <= 0){
             throw new IllegalArgumentException("Preco tem de ser superior a 0.");
         }
         this.preco = preco;

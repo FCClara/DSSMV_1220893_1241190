@@ -6,6 +6,7 @@ import com.example.projectdroid_1220893_1241190.dto.*;
 import com.example.projectdroid_1220893_1241190.handler.JsonHandler;
 import com.example.projectdroid_1220893_1241190.handler.NetworkHandler;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 public class ProdutoService {
 
@@ -25,6 +26,22 @@ public class ProdutoService {
         throws Exception{
             String body = JsonHandler.serializeAtualizarPreco(preco);
             NetworkHandler.patch(ctx, "produto/" + produtoId, body);
+    }
+
+    public static boolean existeProduto(Context ctx, String nomeProduto) throws Exception{
+        ArrayList<ProdutoDTO> produtos = obterProdutos(ctx);
+
+        for (ProdutoDTO p : produtos){
+            if (p != null && p.getNome() != null && p.getNome().equalsIgnoreCase(nomeProduto)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void adicionarProduto(Context ctx, ProdutoDTO dto) throws Exception{
+        String body = JsonHandler.serializeProdutoDTO2Json(dto);
+        NetworkHandler.post(ctx, "produto", body);
     }
 }
 

@@ -6,10 +6,18 @@ import com.example.projectdroid_1220893_1241190.dto.FornecedorDTO;
 import com.example.projectdroid_1220893_1241190.model.Fornecedor;
 import com.example.projectdroid_1220893_1241190.service.FornecedorService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FornecedorController {
 
     public interface FornecedorCallback {
         void onSucesso();
+        void onErro(String mensagem);
+    }
+
+    public interface FornecedoresCallback{
+        void onSucesso(List<FornecedorDTO> fornecedores);
         void onErro(String mensagem);
     }
 
@@ -34,6 +42,18 @@ public class FornecedorController {
             } catch (Exception e) {
                 activity.runOnUiThread(() ->
                         callback.onErro("Erro ao adicionar fornecedor: " + e.getMessage()));
+            }
+        }).start();
+    }
+
+    public static void obterFornecedores(Activity activity, FornecedoresCallback callback){
+        new Thread(() ->{
+            try{
+                ArrayList<FornecedorDTO> fornecedores = FornecedorService.obterFornecedores(activity);
+                activity.runOnUiThread(() -> callback.onSucesso(fornecedores));
+            } catch (Exception e){
+                activity.runOnUiThread(() ->
+                        callback.onErro("Erro ao carregar fornecedores: " + e.getMessage()));
             }
         }).start();
     }
