@@ -9,14 +9,18 @@
 
     <TextView
         android:id="@+id/produtoNomePreco"
-        android:layout_width="169dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="120dp"
+        style="@style/TextoComFundo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="100dp"
         android:gravity="center"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
         android:text="Novo Preço"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editarPreco"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />

@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/tvNovoTurno"
+        style="@style/TextoComFundo"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginTop="73dp"
@@ -22,8 +23,10 @@
 
     <TextView
         android:id="@+id/tvHoraEntradaCriar"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
+        style="@style/TextoComFundo"
+        android:layout_width="150dp"
+        android:minHeight="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:layout_marginBottom="61dp"
         android:gravity="center"
@@ -35,6 +38,7 @@
 
     <TextView
         android:id="@+id/tvHoraSaidaCriar"
+        style="@style/TextoComFundo"
         android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_marginTop="61dp"
@@ -82,7 +86,7 @@
 
     <Spinner
         android:id="@+id/spinnerDiasCriarTurno"
-        android:layout_width="409dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
