@@ -32,8 +32,6 @@ public class CriarTurnos extends AppCompatActivity {
     private Spinner spinnerDiaCriar;
 
     private ArrayList<DiaDTO> listaDias = new ArrayList<>();
-    private final ArrayList<DiaDTO> diasDisponiveis = new ArrayList<>(); // os que o spinner mostra
-
     private HorarioDTO horarioFuncionario; // pode ficar null
 
     private TurnosController controller;
@@ -63,7 +61,9 @@ public class CriarTurnos extends AppCompatActivity {
             @Override
             public void onSucesso(List<DiaDTO> dias) {
                 listaDias.clear();
-                listaDias.addAll(dias);
+                for (DiaDTO d : dias) {
+                    if (d != null && d.getDia() != null) listaDias.add(d);
+                }
                 configUI(funcId);
             }
 
@@ -120,28 +120,12 @@ public class CriarTurnos extends AppCompatActivity {
         });
     }
     private void configUI(String funcId) {
-        diasDisponiveis.clear();
         ArrayList<String> nomesDias = new ArrayList<>();
 
         for (DiaDTO d : listaDias) {
-            if (d == null || d.getDia() == null) continue;
-
-            // mesma chave que se usa no obterHorarioFuncionario (nome do dia)
-            boolean jaTemTurno = horarioFuncionario != null
-                    && horarioFuncionario.getTurnoDoDia(d.getDia()) != null;
-
-            if (!jaTemTurno) {
-                diasDisponiveis.add(d);
-                nomesDias.add(d.getDia());
-            }
+            nomesDias.add(d.getDia());
         }
-        //isto nao ta a funcionar, quero apagar isto mas ta me a quebrar o flow
-        //tenho de resolver
-        if (diasDisponiveis.isEmpty()) {
-            Toast.makeText(this, "Este funcionário já tem turno em todos os dias",
-                    Toast.LENGTH_LONG).show();
-            criarTurno.setEnabled(false);
-        }
+
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, nomesDias);
@@ -172,13 +156,13 @@ public class CriarTurnos extends AppCompatActivity {
             return;
         }
         int pos = spinnerDiaCriar.getSelectedItemPosition();
-        if (pos < 0 || pos >= diasDisponiveis.size()) {
+        if (pos < 0 || pos >= listaDias.size()) {
             Toast.makeText(this, "Escolha um dia", Toast.LENGTH_SHORT).show();
             return;
         }
 
         //pra ver o dia, mas manda o id
-        DiaDTO diaEscolhido = diasDisponiveis.get(pos);
+        DiaDTO diaEscolhido = listaDias.get(pos);
         String diaId = diaEscolhido.getId();
         String diaNome = diaEscolhido.getDia();
 
