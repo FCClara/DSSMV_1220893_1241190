@@ -10,11 +10,11 @@
     <EditText
         android:id="@+id/editTextSalarioFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Escreva o salário do Funcionário"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/buttonConfirmarFuncionario"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerFuncionarAdicionar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
     <EditText
         android:id="@+id/editTextNCartaoFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Escreva o nº do cartão do Funcionário"
         android:inputType="text"
         android:maxLines="1"
@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/editTextMoradaFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Escreva a morada do Funcionário"
         android:inputType="text"
         android:maxLines="1"
@@ -49,7 +49,7 @@
     <EditText
         android:id="@+id/editTextNifFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Escreva o NIF do Funcionário"
         android:inputType="text"
         android:maxLines="1"
@@ -61,7 +61,7 @@
     <EditText
         android:id="@+id/editTextNomeFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:hint="Escreva o nome do Funcionário"
         android:inputType="text"
@@ -74,7 +74,7 @@
     <EditText
         android:id="@+id/editTextEmailFuncionario"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Escreva o email do Funcionário"
         android:inputType="text"
         android:maxLines="1"
@@ -87,12 +87,20 @@
     <Button
         android:id="@+id/buttonConfirmarFuncionario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="160dp"
         android:layout_marginEnd="161dp"
         android:layout_marginBottom="16dp"
         android:text="Confirmar Funcionário"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerFuncionarAdicionar"
+        android:layout_width="409dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConfirmarFuncionario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextSalarioFuncionario" />

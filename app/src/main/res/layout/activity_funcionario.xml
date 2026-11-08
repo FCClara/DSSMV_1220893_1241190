@@ -102,10 +102,23 @@
         android:layout_height="wrap_content"
         android:text="Criar produto"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGoAdicionarFuncionario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGoCriarFornecedor"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/buttonGoAdicionarFuncionario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Funcionario"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoCriarProduto"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
