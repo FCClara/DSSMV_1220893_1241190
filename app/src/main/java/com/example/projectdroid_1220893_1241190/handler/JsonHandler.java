@@ -334,7 +334,18 @@ public class JsonHandler {
         return lista;
     }
 
-    /*public static List<FuncionarioDTO> serializeFuncionarioDTO2Json(FuncionarioDTO dto) throws JSONException{
+    public static String serializeFuncionarioDTO2Json(FuncionarioDTO dto) throws JSONException{
         JSONObject object = new JSONObject();
-    }*/
+        if(dto.getFuncao() != null && dto.getFuncao().getId() != null){
+            object.put("Funcao", dto.getFuncao().getId());
+        }
+        object.put("Nome", dto.getNome());
+        object.put("email", dto.getEmail());
+        object.put("morada", dto.getMorada());
+        object.put("NIF", dto.getNif());
+        object.put("nCartao", dto.getnCartao());
+        object.put("salario", dto.getSalario());
+
+        return object.toString();
+    }
 }

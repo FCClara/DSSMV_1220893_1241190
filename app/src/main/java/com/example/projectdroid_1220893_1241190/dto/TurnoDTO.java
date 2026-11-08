@@ -1,7 +1,5 @@
 package com.example.projectdroid_1220893_1241190.dto;
 
-import java.time.LocalTime;
-
 public class TurnoDTO {
 
     private String id;

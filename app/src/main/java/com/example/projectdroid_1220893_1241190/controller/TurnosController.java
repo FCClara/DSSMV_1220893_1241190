@@ -291,7 +291,7 @@ public class TurnosController {
                     }
                 } else {
                     // funcionario nao tem horario, cria um novo ja com este turno,
-                    //HorarioService.criarHorario(ctx, funcId, diaChave, turnoId);
+                    HorarioService.criarHorario(ctx, funcId, diaChave, turnoId);
                 }
                 mainHandler.post(cb::onSucesso);
             } catch (Exception e) {

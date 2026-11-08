@@ -52,5 +52,15 @@ public class HorarioService {
         NetworkHandler.delete(ctx, "turnos/" + turnoId);
     }
 
-    //falta o tal criar horario e associar ao funcionario
+    public static String criarHorario(Context ctx, String funcId, String diaChave, String turnoId) throws Exception {
+        String campo = JsonHandler.campoDoDia(diaChave);
+        if (campo == null) throw new IllegalArgumentException("Dia invalido: " + diaChave);
+
+        JSONObject body = new JSONObject();
+        body.put("Funcionario", new JSONArray().put(funcId));
+        body.put(campo, new JSONArray().put(turnoId));
+
+        String resposta = NetworkHandler.post(ctx, "horario", body.toString());
+        return new JSONObject(resposta).getString("_id");
+    }
 }
