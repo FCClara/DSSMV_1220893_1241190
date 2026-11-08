@@ -182,10 +182,14 @@ public class Funcionario extends AppCompatActivity {
 
         buttonGoListaFuncionarios.setOnClickListener(v -> {
             Intent intent = new Intent(
-                    Funcionario.this, ListaFuncionarios.class
-            );
+                    Funcionario.this, ListaFuncionarios.class);
             intent.putExtra("USER_ROLE", userRole);
             startActivity(intent);
+        });
+
+        buttonGoAdicionarFuncionario.setVisibility(View.VISIBLE);
+        buttonGoAdicionarFuncionario.setOnClickListener(v-> {
+            startActivity(new Intent(Funcionario.this, AdicionarFuncionario.class));
         });
     }
 
@@ -204,10 +208,6 @@ public class Funcionario extends AppCompatActivity {
         buttonGoCriarProduto.setOnClickListener(v ->
                 startActivity(new Intent(Funcionario.this, CriarProduto.class)));
 
-        buttonGoAdicionarFuncionario.setVisibility(View.VISIBLE);
-        buttonGoAdicionarFuncionario.setOnClickListener(v-> {
-            startActivity(new Intent(Funcionario.this, AdicionarFuncionario.class));
-        });
     }
 
 }
