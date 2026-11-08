@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerProduto;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configUI();
-
-        // carregar para aparecer como as opcoes no dropdown
-        carregarTipos();
-
-        carregarProdutos();
     }
 
-    private void configUI(){
+    private void configUI() {
 
-        //vamos buscar o spinner do xml no layout
-        spinnerTipo = findViewById(R.id.spinnerTipo);
-        spinnerProduto = findViewById(R.id.spinnerProduto);
 
         //butao para ir pra pagina do funcionario
         Button buttonFuncionario = findViewById(R.id.goFuncionario);
@@ -105,13 +96,5 @@ public class MainActivity extends AppCompatActivity {
                     return insets;
                 }
         );
-    }
-
-    private void carregarTipos() {
-        TipoController.carregarSpinnerTipos(this, spinnerTipo);
-    }
-
-    private void carregarProdutos() {
-        ProdutoController.carregarSpinnerProdutos(this, spinnerProduto);
     }
 }

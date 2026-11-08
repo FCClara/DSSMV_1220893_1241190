@@ -1,8 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.ProjectDroid_1220893_1241190" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Fundo da aplicação -->
+        <item name="android:windowBackground">@drawable/fundo_supermercado</item>
+
+        <!-- Cores dos botões e elementos do layout -->
+        <item name="colorPrimary">@color/verde_botao</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/verde_botao</item>
+
+        <!-- Fundo dos elementos do layout para se ver melhor -->
+        <item name="editTextStyle">@style/fundoElementosLayout</item>
+        <item name="spinnerStyle">@style/fundoElementosLayout</item>
+
+
+
+    </style>
+    <style name="fundoElementosLayout" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/fundo_edittext</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">#222222</item>
+        <item name="android:textColorHint">#6B6B6B</item>
     </style>
 
     <style name="Theme.ProjectDroid_1220893_1241190" parent="Base.Theme.ProjectDroid_1220893_1241190" />
