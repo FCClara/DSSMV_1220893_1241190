@@ -8,7 +8,6 @@ import android.util.Log;
 import com.example.projectdroid_1220893_1241190.dto.FuncaoDTO;
 import com.example.projectdroid_1220893_1241190.dto.FuncionarioDTO;
 import com.example.projectdroid_1220893_1241190.service.FuncionarioService;
-import com.example.projectdroid_1220893_1241190.ui.Funcionario;
 import com.example.projectdroid_1220893_1241190.model.*;
 
 import java.util.List;

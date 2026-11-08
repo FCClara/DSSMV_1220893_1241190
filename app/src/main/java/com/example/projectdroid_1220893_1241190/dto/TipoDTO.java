@@ -26,4 +26,9 @@ public class TipoDTO {
     public void setId(String id){
          this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "TipoDTO{" + "tipo='" + tipo + '\'' + ", id='" + id + '\'' + '}';
+    }
 }

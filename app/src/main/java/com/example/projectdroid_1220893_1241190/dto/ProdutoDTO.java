@@ -41,4 +41,12 @@ public class ProdutoDTO {
 
     public String getBarcode() {return barcode;}
     public void setBarcode(String barcode) {this.barcode = barcode;}
+
+    @Override
+    public String toString() {
+        return "ProdutoDTO{" +
+                "id='" + id + '\'' + ", nome='" + nome + '\'' + ", tipo=" + tipo +
+                ", preco=" + preco + ", quantidadeArmazem=" + quantidadeArmazem + ", quantidadeMontra=" + quantidadeMontra +
+                ", fornecedor=" + fornecedor + ", barcode='" + barcode + '\'' + '}';
+    }
 }

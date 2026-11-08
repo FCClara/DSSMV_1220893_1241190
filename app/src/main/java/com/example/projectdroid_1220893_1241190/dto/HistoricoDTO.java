@@ -29,4 +29,9 @@ public class HistoricoDTO {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    @Override
+    public String toString() {
+        return "HistoricoDTO{" + "produto=" + produto + ", quantidade=" + quantidade + ", descricao='" + descricao + '\'' + '}';
+    }
 }

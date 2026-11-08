@@ -1,9 +1,6 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
-import android.icu.text.DecimalFormat;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.controller.FuncionarioController;
-import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.FuncaoDTO;
 
 import java.util.ArrayList;

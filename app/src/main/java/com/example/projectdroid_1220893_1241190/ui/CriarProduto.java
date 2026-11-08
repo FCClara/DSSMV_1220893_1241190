@@ -32,6 +32,7 @@ public class CriarProduto extends AppCompatActivity {
 
     private List<TipoDTO> tipos = new ArrayList<>();
     private List<FornecedorDTO> fornecedores = new ArrayList<>();
+    private ProdutoController produtoController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class CriarProduto extends AppCompatActivity {
         editTextPrecoProduto = findViewById(R.id.editTextPrecoProduto);
         buttonConfirmarProduto = findViewById(R.id.buttonConfirmarProduto);
 
+        produtoController = new ProdutoController(this);
         carregarTipos();
         carregarFornecedores();
 
@@ -136,7 +138,7 @@ public class CriarProduto extends AppCompatActivity {
         TipoDTO tipo = tipos.get(spinnerTipoProduto.getSelectedItemPosition());
         FornecedorDTO fornecedor = fornecedores.get(spinnerFornecedorProduto.getSelectedItemPosition());
 
-        new ProdutoController(this).adicionarProduto(nome, preco, tipo, fornecedor,
+        produtoController.adicionarProduto(nome, preco, tipo, fornecedor,
                 new ProdutoController.CriarProdutoCallback() {
                     @Override
                     public void onSucesso() {

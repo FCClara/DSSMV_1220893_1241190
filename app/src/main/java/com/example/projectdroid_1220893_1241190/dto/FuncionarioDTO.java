@@ -72,4 +72,17 @@ public class FuncionarioDTO implements java.io.Serializable {
         this.salario = salario;
     }
 
+    @Override
+    public String toString() {
+        return "FuncionarioDTO{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", funcao=" + funcao +
+                ", email='" + email + '\'' +
+                ", morada='" + morada + '\'' +
+                ", nif=" + nif +
+                ", nCartao=" + nCartao +
+                ", salario=" + salario +
+                '}';
+    }
 }

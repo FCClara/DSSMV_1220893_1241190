@@ -1,6 +1,5 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
