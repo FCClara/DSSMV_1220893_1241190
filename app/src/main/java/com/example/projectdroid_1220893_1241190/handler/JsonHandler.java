@@ -30,11 +30,11 @@ public class JsonHandler {
 
         for (int i = 0; i < jsonArray.length(); i++) {
 
-            JSONObject objeto = jsonArray.getJSONObject(i);
+            JSONObject objetc = jsonArray.getJSONObject(i);
 
             TipoDTO dto = new TipoDTO();
-            dto.setId(objeto.optString("_id",""));
-            dto.setTipo(objeto.optString("tipo",""));
+            dto.setId(objetc.optString("_id",""));
+            dto.setTipo(objetc.optString("tipo",""));
 
             tipos.add(dto);
         }
@@ -43,9 +43,9 @@ public class JsonHandler {
 
     //este é para adicionar, tranformas em json
     public static String serializeTipoDTO2Json(TipoDTO dto) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("tipo", dto.getTipo());
-        return jsonObject.toString();
+        JSONObject object = new JSONObject();
+        object.put("tipo", dto.getTipo());
+        return object.toString();
     }
 
     // le a lista de fornecedores que vem do restdb (GET)
@@ -55,11 +55,11 @@ public class JsonHandler {
         ArrayList<FornecedorDTO> fornecedores = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject objeto = jsonArray.getJSONObject(i);
+            JSONObject objetc = jsonArray.getJSONObject(i);
 
             FornecedorDTO dto = new FornecedorDTO();
-            dto.setId(objeto.optString("_id", ""));
-            dto.setNome(objeto.optString("nome", ""));
+            dto.setId(objetc.optString("_id", ""));
+            dto.setNome(objetc.optString("nome", ""));
 
             fornecedores.add(dto);
         }
@@ -68,36 +68,36 @@ public class JsonHandler {
 
     // transforma um fornecedor em JSON para adicionar ao restdb (POST)
     public static String serializeFornecedorDTO2Json(FornecedorDTO dto) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("nome", dto.getNome());
-        return jsonObject.toString();
+        JSONObject object = new JSONObject();
+        object.put("nome", dto.getNome());
+        return object.toString();
     }
     public static List<ProdutoDTO> deSerializeJson2ListProdutoDto(String resp) throws JSONException{
         JSONArray jsonArray = new JSONArray(resp);
         List<ProdutoDTO> produtos = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject objeto = jsonArray.getJSONObject(i);
+            JSONObject objetc = jsonArray.getJSONObject(i);
 
             /*android.util.Log.d("DEBUG_JSON", "--- Produto: " + objeto.optString("nome") + " ---");
             android.util.Log.d("DEBUG_JSON", "Tipo raw info: " + objeto.opt("tipo"));
             android.util.Log.d("DEBUG_JSON", "Fornecedor raw info: " + objeto.opt("fornecedor"));*/
 
             ProdutoDTO dto = new ProdutoDTO();
-            dto.setId(objeto.optString("_id", ""));
-            dto.setNome(objeto.optString("nome", ""));
-            dto.setPreco(objeto.optDouble("preco", 0.0));
-            dto.setQuantidadeArmazem(objeto.optInt("quantidadeArmazem", 0));
-            dto.setQuantidadeMontra(objeto.optInt("quantidadeMontra", 0));
+            dto.setId(objetc.optString("_id", ""));
+            dto.setNome(objetc.optString("nome", ""));
+            dto.setPreco(objetc.optDouble("preco", 0.0));
+            dto.setQuantidadeArmazem(objetc.optInt("quantidadeArmazem", 0));
+            dto.setQuantidadeMontra(objetc.optInt("quantidadeMontra", 0));
             //dto.setFoto(objeto.optString("foto", "");
-            dto.setBarcode(objeto.optString("barcode", ""));
+            dto.setBarcode(objetc.optString("barcode", ""));
 
             TipoDTO tipoDTO = new TipoDTO();
-            tipoDTO.setTipo(extractString(objeto.opt("tipo"), "tipo"));
+            tipoDTO.setTipo(extractString(objetc.opt("tipo"), "tipo"));
             dto.setTipo(tipoDTO);
 
             FornecedorDTO fornecedorDTO = new FornecedorDTO();
-            fornecedorDTO.setNome(extractString(objeto.opt("fornecedor"), "nome"));
+            fornecedorDTO.setNome(extractString(objetc.opt("fornecedor"), "nome"));
             dto.setFornecedor(fornecedorDTO);
 
             android.util.Log.d("DEBUG_PRODUTO", "Produto Deserializado -> Nome: " + dto.getNome() +
@@ -115,31 +115,31 @@ public class JsonHandler {
 
     //para a mudanca de quantidades
     public static String serializeQuantidadesProduto(int armazem, int montra) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("quantidadeArmazem", armazem);
-        jsonObject.put("quantidadeMontra", montra);
-        return jsonObject.toString();
+        JSONObject object = new JSONObject();
+        object.put("quantidadeArmazem", armazem);
+        object.put("quantidadeMontra", montra);
+        return object.toString();
     }
 
     public static String serializeAtualizarPreco(double preco) throws JSONException{
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("preco", preco);
-        return jsonObject.toString();
+        JSONObject object = new JSONObject();
+        object.put("preco", preco);
+        return object.toString();
     }
 
     public static String serializeProdutoDTO2Json(ProdutoDTO dto) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("nome", dto.getNome());
-        jsonObject.put("preco", dto.getPreco());
-        jsonObject.put("quantidadeArmazem", dto.getQuantidadeArmazem());
-        jsonObject.put("quantidadeMontra", dto.getQuantidadeMontra());
+        JSONObject object = new JSONObject();
+        object.put("nome", dto.getNome());
+        object.put("preco", dto.getPreco());
+        object.put("quantidadeArmazem", dto.getQuantidadeArmazem());
+        object.put("quantidadeMontra", dto.getQuantidadeMontra());
         if (dto.getTipo() != null && dto.getTipo().getId() != null) {
-            jsonObject.put("tipo", dto.getTipo().getId());
+            object.put("tipo", dto.getTipo().getId());
         }
         if (dto.getFornecedor() != null && dto.getFornecedor().getId() != null) {
-            jsonObject.put("fornecedor", dto.getFornecedor().getId());
+            object.put("fornecedor", dto.getFornecedor().getId());
         }
-        return jsonObject.toString();
+        return object.toString();
     }
 
     public static List<HistoricoDTO> deSerializeJson2ListHistoricoDTO(String resp) throws JSONException {
@@ -147,14 +147,14 @@ public class JsonHandler {
         List<HistoricoDTO> list = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject objeto = jsonArray.getJSONObject(i);
+            JSONObject objetc = jsonArray.getJSONObject(i);
 
             HistoricoDTO dto = new HistoricoDTO();
-            dto.setQuantidade(objeto.optInt("quantidade", 0));
-            dto.setDescricao(objeto.optString("descricao", ""));
+            dto.setQuantidade(objetc.optInt("quantidade", 0));
+            dto.setDescricao(objetc.optString("descricao", ""));
 
             ProdutoDTO produtoDTO = new ProdutoDTO();
-            produtoDTO.setNome(extractString(objeto.opt("produto"), "nome"));
+            produtoDTO.setNome(extractString(objetc.opt("produto"), "nome"));
             dto.setProduto(produtoDTO);
 
             list.add(dto);
@@ -163,23 +163,23 @@ public class JsonHandler {
     }
 
     public static String serialize2JsonHistorico(HistoricoDTO dto) throws JSONException{
-        JSONObject jsonObject = new JSONObject();
+        JSONObject object = new JSONObject();
         if (dto.getProduto() != null && dto.getProduto().getId() != null) {
-            jsonObject.put("produto", dto.getProduto().getId());
+            object.put("produto", dto.getProduto().getId());
         }
-        jsonObject.put("quantidade", dto.getQuantidade());
-        jsonObject.put("descricao", dto.getDescricao());
-        return jsonObject.toString();
+        object.put("quantidade", dto.getQuantidade());
+        object.put("descricao", dto.getDescricao());
+        return object.toString();
     }
 
     public static String serialize2JsonTurno(TurnoDTO dto) throws JSONException{
-        JSONObject jsonObject = new JSONObject();
+        JSONObject object = new JSONObject();
         if(dto.getDia() != null && dto.getDia().getId() !=null){
-            jsonObject.put("Dia", dto.getDia().getId());
+            object.put("Dia", dto.getDia().getId());
         }
-        jsonObject.put("HoraEntrada", dto.getHoraEntrada());
-        jsonObject.put("HoraSaida", dto.getHoraSaida());
-        return jsonObject.toString();
+        object.put("HoraEntrada", dto.getHoraEntrada());
+        object.put("HoraSaida", dto.getHoraSaida());
+        return object.toString();
     }
 
     public static List<DiaDTO> deSeralize2JsonDiaDTO(String resp) throws JSONException{

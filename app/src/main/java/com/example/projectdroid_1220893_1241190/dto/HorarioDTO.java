@@ -20,4 +20,10 @@ public class HorarioDTO {
 
     public void setTurno(String diaId, String turnoId) { turnoPorDia.put(diaId, turnoId); }
     public String getTurnoDoDia(String diaId) { return turnoPorDia.get(diaId); }
+
+    @Override
+    public String toString() {
+        return "HorarioDTO{" +
+                "id='" + id + '\'' + ", funcionario=" + funcionario + ", turnoPorDia=" + turnoPorDia + '}';
+    }
 }

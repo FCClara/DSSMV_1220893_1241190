@@ -5,7 +5,6 @@ public class FornecedorDTO {
     private String nome;
     private String id;
     public FornecedorDTO(){}
-
     public FornecedorDTO(String nome) {
         this.nome = nome;
     }
@@ -24,5 +23,10 @@ public class FornecedorDTO {
 
     public void setId(String id){
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "FornecedorDTO{" + "nome='" + nome + '\'' + ", id='" + id + '\'' + '}';
     }
 }

@@ -33,4 +33,10 @@ public class TurnoDTO {
     public void setHoraSaida(String horaSaida) {
         this.HoraSaida = horaSaida;
     }
+
+    @Override
+    public String toString() {
+        return "TurnoDTO{" + "id='" + id + '\'' + ", dia=" + dia +
+                ", HoraEntrada='" + HoraEntrada + '\'' + ", HoraSaida='" + HoraSaida + '\'' + '}';
+    }
 }

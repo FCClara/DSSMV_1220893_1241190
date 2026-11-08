@@ -1,6 +1,5 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.example.projectdroid_1220893_1241190.R;
 import com.example.projectdroid_1220893_1241190.adapter.TurnosAdapter;
 import com.example.projectdroid_1220893_1241190.controller.TurnosController;
 import com.example.projectdroid_1220893_1241190.dto.DiaDTO;
-import com.example.projectdroid_1220893_1241190.dto.HorarioDTO;
 import com.example.projectdroid_1220893_1241190.dto.TurnoDTO;
 
 import java.util.ArrayList;

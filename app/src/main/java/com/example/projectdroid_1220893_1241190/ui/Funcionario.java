@@ -1,6 +1,5 @@
 package com.example.projectdroid_1220893_1241190.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

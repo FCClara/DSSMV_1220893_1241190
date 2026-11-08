@@ -23,4 +23,9 @@ public class FuncaoDTO implements java.io.Serializable {
     public void setFuncao(String funcao) {
         this.funcao = funcao;
     }
+
+    @Override
+    public String toString() {
+        return "FuncaoDTO{" + "id='" + id + '\'' + ", funcao='" + funcao + '\'' + '}';
+    }
 }
