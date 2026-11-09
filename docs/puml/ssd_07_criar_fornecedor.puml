@@ -1,0 +1,14 @@
+@startuml ssd_07_criar_fornecedor
+
+actor "Dono" as A
+participant ":Sistema" as S
+
+A -> S : criarFornecedor(nome)
+alt nome vazio ou inválido (só letras e espaços)
+  S --> A : erro de validação
+else fornecedor já existe (ignora maiúsculas/minúsculas)
+  S --> A : erro "Fornecedor já existe!"
+else
+  S --> A : "Fornecedor adicionado com sucesso"
+end
+@enduml

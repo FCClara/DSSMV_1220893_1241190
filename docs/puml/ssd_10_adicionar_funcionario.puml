@@ -1,0 +1,23 @@
+@startuml ssd_10_adicionar_funcionario
+
+actor "Gerente" as A
+participant ":Sistema" as S
+
+
+
+A -> S : abrirAdicionarFuncionario()
+alt não existem funções
+  S --> A : erro "Nao ha funcoes"
+end
+S --> A : funções disponíveis
+
+A -> S : adicionarFuncionario(nome, email, morada,\nnif, nCartão, salário, função)
+
+alt
+else campo vazio ou NIF, nº de cartão\nou salário inválidos
+  S --> A : erro de validação
+else
+  S --> A : "Funcionario adicionado com sucesso"
+end
+
+@enduml

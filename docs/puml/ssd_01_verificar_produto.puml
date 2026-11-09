@@ -1,0 +1,25 @@
+@startuml ssd_01_verificar_produto
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+alt Procurar por tipo de produto
+  A -> S : listarProdutos()
+  S --> A : tipos de produto
+  A -> S : selecionarTipo(tipo)
+  alt existem produtos do tipo
+    S --> A : produtos do tipo
+  else sem produtos
+    S --> A : aviso "Sem produtos deste tipo"
+  end
+  A -> S : selecionarProduto(produto)
+  S --> A : nome, tipo, fornecedor, preço,\nquantidade total, no armazém e na montra
+else Ler código de barras
+  A -> S : lerCodigoBarras(código)
+  alt produto encontrado
+    S --> A : nome, tipo, fornecedor, preço,\nquantidade total, no armazém e na montra
+  else código inválido ou sem produto
+    S --> A : erro ("Código inválido" /\n"Nenhum produto com o código ...")
+  end
+end
+@enduml

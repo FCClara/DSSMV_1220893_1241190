@@ -1,0 +1,11 @@
+@startuml ssd_04_registar_entrada_stock
+
+actor "Dono" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: produto selecionado (SSD 1).\nOperação só disponível ao Dono.
+
+A -> S : registarEntradaStock(produto, quantidade)
+S --> A : "Movido com sucesso"\nnovas quantidades (armazém, montra)
+
+@enduml

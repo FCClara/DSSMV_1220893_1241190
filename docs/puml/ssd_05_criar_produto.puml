@@ -1,0 +1,20 @@
+@startuml ssd_05_criar_produto
+
+actor "Dono" as A
+participant ":Sistema" as S
+
+A -> S : abrirCriarProduto()
+S --> A : tipos e fornecedores disponíveis
+
+A -> S : criarProduto(nome, preço, tipo, fornecedor)
+alt não existem tipos ou fornecedores
+  S --> A : erro "Crie um tipo / fornecedor primeiro"
+else nome vazio ou inválido (só letras e espaços),\npreço inválido ou ≤ 0
+  S --> A : erro de validação
+else produto com esse nome já existe
+  S --> A : erro "Produto já existe!"
+else
+  S --> A : "Produto adicionado com sucesso"
+end
+
+@enduml

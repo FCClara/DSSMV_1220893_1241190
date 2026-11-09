@@ -1,0 +1,23 @@
+@startuml ssd_14_trocar_turno
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: ficha do funcionário aberta (SSD 11),\ncom o perfil Funcionário.
+
+A -> S : pedirMudançaTurno()
+S --> A : dias da semana
+
+A -> S : selecionarDia(dia)
+S --> A : turnos existentes nesse dia\n(hora de entrada, hora de saída)
+
+A -> S : trocarTurno(turno)
+alt funcionário sem horário
+  S --> A : erro "Não tens horário associado"
+else o turno já pertence ao funcionário
+  S --> A : erro "Esse turno já é teu"
+else
+  S --> A : "Turno trocado"\nhorário atualizado
+end
+
+@enduml

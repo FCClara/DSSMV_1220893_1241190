@@ -1,0 +1,24 @@
+@startuml ssd_03_mover_stock
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: produto selecionado (SSD 1)
+
+alt Armazém → Montra
+  A -> S : moverArmazemParaMontra(produto, quantidade)
+  alt quantidade > stock do armazém
+    S --> A : erro "So tem N no armazem"
+  else
+    S --> A : "Movido com sucesso"\nnovas quantidades (armazém, montra)
+  end
+else Montra → Lixo
+  A -> S : moverMontraParaLixo(produto, quantidade)
+  alt quantidade > stock da montra
+    S --> A : erro "So tem N na montra"
+  else
+    S --> A : "Movido com sucesso"\nnovas quantidades (armazém, montra)
+  end
+end
+
+@enduml

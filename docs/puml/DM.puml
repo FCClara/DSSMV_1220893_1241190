@@ -1,0 +1,76 @@
+@startuml 01_modelo_dominio
+
+hide circle
+hide methods
+skinparam nodesep 60
+
+class Funcionario {
+  nome
+  email
+  morada
+  nif
+  nCartao
+  salario
+}
+
+class Gerente
+class Dono
+
+class Funcao {
+  funcao
+}
+
+class Horario
+
+class Turno {
+  horaEntrada
+  horaSaida
+}
+
+class Dia {
+  dia
+}
+
+class Produto {
+  nome
+  preco
+  quantidadeArmazem
+  quantidadeMontra
+  barcode
+}
+
+class Tipo {
+  tipo
+}
+
+class Fornecedor {
+  nome
+}
+
+class Historico {
+  quantidade
+  descricao
+}
+
+Funcionario <|-- Gerente
+Gerente <|-- Dono
+
+Funcao "1" -right- "*" Funcionario : < tem
+Funcionario "1" -right--- "0..1" Horario : possui >
+Horario "1" -down- "0..7" Turno : contém >
+Turno "*" -down- "1" Dia : ocorre em >
+
+Funcionario "*" -- "1" Gerente : < regista
+Gerente "1" -right- "*" Turno : cria >
+
+Dono "1" -down- "*" Produto : regista >
+Dono "1" -down- "*" Tipo : regista >
+Dono "1" -down- "*" Fornecedor : regista >
+
+Funcionario "*" -- "*" Produto : movimenta stock de >
+
+Tipo "1" -right- "*" Produto : < é de
+Produto "*" -right- "1" Fornecedor : fornecido por >
+Produto "1" -down- "*" Historico : < refere-se a
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml ssd_12_consultar_horario_dia
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+A -> S : abrirHorario()
+
+alt Erro a carregar dias
+S --> A : não existe dias
+end
+
+S --> A : dias da semana
+
+A -> S : selecionarDia(dia)
+S --> A : funcionários a trabalhar nesse dia\n(funcionário, hora de entrada, hora de saída)
+@enduml

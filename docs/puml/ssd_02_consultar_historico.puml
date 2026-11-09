@@ -1,0 +1,14 @@
+@startuml ssd_02_consultar_historico
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: produto selecionado (SSD 1)
+
+A -> S : consultarHistorico(produto)
+alt existem movimentos
+  S --> A : movimentos do produto\n(descrição, quantidade)
+else sem movimentos
+  S --> A : aviso "Sem historico para este produto"
+end
+@enduml

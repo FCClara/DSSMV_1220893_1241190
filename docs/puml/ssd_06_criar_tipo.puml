@@ -1,0 +1,14 @@
+@startuml ssd_06_criar_tipo
+
+actor "Dono" as A
+participant ":Sistema" as S
+
+A -> S : criarTipo(nome)
+alt nome vazio ou com caracteres não alfabéticos
+  S --> A : erro de validação
+else tipo já existe (ignora maiúsculas/minúsculas)
+  S --> A : erro "Tipo de produto já existe!"
+else
+  S --> A : "Tipo adicionado com sucesso"
+end
+@enduml

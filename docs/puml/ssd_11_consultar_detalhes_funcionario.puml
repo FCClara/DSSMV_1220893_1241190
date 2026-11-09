@@ -1,0 +1,11 @@
+@startuml ssd_11_consultar_detalhes_funcionario
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+A -> S : listarFuncionarios()
+S --> A : lista de funcionários
+
+A -> S : selecionarFuncionario(funcionário)
+S --> A : ficha (nome, função, email, morada,\nNIF, nº de cartão, salário)\ne horário semanal (dia, entrada, saída)
+@enduml

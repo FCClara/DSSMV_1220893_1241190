@@ -1,0 +1,24 @@
+@startuml ssd_13_criar_turno
+
+actor "Gerente" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: ficha do funcionário aberta (SSD 11).\nOperação disponível ao Gerente e ao Dono.
+
+A -> S : abrirCriarTurno(funcionário)
+
+alt Erro a carregar dias
+S --> A : não existe dias
+end
+S --> A : dias da semana
+
+A -> S : criarTurno(dia, horaEntrada, horaSaída)
+alt hora fora do formato hh:mm\nou saída não posterior à entrada
+  S --> A : erro de validação
+else turno criado mas não associado ao horário
+  S --> A : erro "Turno criado mas nao associado"
+else
+  S --> A : "Turno criado e associado"
+end
+
+@enduml

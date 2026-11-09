@@ -1,0 +1,14 @@
+@startuml ssd_09_alterar_preco
+
+actor "Dono" as A
+participant ":Sistema" as S
+
+note over A, S : Pré-condição: lista de preços aberta (SSD 8).\nOperação só disponível ao Dono.
+
+A -> S : alterarPreco(produto, novoPreço)
+alt novo preço vazio ou ≤ 0
+  S --> A : erro "Tem de ser superior a zero"
+else
+  S --> A : "Mudado com sucesso"\nlista de preços atualizada
+end
+@enduml

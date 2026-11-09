@@ -1,0 +1,73 @@
+@startuml 10_sd_adicionar_funcionario
+autonumber "<b>0"
+skinparam dpi 150
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 360
+
+actor "Gerente" as A
+participant ":AdicionarFuncionario" as V
+participant ":FuncionarioController" as C
+participant "FuncionarioService" as S
+participant "JsonHandler" as JH
+participant "NetworkHandler" as NH
+participant "RestDB" as DB
+participant "funcionarioDTO:FuncionarioDTO" as DTO
+
+activate A
+A -> V ++ : pede para adicionar um funcionário
+
+create C
+V --> C : create()
+
+V -> C ++ : obterFuncao(callback)
+C -> S ++ : obterFuncao(ctx)
+S -> NH ++ : get(ctx, "funcao")
+NH -> DB ++ : GET /funcao
+DB --> NH -- : json
+NH --> S -- : json
+S -> JH ++ : deSeralizeJson2ListFuncaoDTO(json)
+JH --> S -- : listaFuncao
+S --> C -- : listaFuncao
+C --> V -- : onSucesso(listaFuncao)
+
+V --> A -- : pede os dados do funcionário\n(nome, email, morada, nif, nCartao, salario, função)
+
+A -> V ++ : introduz os dados e confirma
+
+alt sem funções, campo vazio ou nif, nCartao\nou salario não numéricos
+  V --> A : mostra erro
+else dados válidos
+  V -> C ++ : criarFuncionarios(nome, email, morada, nif,\nnCartao, salario, funcao, callback)
+
+  alt nome, email ou morada vazios
+    C --> V : onErro(mensagem)
+    V --> A : mostra erro
+  else
+    create DTO
+    C --> DTO : create()
+    C -> DTO : set(nome, funcao, email, morada,\nnif, nCartao, salario)
+
+    alt adicionado com sucesso
+      C -> S ++ : adicionarFuncionario(ctx, dto)
+      S -> JH ++ : serializeFuncionarioDTO2Json(dto)
+      JH --> S -- : body
+      S -> NH ++ : post(ctx, "pessoas", body)
+      NH -> DB ++ : POST /pessoas
+      DB --> NH -- : resposta
+      NH --> S -- : resposta
+      S -> S ++ : extrai "_id" da resposta
+      S --> S -- : funcId
+      S --> C -- : funcId
+      C --> V : onSucesso(funcId)
+      V --> A : informa sucesso e fecha o ecrã
+    else exceção (ex.: erro de rede)
+      C --> V : onErro("Erro: " + mensagem)
+      V --> A : mostra erro
+    end
+  end
+  deactivate C
+end
+deactivate V
+deactivate A
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml ssd_08_verificar_precos_externos
+
+actor "Funcionário" as A
+participant ":Sistema" as S
+
+A -> S : consultarPrecos()
+S --> A : produtos com o preço atual
+
+A -> S : atualizarPrecosExternos()
+loop para cada produto
+  alt existe preço externo
+    S --> A : preço médio externo (€)
+  else sem dados
+    S --> A : "Sem dados"
+  end
+end
+
+@enduml

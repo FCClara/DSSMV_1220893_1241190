@@ -1,0 +1,95 @@
+@startuml 11_sd_verificar_precos_externos
+autonumber "<b>0"
+skinparam dpi 150
+skinparam sequenceMessageAlign left
+skinparam maxMessageSize 360
+
+actor "Funcionário" as A
+participant ":Preco" as V
+participant ":PrecoAdapter" as AD
+participant ":PrecoService" as PS
+participant "NetworkHandler" as NH
+participant "JsonHandler" as JH
+participant "RestDB" as DB
+participant "Open Food Facts" as OFF
+
+activate A
+A -> V ++ : pede para verificar os preços externos
+
+create PS
+V --> PS : create()
+create AD
+V --> AD : create(produtos, listener, userRole)
+
+alt produtos carregados
+  V -> NH ++ : get(ctx, "/produto")
+  NH -> DB ++ : GET /produto
+  DB --> NH -- : json
+  NH --> V -- : json
+  V -> JH ++ : deSerializeJson2ListProdutoDto(json)
+  JH --> V -- : produtos
+  V -> AD ++ : notifyDataSetChanged()
+  AD --> V --
+  V --> A : mostra os produtos\n(nome, preço atual, "--")
+else erro de rede ou JSON
+  V --> A : mostra "Erro ao carregar produtos"
+end
+deactivate V
+
+A -> V ++ : pede para atualizar todos os preços
+V -> V : desativa o botão e mostra a barra de progresso
+
+loop para cada produto
+  alt sem exceções
+    opt produto sem código de barras
+      V -> PS ++ : procurarCodigoBarras(nome)
+      PS -> OFF ++ : GET world.openfoodfacts.org/cgi/search.pl\n?search_terms=nome
+      OFF --> PS -- : json
+      PS --> V -- : codigo (ou null)
+      V -> V : espera 6,5 s (limite de pedidos da API)
+      opt código encontrado
+        V -> V : setBarcode(codigo)
+      end
+    end
+
+    opt existe código de barras
+      V -> PS ++ : mediaPreco(codigo)
+      PS -> OFF ++ : GET prices.openfoodfacts.org/api/v1/prices\n?product_code=codigo&currency=EUR&size=50
+      OFF --> PS -- : json
+      PS -> PS : calcula a média dos preços (EUR)
+      PS --> V -- : media (ou null)
+    end
+
+    alt média encontrada
+      V -> V ++ : addPrecoBarCode(produto)
+      V -> NH ++ : patch(ctx, "/produto/id", body)
+      NH -> DB ++ : PATCH /produto/id
+      DB --> NH -- : resposta
+      NH --> V -- : resposta
+      V --> V --
+      V -> AD ++ : setPrecoMedio(pos, media)
+      AD --> V --
+    else sem média
+      opt código de barras novo
+        V -> V ++ : addPrecoBarCode(produto)
+        V -> NH ++ : patch(ctx, "/produto/id", body)
+        NH -> DB ++ : PATCH /produto/id
+        DB --> NH -- : resposta
+        NH --> V -- : resposta
+        V --> V --
+      end
+      V -> AD ++ : setSemPreco(pos)
+      AD --> V --
+    end
+  else erro de rede ou JSON (IOException / JSONException)
+    V -> AD ++ : setSemPreco(pos)
+    AD --> V --
+  end
+  V -> V : atualiza a barra de progresso
+end
+
+V -> V : esconde a barra de progresso e reativa o botão
+V --> A -- : mostra o preço médio externo\nou "Sem dados" de cada produto
+deactivate A
+
+@enduml
