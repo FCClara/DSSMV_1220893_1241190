@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/goPrecoProduto"
         android:layout_width="162dp"
-        android:layout_height="46dp"
+        android:layout_height="48dp"
         android:text="Precos"
         app:layout_constraintBottom_toTopOf="@+id/buttonGoCodigoBarras"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,20 +44,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Horario"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGoListaTurnos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGoCodigoBarras" />
-
-    <Button
-        android:id="@+id/buttonGoListaTurnos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lista Turnos"
         app:layout_constraintBottom_toTopOf="@+id/buttonGoListaFuncionarios"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGoHorario" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoCodigoBarras" />
 
     <Button
         android:id="@+id/buttonGoListaFuncionarios"
@@ -68,7 +58,7 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonGoCriarTipo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGoListaTurnos"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoHorario"
         tools:visibility="visible" />
 
     <Button

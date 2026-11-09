@@ -43,7 +43,7 @@
         android:layout_marginTop="101dp"
         android:ems="10"
         android:gravity="center"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/produtoNomePreco" />
 </androidx.constraintlayout.widget.ConstraintLayout>

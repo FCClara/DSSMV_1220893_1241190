@@ -104,34 +104,35 @@ public class AdicionarFuncionario extends AppCompatActivity {
         }
 
         if(nome.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+            editTextNomeFuncionario.setError("Indique o nome");
+            editTextNomeFuncionario.requestFocus();
+
         }
-        if(email.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+        if (email.isEmpty()) {
+            editTextEmailFuncionario.setError("Indique o email");
+            editTextEmailFuncionario.requestFocus();
+
         }
         if(morada.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+            editTextMoradaFuncionario.setError("Indique a morada");
+            editTextMoradaFuncionario.requestFocus();
         }
         if(textNif.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+            editTextNifFuncionario.setError("Indique o NIF");
+            editTextNifFuncionario.requestFocus();
         }
         if(textNCartao.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+            editTextNCartaoFuncionario.setError("Indique o numero de cartao");
+            editTextNCartaoFuncionario.requestFocus();
         }
         if(textSalario.isEmpty()){
-            Toast.makeText(this, "Indique o nome do funcionario", Toast.LENGTH_SHORT).show();
-            return;
+            editTextSalarioFuncionario.setError("Indique o salario");
+            editTextSalarioFuncionario.requestFocus();
         }
         double salario;
         try{
             salario = Double.parseDouble(textSalario.replace(',', '.'));
         }catch (NumberFormatException e){
-            Toast.makeText(this, "Salario invalido", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -139,7 +140,6 @@ public class AdicionarFuncionario extends AppCompatActivity {
         try{
             nif = Integer.parseInt(textNif);
         }catch (NumberFormatException e){
-            Toast.makeText(this, "Nif invalido", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -147,7 +147,6 @@ public class AdicionarFuncionario extends AppCompatActivity {
         try{
             nCartao = Integer.parseInt(textNCartao);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Numero Cartao Invalido", Toast.LENGTH_SHORT).show();
             return;
         }
 

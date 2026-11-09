@@ -15,8 +15,6 @@ public class Produto {
 
     private Fornecedor fornecedor;
 
-    //private String foto;
-
     private String barcode;
 
 
@@ -28,7 +26,6 @@ public class Produto {
         this.quantidadeArmazem = quantidadeArmazem;
         this.quantidadeMontra = quantidadeMontra;
         this.fornecedor = fornecedor;
-        //this.foto = foto;
         this.barcode = barcode;
     }
 
@@ -108,8 +105,6 @@ public class Produto {
         }
         this.fornecedor = fornecedor;
     }
-
-    //public String getFoto() {return foto;}
 
     public String getBarcode() {
         return barcode;

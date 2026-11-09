@@ -32,7 +32,7 @@ public class Funcionario extends AppCompatActivity {
     private EditText editTextTipo;
     private Button buttonAdicionarTipo;
 
-    private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaTurnos,buttonGoListaFuncionarios;
+    private Button buttonGoListProdutos, buttonGoHorario, buttonGoListaFuncionarios;
     private Button goPrecoProduto, buttonGoCodigoBarras;
 
     private Button buttonGoCriarTipo, buttonGoCriarFornecedor, buttonGoCriarProduto, buttonGoAdicionarFuncionario;
@@ -50,7 +50,6 @@ public class Funcionario extends AppCompatActivity {
         goPrecoProduto = findViewById(R.id.goPrecoProduto);
         buttonGoCodigoBarras = findViewById(R.id.buttonGoCodigoBarras);
         buttonGoHorario = findViewById(R.id.buttonGoHorario);
-        buttonGoListaTurnos = findViewById(R.id.buttonGoListaTurnos);
         buttonGoListaFuncionarios = findViewById(R.id.buttonGoListaFuncionarios);
         buttonGoCriarTipo = findViewById(R.id.buttonGoCriarTipo);
         buttonGoCriarFornecedor = findViewById(R.id.buttonGoCriarFornecedor);
@@ -129,10 +128,6 @@ public class Funcionario extends AppCompatActivity {
         });
         buttonGoHorario.setOnClickListener(v -> {
             Intent intent = new Intent(Funcionario.this, Horario.class);
-            startActivity(intent);
-        });
-        buttonGoListaTurnos.setOnClickListener(v -> {
-            Intent intent = new Intent(Funcionario.this, ListaTurnos.class);
             startActivity(intent);
         });
 

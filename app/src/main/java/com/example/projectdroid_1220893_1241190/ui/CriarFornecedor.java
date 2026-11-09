@@ -41,6 +41,8 @@ public class CriarFornecedor extends AppCompatActivity {
         String nomeFornecedor = editTextNovoFornecedor.getText().toString().trim();
 
         if(nomeFornecedor.isEmpty()){
+            editTextNovoFornecedor.setError("Fornecedor nao pode estar vazio");
+            editTextNovoFornecedor.requestFocus();
             Toast.makeText(this, "Fornecedor não pode estar vazio", Toast.LENGTH_SHORT).show();
             return;
         }

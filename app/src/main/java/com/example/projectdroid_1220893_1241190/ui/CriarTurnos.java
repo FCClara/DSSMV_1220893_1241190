@@ -139,11 +139,13 @@ public class CriarTurnos extends AppCompatActivity {
         String horaSaida = edtHoraSaida.getText().toString().trim();
 
         if (!HORA_PATTERN.matcher(horaEntrada).matches()) {
-            edtHoraEntrada.setError("Use o formato hh:mm (ex: 09:30)");
+            edtHoraEntrada.setError("Use o formato HH:MM (ex: 09:30)");
+            edtHoraEntrada.requestFocus();
             return;
         }
         if (!HORA_PATTERN.matcher(horaSaida).matches()) {
-            edtHoraSaida.setError("Use o formato hh:mm (ex: 17:00)");
+            edtHoraSaida.setError("Use o formato HH:MM (ex: 17:00)");
+            edtHoraSaida.requestFocus();
             return;
         }
         if (horaSaida.compareTo(horaEntrada) <= 0) {

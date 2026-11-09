@@ -78,7 +78,9 @@ public class MudarPreco extends AppCompatActivity {
     private double lerPreco(EditText et) {
         String p = et.getText().toString().trim();
         if (p.isEmpty()) {
-            Toast.makeText(this, "Indique o preco", Toast.LENGTH_SHORT).show();
+            editPreco.setError("Indique o preco");
+            editPreco.requestFocus();
+            //Toast.makeText(this, "Indique o preco", Toast.LENGTH_SHORT).show();
             return -1;
         }
         return Double.parseDouble(p.replace(',', '.'));    }
