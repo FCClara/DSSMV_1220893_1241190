@@ -45,7 +45,7 @@ public class ListaProdutos extends AppCompatActivity {
         setContentView(R.layout.activity_lista_produtos);
 
         userRole = getIntent().getStringExtra("USER_ROLE");
-        Log.d("simvery", "sh" + userRole);
+        Log.d("LISTA_PRODUTOS_ACTIVITY", "userRole:" + userRole);
 
         spinnerPTipos = findViewById(R.id.spinnerPTipos);
         recyclerView = findViewById(R.id.recyclerView);
@@ -115,66 +115,6 @@ public class ListaProdutos extends AppCompatActivity {
             Toast.makeText(this, "Sem produtos deste tipo", Toast.LENGTH_SHORT).show();
         }
     }
-    /*private void carregarSpinnerComDados() {
-        new Thread(() -> {
-            try {
-                listaProdutosGlobal = ProdutoService.obterProdutos(ListaProdutos.this);
-
-                ArrayList<String> nomesProdutos = new ArrayList<>();
-                if (listaProdutosGlobal != null) {
-                    for (ProdutoDTO p : listaProdutosGlobal) {
-                        if (p != null && p.getNome() != null) {
-                            nomesProdutos.add(p.getNome());
-                        }
-                    }
-                }
-
-                runOnUiThread(() -> {
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            ListaProdutos.this,
-                            android.R.layout.simple_spinner_item,
-                            nomesProdutos
-                    );
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(adapter);
-
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        boolean userSelect = false;
-
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            // Prevents triggering automatically on layout load
-                            if (!userSelect) {
-                                userSelect = true;
-                                return;
-                            }
-
-                            if (listaProdutosGlobal != null && position < listaProdutosGlobal.size()) {
-                                ProdutoDTO produtoSelecionado = listaProdutosGlobal.get(position);
-
-                                Intent intent = new Intent(ListaProdutos.this, AcoesProduto.class);
-                                intent.putExtra("PRODUTO_NOME", produtoSelecionado.getNome());
-                                intent.putExtra("PRODUTO_TIPO", (produtoSelecionado.getTipo() != null ? produtoSelecionado.getTipo().getTipo() : "").toString());
-                                intent.putExtra("PRODUTO_PRECO", produtoSelecionado.getPreco());
-                                intent.putExtra("PRODUTO_ARMAZEM", produtoSelecionado.getQuantidadeArmazem());
-                                intent.putExtra("PRODUTO_MONTRA", produtoSelecionado.getQuantidadeMontra());
-                                intent.putExtra("PRODUTO_FORNECEDOR", (produtoSelecionado.getFornecedor() != null ? produtoSelecionado.getFornecedor().getNome() : "").toString());
-                                startActivity(intent);
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
-                    });
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }*/
-
     private void abrirAcoesProduto(ProdutoDTO p) {
         Intent intent = new Intent(ListaProdutos.this, AcoesProduto.class);
         intent.putExtra("PRODUTO_ID", p.getId());

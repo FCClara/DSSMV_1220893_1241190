@@ -52,7 +52,7 @@ public class CriarTurnos extends AppCompatActivity {
         aplicarMascaraHora(edtHoraSaida);
 
         String funcId = getIntent().getStringExtra("FUNC_ID");
-        Log.d("FUNC_ID", "SHDJ" + funcId);
+        Log.d("FUNC_ID", "funcID:" + funcId);
 
         controller = new TurnosController(this);
 
@@ -168,7 +168,6 @@ public class CriarTurnos extends AppCompatActivity {
         String diaNome = diaEscolhido.getDia();
 
         criarTurno.setEnabled(false); // evita duplo clique
-        //Log.d("TURNODIAYES", dia + " " + horaEntrada + " -> " + horaSaida + ""+id);
 
         // controller pra criar o turno
         controller.createTurnos(diaId, horaEntrada, horaSaida,
@@ -202,7 +201,7 @@ public class CriarTurnos extends AppCompatActivity {
                     public void onErro(String mensagem) {
                         criarTurno.setEnabled(true);
                         Toast.makeText(CriarTurnos.this, mensagem, Toast.LENGTH_LONG).show();
-                        Log.d("LOGDOERRO","WOA" + mensagem);
+                        Log.d("LOG_ERRO_CRIAR_TURNO","Erro:" + mensagem);
                     }
                 });
     }

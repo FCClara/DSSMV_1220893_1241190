@@ -36,12 +36,12 @@ public class MudarPreco extends AppCompatActivity {
 
         editPreco = findViewById(R.id.editarPreco);
 
-        android.util.Log.d("MANDARCONTROLLER", "YAY" + produtoId);
+        android.util.Log.d("MUDAR_PRECO_ACTIVITY", "produtoID:" + produtoId);
 
 
         findViewById(R.id.buttonMudarPrecoFinal).setOnClickListener(v->{
             double novoPreco = lerPreco(editPreco);
-            android.util.Log.d("MANDARCONTROLLER", "YAY" + produtoId + novoPreco);
+            android.util.Log.d("MUDAR_PRECO_ACTIVITY", "produtoID:" + produtoId + novoPreco);
 
             if (novoPreco > 0.0) controller.mudarPreco(produtoId, novoPreco, preco, callback);
         });

@@ -46,7 +46,7 @@ public class AcoesProduto extends AppCompatActivity {
 
         userRole = getIntent().getStringExtra("USER_ROLE");
 
-        Log.d("verymuch", "vert" + userRole);
+        Log.d("ACOESPRODUTO_ACTIVITY", "userRole " + userRole);
 
         tvNome = findViewById(R.id.nomeProduto);
         tvTipo = findViewById(R.id.tipoDoProduto);

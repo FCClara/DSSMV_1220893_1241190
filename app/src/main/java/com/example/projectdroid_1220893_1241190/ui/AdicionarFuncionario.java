@@ -78,7 +78,7 @@ public class AdicionarFuncionario extends AppCompatActivity {
                     nomesFuncao.add(f.getFuncao());
                 }
                 spinnerFuncionarioAdicionar.setAdapter(criarAdapter(nomesFuncao));
-                Log.d("NAV_ADICIONAR_FUNC", "FU" + listaFuncao);
+                Log.d("NAV_ADICIONAR_FUNC", "FUNC" + listaFuncao);
             }
 
             @Override
@@ -163,7 +163,7 @@ public class AdicionarFuncionario extends AppCompatActivity {
                     public void onErro(String mensagem) {
                         buttonConfirmarFuncionario.setEnabled(true);
                         Toast.makeText(AdicionarFuncionario.this, mensagem, Toast.LENGTH_LONG).show();
-                        Log.d("erroPLS", "erro" + mensagem);
+                        Log.d("ONERRO_ADDFUNC", "Erro" + mensagem);
 
                     }
                 });

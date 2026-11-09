@@ -27,7 +27,7 @@ public class MoverProduto extends AppCompatActivity {
         setContentView(R.layout.activity_mover_produto);
 
         userRole = getIntent().getStringExtra("USER_ROLE");
-        Log.d("USERMOVERP", "user" + userRole);
+        Log.d("USERMOVER", "user" + userRole);
 
         controller = new ProdutoController(this);
         produtoId = getIntent().getStringExtra("PRODUTO_ID");

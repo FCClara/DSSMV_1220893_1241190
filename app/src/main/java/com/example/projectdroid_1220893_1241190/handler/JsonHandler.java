@@ -79,10 +79,6 @@ public class JsonHandler {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject objetc = jsonArray.getJSONObject(i);
 
-            /*android.util.Log.d("DEBUG_JSON", "--- Produto: " + objeto.optString("nome") + " ---");
-            android.util.Log.d("DEBUG_JSON", "Tipo raw info: " + objeto.opt("tipo"));
-            android.util.Log.d("DEBUG_JSON", "Fornecedor raw info: " + objeto.opt("fornecedor"));*/
-
             ProdutoDTO dto = new ProdutoDTO();
             dto.setId(objetc.optString("_id", ""));
             dto.setNome(objetc.optString("nome", ""));
