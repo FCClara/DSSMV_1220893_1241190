@@ -3,47 +3,43 @@
 
 left to right direction
 
-actor "Funcionário" as Funcionário
+actor "Funcionário" as Funcionario
 actor "Gerente" as Gerente
 actor "Dono" as Dono
 
 rectangle "Super Fresh" {
+  usecase "Verificar produto" as UC1
+  usecase "Consultar histórico" as UC2
+  usecase "Mover stock" as UC3
+  usecase "Verificar preços externos" as UC8
+  usecase "Consultar detalhes de funcionário" as UC11
+  usecase "Consultar horário" as UC12
+  usecase "Trocar turno" as UC14
 
-usecase "Verificar produto" as UC1
-usecase "Consultar Histórico" as UC2
-usecase "Mover Stock" as UC3
-usecase "Registar Entrada de Stock" as UC4
-usecase "Criar Produto" as UC5
-usecase "Criar Tipo de Produto" as UC6
-usecase "Criar Fornecedor" as UC7
-usecase "Verificar Preços" as UC8
-usecase "Alterar Preços" as UC9
-usecase "Criar Funcionário" as UC10
-usecase "Consultar Detalhes de Funcionário" as UC11
-usecase "Consultar Horário" as UC12
-usecase "Criar Turno" as UC13
-usecase "Trocar Turno" as UC14
+  usecase "Criar funcionário" as UC10
+  usecase "Criar turno" as UC13
 
+  usecase "Registar entrada de stock" as UC4
+  usecase "Criar produto" as UC5
+  usecase "Criar tipo de produto" as UC6
+  usecase "Criar fornecedor" as UC7
+  usecase "Alterar preço" as UC9
 }
 
-Dono -> Gerente
-Gerente -> Funcionário
+Funcionario --> UC1
+Funcionario --> UC2
+Funcionario --> UC3
+Funcionario --> UC8
+Funcionario --> UC11
+Funcionario --> UC12
+Funcionario --> UC14
 
-Funcionário -> UC1
-Funcionário -> UC2
-Funcionário -> UC3
-Funcionário -> UC8
-Funcionário -> UC11
-Funcionário -> UC12
-Funcionário -> UC14
+Gerente --> UC10
+Gerente --> UC13
 
-Gerente -> UC10
-Gerente -> UC13
-
-Dono -> UC4
-Dono -> UC5
-Dono -> UC6
-Dono -> UC7
-Dono -> UC9
-
+Dono --> UC4
+Dono --> UC5
+Dono --> UC6
+Dono --> UC7
+Dono --> UC9
 @enduml
