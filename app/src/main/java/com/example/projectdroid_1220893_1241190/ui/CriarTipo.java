@@ -41,7 +41,9 @@ public class CriarTipo extends AppCompatActivity{
         String nomeTipo = editTextNovoTipo.getText().toString().trim();
 
         if (nomeTipo.isEmpty()){
-            Toast.makeText(this, "Tipo não pode estar vazio", Toast.LENGTH_SHORT).show();
+            editTextNovoTipo.setError("Tipo não pode estar vazio");
+            editTextNovoTipo.requestFocus();
+            //Toast.makeText(this, "Tipo não pode estar vazio", Toast.LENGTH_SHORT).show();
             return;
         }
 

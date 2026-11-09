@@ -100,7 +100,6 @@ public class AdicionarFuncionario extends AppCompatActivity {
 
         if (funcoes.isEmpty()) {
             Toast.makeText(this, "Nao ha funcoes", Toast.LENGTH_SHORT).show();
-            return;
         }
 
         if(nome.isEmpty()){
