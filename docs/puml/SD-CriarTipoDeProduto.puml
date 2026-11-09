@@ -1,0 +1,78 @@
+@startuml
+
+
+actor "Dono" as A
+participant ":CriarTipo" as V
+participant "TipoController" as C
+participant "TipoService" as S
+participant "JsonHandler" as JH
+participant "NetworkHandler" as NH
+participant "RestDB" as DB
+participant "tipo:Tipo" as TM
+participant "tipoDTO:TipoDTO" as DTO
+
+activate A
+A -> V ++ : pede para criar um tipo de produto
+V --> A -- : pede o nome do tipo
+
+A -> V ++ : introduz o nome do tipo e confirma
+
+alt nome vazio
+  V --> A : mostra erro "Tipo não pode estar vazio"
+else nome preenchido
+  V -> C ++ : adicionarTipo(activity, nomeTipo, callback)
+
+  create TM
+  C --> TM : create(nomeTipo)
+  TM -> TM : isTipoValid(nomeTipo)
+
+  alt nome com caracteres não alfabéticos
+    C --> V : onErro("So pode conter caracteres alfabeticos.")
+    V --> A : mostra erro
+  else nome válido
+    alt sem exceções
+      C -> S ++ : existeTipo(nomeTipo, activity)
+      S -> S ++ : obterTipos(ctx)
+      S -> NH ++ : get(ctx, "tipo")
+      NH -> DB ++ : GET /tipo
+      DB --> NH -- : json
+      NH --> S -- : json
+      S -> JH ++ : deSerializeJson2ListTipoDto(json)
+      JH --> S -- : tipos
+      S --> S -- : tipos
+      S -> S : compara os nomes (equalsIgnoreCase)
+      S --> C -- : existe
+
+      alt tipo já existe
+        C --> V : onErro("Tipo de produto já existe!")
+        V --> A : mostra erro
+      else tipo novo
+        create DTO
+        C --> DTO : create(nomeTipo)
+        C -> S ++ : adicionarTipo(activity, tipoDTO)
+        S -> JH ++ : serializeTipoDTO2Json(tipoDTO)
+        JH --> S -- : body
+        S -> NH ++ : post(ctx, "tipo", body)
+        NH -> DB ++ : POST /tipo
+        DB --> NH -- : resposta
+        NH --> S -- : resposta
+        S --> C -- : ok
+        C --> V : onSucesso()
+        V --> A : informa sucesso e fecha o ecrã
+      end
+    else exceção (ex.: erro de rede)
+      C --> V : onErro("Erro ao adicionar tipo: " + mensagem)
+      V --> A : mostra erro
+    end
+  end
+  deactivate C
+end
+deactivate V
+deactivate A
+
+note right of C
+  adicionarTipo é um método estático. A parte de rede
+  corre numa nova Thread e o resultado volta à thread
+  da interface (runOnUiThread).
+end note
+@enduml

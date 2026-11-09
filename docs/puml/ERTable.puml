@@ -1,0 +1,92 @@
+@startuml
+
+hide circle
+hide methods
+
+entity Funcao {
+  * id : varchar <<PK>>
+  --
+  * funcao : varchar
+}
+
+entity Funcionario {
+  * id : varchar <<PK>>
+  --
+  * nome : varchar
+  * email : varchar
+  * morada : varchar
+  * nif : int
+  * nCartao : int
+  * salario : decimal
+  * idFuncao : varchar <<FK>>
+}
+
+entity Horario {
+  * id : varchar <<PK>>
+  --
+  * idFuncionario : varchar <<FK, UK>>
+  idTurnoSegunda : varchar <<FK>>
+  idTurnoTerca : varchar <<FK>>
+  idTurnoQuarta : varchar <<FK>>
+  idTurnoQuinta : varchar <<FK>>
+  idTurnoSexta : varchar <<FK>>
+  idTurnoSabado : varchar <<FK>>
+  idTurnoDomingo : varchar <<FK>>
+}
+
+entity Turno {
+  * id : varchar <<PK>>
+  --
+  * horaEntrada : varchar(5)
+  * horaSaida : varchar(5)
+  * idDia : varchar <<FK>>
+}
+
+entity Dia {
+  * id : varchar <<PK>>
+  --
+  * dia : varchar
+}
+
+entity Tipo {
+  * id : varchar <<PK>>
+  --
+  * tipo : varchar
+}
+
+entity Fornecedor {
+  * id : varchar <<PK>>
+  --
+  * nome : varchar
+}
+
+entity Produto {
+  * id : varchar <<PK>>
+  --
+  * nome : varchar
+  * preco : decimal
+  * quantidadeArmazem : int
+  * quantidadeMontra : int
+  barcode : varchar
+  * idTipo : varchar <<FK>>
+  * idFornecedor : varchar <<FK>>
+}
+
+entity Historico {
+  * id : varchar <<PK>>
+  --
+  * quantidade : int
+  * descricao : varchar
+  * idProduto : varchar <<FK>>
+}
+
+Funcao ||--o{ Funcionario : tem
+Funcionario ||--o| Horario : possui
+Horario }o--o| Turno : "idTurnoSegunda …\nidTurnoDomingo"
+Turno }o--|| Dia : ocorre em
+
+Tipo ||--o{ Produto : classifica
+Fornecedor ||--o{ Produto : fornece
+Produto ||--o{ Historico : tem
+
+@enduml
